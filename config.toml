@@ -1,0 +1,113 @@
+################################################################################
+#
+# WocaFuckOff™ KONFIGURÁCIA
+#
+################################################################################
+
+################################################################################
+#
+# WOCABEE
+#
+################################################################################
+
+# Základná URL cieľovej aplikácie
+urlbase = "https://wocabee.app/app"
+
+# Port pre Debug CDP pripojenie
+debug_port = "http://localhost:9222"
+
+################################################################################
+#
+# SÚBORY
+#
+################################################################################
+
+# Cesta k súboru s mapovaním slov
+wordlist_file = "wordlist.json"
+
+# Cesta k súboru s mapovaním obrázkov
+picture_file = "picturelist.json"
+
+################################################################################
+#
+# SPRACOVANIE SLOV
+#
+################################################################################
+
+# Slová, ktoré sa majú pri preklade preskočiť/ignorovať
+placeholder_words = ["translate", "check"]
+
+################################################################################
+#
+# VÝBER TRIEDY A BALÍKA
+#
+################################################################################
+
+# Index triedy, ktorá sa automaticky vyberie po spustení
+class_index = 0
+
+# Index balíka, ktorý sa automaticky vyberie po spustení
+package_index = 1
+
+################################################################################
+#
+# ANSWER LOOKUP + AUTO TRANSLATE
+#             DEEPL
+#
+################################################################################
+
+deepl_api_key = "bc740f25-c3bb-4ce3-a08a-9dc0dff10d9f:fx""
+
+################################################################################
+#
+# AUTOMATIZÁCIA
+#
+################################################################################
+
+# Režim bez zobrazenia prehliadača
+headless = true
+
+# Double Points pri spustení
+double_points = true
+
+# Počet bodov, ktoré má bot získať pred zastavením
+addon_points = 1000
+
+# Posledný zapamätaný počet WocaPoints
+last_points = 0
+
+# Ak je zapnuté, solver.py preloží slovíčko sám, a pridá ho do wordlist.json
+auto_translate = true
+
+################################################################################
+#
+# PRIHLÁSENIE
+#
+################################################################################
+
+username = "apolak62"
+password = "V1oletN3bulaW4rden"
+
+################################################################################
+#
+# NTFY
+#
+################################################################################
+
+# Ak nechcete používať ntfy, nechajte ntfy_server prázdny
+# alebo tieto nastavenia odstráňte.
+ntfy_server = ""
+ntfy_topic = "wocabee-bot"
+ntfy_token = "secret_token_here"
+
+################################################################################
+#
+# KONIEC
+#
+################################################################################
+
+# WocaFuckOff™
+# Automatizácia aktivovaná.
+# Nechaj to na mňa.
+
+################################################################################
