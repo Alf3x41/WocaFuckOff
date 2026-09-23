@@ -1,126 +1,309 @@
 # WocaFuckOff
 
-![logo](assets/logo.png)
+> **Automatizácia WocaBee. Menej klikania. Viac času.**
 
-**Project Overview**
+WocaFuckOff je experimentálny nástroj vytvorený na automatizáciu práce s platformou **WocaBee**.
 
-- **Purpose:** Automated helper for Wocabee language practice using a browser CDP connection.
-- **Main script:** [startup.py](startup.py) ! The script doesn't have a gui, if you want I made a [docker image](https://github.com/toomcis/WocaFuckOff-docker) for this project !
-- **Main Solver script** [solver.py](solver.py)
-- **Primary language focus:** Slovak (designed for Slovak → English), but the approach is language-agnostic in principle.
-
-**Quick Notes**
-
-- **AI-assisted:** This project was created with AI help and may contain bugs or imperfect heuristics. Don't be scared of making an [issue](https://github.com/toomcis/WocaFuckOff/issues) and reposting any bugs or imperfections!
-- **Playwright-powered:** Uses Playwright with an installed Chromium build inside the container.
-- **Notification support:** Optional integration with ntfy for runtime and startup error notifications.
+Projekt je momentálne **aktívne vo vývoji**. Funkcie, používateľské rozhranie aj vnútorná architektúra sa môžu priebežne meniť.
 
 ---
 
-## Requirements
+## Stav projektu
 
-- **WocaBee:** Please make sure that you have a valid WocaBee account and the package already completed before you farm it, the script is supposed to do the tedious grind currently
-- **Python:** 3.9+ recommended
-- **Libraries:** See `requirements.txt` (if present). At minimum the script uses `playwright`, `requests`, `toml`.
-- **Playwright:** Please use the `playwright install-deps` and `playwright install` command to fully install all additional dependencies
+**WocaFuckOff je momentálne vo fáze vývoja (Development).**
+
+Projekt ešte nie je označený ako finálna release verzia. Niektoré funkcie môžu byť nedokončené, experimentálne alebo sa môžu správať inak, než sa očakáva.
+
+Aktuálna verzia slúži predovšetkým na:
+
+* vývoj nových funkcií,
+* testovanie automatizácie,
+* ladenie solvera,
+* testovanie používateľského rozhrania,
+* overovanie komunikácie s WocaBee,
+* experimentovanie s ďalšími komponentmi projektu.
+
+**Používanie vývojovej verzie je na vlastné riziko.**
 
 ---
 
-## Usage
+# Funkcie
 
-- There are 2 ways to use the script, you can either use the script or the [docker](https://github.com/toomcis/WocaFuckOff-docker)
+WocaFuckOff je navrhnutý ako automatizačný nástroj s viacerými komponentmi.
 
-## Docker
+### Automatizácia
 
-- Follow the instructions on the [WocaFuckOff-docker](https://github.com/toomcis/WocaFuckOff-docker) repository page
+Program je schopný automatizovať vybrané časti práce s WocaBee a pracovať s aktuálnymi údajmi priamo počas behu programu.
 
-## Local
+### Solver
 
-- Before you start the script you need to download the dependencies using these commands
+Hlavnou súčasťou projektu je `solver.py`, ktorý zabezpečuje spracovanie a riešenie úloh.
+
+Solver je samostatná časť projektu a počas vývoja sa priebežne rozširuje a upravuje.
+
+### Grafické rozhranie
+
+Používateľské rozhranie zabezpečuje `gui.py`.
+
+GUI poskytuje hlavné ovládanie aplikácie a postupne sa rozširuje o ďalšie možnosti konfigurácie a automatizácie.
+
+### Správa aplikácie
+
+`management.py` obsahuje pomocné funkcie a logiku súvisiacu so správou programu.
+
+### Konfigurácia
+
+Nastavenia aplikácie sú uložené v:
+
+```text
+config.toml
+```
+
+Konfigurácia umožňuje oddeliť nastavenia programu od jeho hlavnej logiky.
+
+---
+
+# Štruktúra projektu
+
+```text
+WocaFuckOff/
+│
+├── assets/
+│   └── Grafické a ďalšie zdroje aplikácie
+│
+├── .gitignore
+├── config.toml
+├── gui.py
+├── installer.py
+├── LICENSE
+├── main.py
+├── management.py
+├── picturelist.json
+├── README.md
+├── requirements.txt
+├── solver.py
+└── wordlist.json
+```
+
+### Hlavné súbory
+
+| Súbor              | Úloha                            |
+| ------------------ | -------------------------------- |
+| `main.py`          | Hlavný vstupný bod aplikácie     |
+| `gui.py`           | Grafické používateľské rozhranie |
+| `solver.py`        | Solver a riešenie úloh           |
+| `management.py`    | Pomocná a riadiaca logika        |
+| `installer.py`     | Inštalačné/pomocné funkcie       |
+| `config.toml`      | Konfigurácia aplikácie           |
+| `wordlist.json`    | Dáta slovníka                    |
+| `picturelist.json` | Dáta súvisiace s obrázkami       |
+| `requirements.txt` | Python závislosti                |
+| `assets/`          | Grafické a ostatné zdroje        |
+| `LICENSE`          | Licencia projektu                |
+
+---
+
+# Spustenie
+
+## Požiadavky
+
+Pre vývojovú verziu je potrebný:
+
+* **Python 3**
+* nainštalované závislosti z `requirements.txt`
+
+Závislosti je možné nainštalovať pomocou:
+
 ```bash
-# Installing requirements and dependencies
-python -m pip install -r requirements.txt
-python -m playwright install-deps
-python -m playwright install
+pip install -r requirements.txt
 ```
-- You need to use a chromium based browser, doing the before mentioned `playwright install-deps` should download one that works ! NOTE: Please don't use your own chromium based browser, It has not beed tested properly !
-- The startup script will automatically open the chromium browser with the correct arguments
-- Running the bot:
-- While using the startup.py script, you need to insert username and password into the [config.toml](config.example.toml) file
+
+---
+
+## Spustenie aplikácie
+
+Aktuálne sa WocaFuckOff spúšťa priamo cez hlavný súbor:
 
 ```bash
-# You rely on config.toml for all variables
-python startup.py
+python main.py
 ```
 
----
+Prípadne vo Windows:
 
-## Configuration
-
-- Create and edit a config.toml file (You can use the [config.example.toml](config.example.toml) file as a base). All variables are:
-    
-| Variable             | Default                   | Description                      | Optionable                                            |
-| -------------------- | ------------------------- | -------------------------------- |-------------------------------------------------------|
-| `urlbase`            | `https://wocabee.app/app` | Target Wocabee URL               | ✅ ! Dont change unless you know what you are doing ! |
-| `debug_port`         | `https://localhost:9222`  | CDP endpoint                     | ✅ ! Dont change unless you know what you are doing ! |
-| `wordlist_file`      | `wordlist.json`           | JSON file storing word mappings  | ✅ ! Dont change unless you know what you are doing ! |
-| `picture_file`       | `picturelist.json`        | JSON file storing image mappings | ✅ ! Dont change unless you know what you are doing ! |
-| `placeholder_words`  | `translate,check`         | Words to ignore                  | ✅ ! Dont change unless you know what you are doing ! |
-| `username`           | (empty)                   | Login username                   | ❎                                                    |
-| `password`           | (empty)                   | Login password                   | ❎                                                    |
-| `double_points`      | `false`                   | Enable double points mode        | ✅                                                    |
-| `addon_points`       | `5000`                    | Target addon points              | ✅                                                    |
-| `milestone_reminder` | `1000`                    | Reminder interval                | ✅                                                    |
-| `headless`           | `false`                   | Enable headless browser mode     | ✅                                                    |
-| `class_index`        | `0`                       | Class selection index            | ✅                                                    |
-| `package_index`      | `0`                       | Package selection index          | ✅                                                    |
-| `ntfy_server`        | (empty)                   | ntfy server URL                  | ✅                                                    |
-| `ntfy_topic`         | (empty)                   | ntfy topic                       | ✅                                                    |
-| `ntfy_token`         | (empty)                   | ntfy auth token                  | ✅                                                    |
-
-### Example config snippet (see the example [config.toml](config.example.toml) for the full file):
-
-```toml
-urlbase = "https://wocabee.app/app"
-debug_port = "http://localhost:9222"
-wordlist_file = "wordlist.json"
-picture_file = "picturelist.json"
-placeholder_words = ["", "translate", "check"]
-class_index = 0
-package_index = 0
-addon_points = 1000
-milestone_reminder = 100
-headless = true
-double_points = false
-username = "coolUsername"
-password = "coolPassword"
-ntfy_server = "https://example.ntfy.server"
-ntfy_topic = "wocabee-bot"
-ntfy_token = "secret_token_here"
+```bash
+py main.py
 ```
 
----
+### Dôležité
 
-## How it works (short)
+**`main.py` je aktuálny vstupný bod aplikácie.**
 
-- The startup.py script opens a chromium browser with specific arguments and automatically navigates to a specific class and package you want to farm
-- The solver.py script automatically starts and attaches to the browser via CDP, finds the website, and automates UI actions with Playwright.
-- Mappings for words and pictures are stored in JSON files (`wordlist.json`, `picturelist.json`). Unknown items may prompt for manual input once and get saved. ! NOTE: If you get specific new words, please map them and send them into an [issue](https://github.com/toomcis/WocaFuckOff/issues) under the tags `additional word mapping` or `additional picture mapping`
-
-### Limitations & Caveats
-
-- The project was generated/assisted by AI — expect brittle behavior and imperfect code, if any issue arises please report it in the [issues](https://github.com/toomcis/WocaFuckOff/issues).
-- It assumes specific DOM IDs and classes on the target site; UI changes will break handlers.
-- Designed and tested against Slovak-English examples; other languages may require adjusting the translation fallback settings and the `source` language in the translator calls.
-- Use responsibly: automated interaction with websites may violate terms of service. I am not responsible for any bans that might come with breaking ToS of the WocaBee app.
-
-### Troubleshooting
-
-- If handlers fail to click elements, the site DOM may have changed; open [solver.py](solver.py) and inspect the locator logic.
-- Network/translation failures fallback to manual prompts — check `wordlist.json` and `picturelist.json` for saved entries.
+Samostatný `.exe` build zatiaľ nie je hlavný spôsob spúšťania projektu. Kompilácia do `.exe` môže byť pridaná neskôr počas vývoja.
 
 ---
 
-## License & Attribution
+# Vývoj
 
-- This project uses the [MIT license](LICENSE)
+WocaFuckOff je momentálne **Development build**.
+
+Projekt sa aktívne vyvíja a jednotlivé časti sa môžu meniť bez zachovania spätnej kompatibility.
+
+Počas vývoja môžu byť pridané alebo upravené napríklad:
+
+* nové možnosti automatizácie,
+* nové typy úloh,
+* vylepšenia solvera,
+* automatický preklad,
+* nové nastavenia,
+* úpravy GUI,
+* lepšie spracovanie chýb,
+* optimalizácia výkonu,
+* stabilnejšia práca s WocaBee,
+* ďalšie pomocné funkcie.
+
+---
+
+# Architektúra
+
+Projekt je rozdelený na viacero samostatných komponentov.
+
+```text
+                 WocaFuckOff
+                      │
+                      ▼
+                   main.py
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+        gui.py    management.py  solver.py
+          │                       │
+          ▼                       ▼
+       Ovládanie              Spracovanie
+       aplikácie               úloh
+          │                       │
+          └───────────┬───────────┘
+                      ▼
+                  WocaBee
+```
+
+Takéto rozdelenie umožňuje vyvíjať jednotlivé časti projektu nezávisle od seba a zároveň zachovať prehľadnú štruktúru zdrojového kódu.
+
+---
+
+# Konfigurácia
+
+Konfiguračné údaje sa nachádzajú v:
+
+```text
+config.toml
+```
+
+Konfiguračný súbor je oddelený od zdrojového kódu, aby bolo možné meniť nastavenia bez potreby upravovať hlavné Python súbory.
+
+Počas vývoja sa môže formát konfigurácie meniť.
+
+---
+
+# Protokolovanie
+
+Počas vývoja môže aplikácia vytvárať logovacie údaje určené na diagnostiku a ladenie.
+
+Vývojové logy nie sú považované za nevyhnutnú súčasť zdrojového kódu a môžu byť odstránené alebo znovu vytvorené pri ďalšom spustení aplikácie.
+
+---
+
+# Bezpečnosť a údaje
+
+WocaFuckOff je vývojový projekt.
+
+Pri testovaní je potrebné počítať s tým, že:
+
+* aplikácia nemusí vždy správne spracovať neočakávané údaje,
+* experimentálne funkcie môžu obsahovať chyby,
+* zmeny na strane WocaBee môžu ovplyvniť funkčnosť programu,
+* vývojová verzia nemusí poskytovať rovnakú stabilitu ako budúca release verzia.
+
+Nepoužívajte citlivé údaje v konfiguračných súboroch ani ich nezverejňujte v repozitári.
+
+---
+
+# Licencia
+
+Tento projekt je distribuovaný pod licenciou uvedenou v súbore:
+
+```text
+LICENSE
+```
+
+Pred použitím, úpravou alebo distribúciou projektu si prečítajte podmienky tejto licencie.
+
+---
+
+# Disclaimer
+
+WocaFuckOff je **nezávislý komunitný/vývojový projekt**.
+
+Projekt nie je oficiálnym produktom spoločnosti WocaBee ani jej prevádzkovateľa, pokiaľ nie je výslovne uvedené inak.
+
+Názvy a ochranné známky tretích strán patria ich príslušným vlastníkom.
+
+---
+
+# Roadmap
+
+Projekt je stále vo vývoji. Plánované zmeny sa môžu meniť podľa priebehu vývoja.
+
+### Aktuálne priority
+
+* [x] Základ aplikácie
+* [x] Hlavný vstup cez `main.py`
+* [x] Základ GUI
+* [x] Základ solvera
+* [x] Konfiguračný systém
+* [x] Práca s dátami
+* [ ] Ďalšie rozšírenie solvera
+* [ ] Ďalšie vylepšenia GUI
+* [ ] Stabilizácia aplikácie
+* [ ] Rozšírenie automatizácie
+* [ ] Finálne testovanie
+* [ ] Release build
+* [ ] `.exe` distribúcia
+
+---
+
+# Vývojový stav
+
+```text
+┌──────────────────────────────────────┐
+│          WocaFuckOff                 │
+│                                      │
+│          DEVELOPMENT                 │
+│                                      │
+│     Aktívne vo vývoji                │
+│     Nie je finálna release verzia    │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+Ak narazíte na chybu, neočakávané správanie alebo nefunkčnú časť aplikácie, môže ísť o známu vlastnosť vývojovej verzie.
+
+---
+
+# Autorstvo
+
+WocaFuckOff vzniká ako samostatný vývojový projekt.
+
+Jednotlivé časti projektu môžu mať odlišný pôvod a autorstvo. Informácie o licenciách a autoroch jednotlivých komponentov sa nachádzajú v príslušných súboroch projektu.
+
+---
+
+## Začiatok
+
+Ak chcete projekt spustiť, stačí:
+
+```bash
+pip install -r requirements.txt
+python main.py
+```
+
+**WocaFuckOff sa momentálne vyvíja. Finálna verzia, stabilný release a `.exe` distribúcia budú riešené neskôr.**
