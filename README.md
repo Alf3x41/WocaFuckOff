@@ -1,0 +1,2 @@
+# wocafuckoff
+Automatizácia Wocabee
