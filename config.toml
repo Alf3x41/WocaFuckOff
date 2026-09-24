@@ -1,0 +1,145 @@
+selected_package_id = "1848183"
+################################################################################
+#
+# WocaFuckOff™ KONFIGURÁCIA
+#
+################################################################################
+
+
+################################################################################
+#
+# GUI
+#
+################################################################################
+
+# Zvolenie témy, ktorú gui.py bude používať.
+# Dostupné témy: graphite, ocean, plum, forest
+theme = "forest"
+
+################################################################################
+#
+# WOCABEE
+#
+################################################################################
+
+# Základná URL cieľovej aplikácie
+urlbase         = "https://wocabee.app/app"
+
+# Port pre Debug CDP pripojenie
+debug_port         = "9222"
+
+
+################################################################################
+#
+# SÚBORY
+#
+################################################################################
+
+# Súbor s mapovaním slov
+wordlist_file         = "wordlist.json"
+
+# Súbor s mapovaním obrázkov
+picture_file         = "picturelist.json"
+
+
+################################################################################
+#
+# SPRACOVANIE SLOV
+#
+################################################################################
+
+# Slová, ktoré sa majú pri preklade preskočiť
+placeholder_words         = ["translate", "check"]
+
+
+################################################################################
+#
+# VÝBER TRIEDY A BALÍKA
+#
+################################################################################
+
+# Index triedy, ktorá sa automaticky vyberie po spustení
+class_index         = 0
+
+# ID aktuálne vybraného balíka
+
+
+################################################################################
+#
+# PREKLADY
+#
+################################################################################
+
+# Automatický preklad neznámych slov
+auto_translate = true
+
+# DeepL API kľúč
+deepl_api_key = ""
+
+# Cieľový jazyk automatického prekladu
+translation_target_language = "sk"
+
+# Súbor s cache prekladov
+translation_cache_file = "translation_cache.json"
+
+
+################################################################################
+#
+# AUTOMATIZÁCIA
+#
+################################################################################
+
+# Spustiť prehliadač bez jeho zobrazenia
+headless         = false
+
+# Aktivovať Double Points
+double_points         = true
+
+# Počet WocaPoints, ktoré má bot získať pred zastavením
+addon_points = 1000
+
+# Posledný zapamätaný počet WocaPoints
+last_points             = 7028
+
+
+################################################################################
+#
+# PRIHLÁSENIE
+#
+################################################################################
+
+# WocaBee používateľské meno a heslo
+username         = ""
+password         = ""
+
+
+################################################################################
+#
+# AKTUALIZÁCIE
+#
+################################################################################
+
+# Automaticky kontrolovať dostupnosť novej verzie
+auto_update = true
+
+
+################################################################################
+#
+# REPORTY
+#
+################################################################################
+
+# Automaticky vytvoriť report po dokončení behu
+auto_report = false
+
+
+################################################################################
+#
+# NTFY
+#
+################################################################################
+
+# Ak NTFY nepoužívaš, nechaj hodnoty prázdne
+ntfy_server         = ""
+ntfy_topic         = ""
+ntfy_token         = ""

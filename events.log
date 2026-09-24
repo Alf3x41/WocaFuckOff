@@ -1,0 +1,259 @@
+[ 17:19:39 ]  Aplikácia spustená
+[ 17:20:15 ]  Načítavam balíčky cez management.py --packages | Headless
+[ 17:20:15 ]  ============================================================
+[ 17:20:15 ]  WocaFuckOff™ PACKAGES
+[ 17:20:15 ]  ============================================================
+[ 17:20:15 ]  Načítavam config.toml...
+[ 17:20:15 ]  URL: https://wocabee.app/app
+[ 17:20:15 ]  Headless: True
+[ 17:20:15 ]  Class index: 0
+[ 17:20:15 ]  Spúšťam Playwright...
+[ 17:20:16 ]  Playwright pripravený.
+[ 17:20:16 ]  Spúšťam samostatný prehliadač pre načítanie balíkov...
+[ 17:20:16 ]  Otváram WocaBee...
+[ 17:20:16 ]  Aktuálna URL: https://wocabee.app/app/
+[ 17:20:16 ]  === PRIHLÁSENIE ===
+[ 17:20:16 ]  Hľadám #login...
+[ 17:20:16 ]  Username vyplnený.
+[ 17:20:16 ]  Hľadám #password...
+[ 17:20:16 ]  Password vyplnený.
+[ 17:20:16 ]  Prihlasovacie údaje odoslané.
+[ 17:20:16 ]  Čakám na prihlásenie...
+[ 17:20:18 ]  Prihlásenie úspešné.
+[ 17:20:18 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 17:20:18 ]  === WOCAPOINTS ===
+[ 17:20:18 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 17:20:18 ]  === VÝBER TRIEDY ===
+[ 17:20:18 ]  Index triedy: 0
+[ 17:20:18 ]  Nájdených tried: 1
+[ 17:20:18 ]  Klikám na triedu 0...
+[ 17:20:19 ]  Trieda vybraná.
+[ 17:20:19 ]  === WOCAPOINTS ===
+[ 17:20:19 ]  WOCAPOINTS: 7026
+[ 17:20:19 ]  WocaPoints: 7026
+[ 17:20:19 ]  === NAČÍTANIE BALÍKOV ===
+[ 17:20:19 ]  Nájdených balíkov: 3
+[ 17:20:19 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
+[ 17:20:19 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
+[ 17:20:19 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
+[ 17:20:19 ]  Úspešne načítaných balíkov: 3
+[ 17:20:19 ]  PACKAGES_JSON: [{"id": "1850925", "index": 0, "name": "Unit 1B + 1C - 1. časť", "deadline": "24.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1850925&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1850925", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848183", "index": 1, "name": "Unit 1A - 1. časť", "deadline": "22.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848183&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848183", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848181", "index": 2, "name": "Unit 1A - 2. časť + materials", "deadline": "20.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848181&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848181", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}]
+[ 17:20:19 ]  Úspešne načítaných balíkov: 3
+[ 17:20:19 ]  Čistím prostredie...
+[ 17:20:19 ]  Management ukončený.
+[ 17:20:20 ]  Vybraný balík: Unit 1A - 1. časť | ID 1848183
+[ 17:20:21 ]  Spúšťam management.py
+[ 17:20:21 ]  ============================================================
+[ 17:20:21 ]  WocaFuckOff™ MANAGEMENT
+[ 17:20:21 ]  ============================================================
+[ 17:20:21 ]  Načítavam config.toml...
+[ 17:20:21 ]  URL: https://wocabee.app/app
+[ 17:20:21 ]  Headless: False
+[ 17:20:21 ]  Class index: 0
+[ 17:20:21 ]  Selected package ID: 1848183
+[ 17:20:21 ]  Double points: True
+[ 17:20:21 ]  CDP port: 9222
+[ 17:20:22 ]  Spúšťam Playwright...
+[ 17:20:22 ]  Playwright pripravený.
+[ 17:20:22 ]  === CHROMIUM ===
+[ 17:20:22 ]  Chromium executable:
+[ 17:20:22 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
+[ 17:20:22 ]  Spúšťam Chromium ako samostatný proces...
+[ 17:20:22 ]  CDP port: 9222
+[ 17:20:22 ]  Headless: False
+[ 17:20:22 ]  Profil:
+[ 17:20:22 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium
+[ 17:20:22 ]  Chromium PID: 7372
+[ 17:20:22 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
+[ 17:20:22 ]  CDP je pripravené.
+[ 17:20:22 ]  Pripájam Playwright na Chromium cez CDP...
+[ 17:20:23 ]  Playwright pripojený cez CDP.
+[ 17:20:23 ]  Otváram WocaBee...
+[ 17:20:23 ]  Aktuálna URL: https://wocabee.app/app/
+[ 17:20:23 ]  === PRIHLÁSENIE ===
+[ 17:20:23 ]  Hľadám #login...
+[ 17:20:23 ]  Username vyplnený.
+[ 17:20:23 ]  Hľadám #password...
+[ 17:20:23 ]  Password vyplnený.
+[ 17:20:23 ]  Prihlasovacie údaje odoslané.
+[ 17:20:23 ]  Čakám na prihlásenie...
+[ 17:20:24 ]  Prihlásenie úspešné.
+[ 17:20:24 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 17:20:24 ]  === WOCAPOINTS ===
+[ 17:20:25 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 17:20:25 ]  === VÝBER TRIEDY ===
+[ 17:20:25 ]  Index triedy: 0
+[ 17:20:25 ]  Nájdených tried: 1
+[ 17:20:25 ]  Klikám na triedu 0...
+[ 17:20:25 ]  Trieda vybraná.
+[ 17:20:25 ]  === WOCAPOINTS ===
+[ 17:20:25 ]  WOCAPOINTS: 7026
+[ 17:20:25 ]  WocaPoints: 7026
+[ 17:20:25 ]  === VÝBER BALÍKA ===
+[ 17:20:25 ]  ID balíka: 1848183
+[ 17:20:25 ]  === NAČÍTANIE BALÍKOV ===
+[ 17:20:25 ]  Nájdených balíkov: 3
+[ 17:20:26 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
+[ 17:20:26 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
+[ 17:20:26 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
+[ 17:20:26 ]  Úspešne načítaných balíkov: 3
+[ 17:20:26 ]  Čakám na tlačidlo balíka...
+[ 17:20:26 ]  Klikám na balík...
+[ 17:20:26 ]  Balík vybraný.
+[ 17:20:26 ]  === WOCAPOINTS ===
+[ 17:20:26 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 17:20:26 ]  === DOUBLE POINTS ===
+[ 17:20:27 ]  Aktivujem double points...
+[ 17:20:27 ]  Double points aktivované.
+[ 17:20:27 ]  === SOLVER ===
+[ 17:20:27 ]  Spúšťam solver.py...
+[ 17:20:27 ]  Solver PID: 11380
+[ 17:20:28 ]  ========================================
+[ 17:20:28 ]  WOCAFUCKOFF RIEŠIČ
+[ 17:20:28 ]  ========================================
+[ 17:20:28 ]  Dvojité body sú aktivované.
+[ 17:20:28 ]  Automatický preklad cez DeepL je aktivovaný.
+[ 17:20:28 ]  Adresa WocaBee: https://wocabee.app/app
+[ 17:20:28 ]  Súbor slovníka: wordlist.json
+[ 17:20:28 ]  Počet uložených slov: 50
+[ 17:20:28 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
+[ 17:20:28 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
+[ 17:20:28 ]  Riešič je pripravený.
+[ 17:20:28 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:20:28 ]  Slovo: hrot šípu
+[ 17:20:37 ]  Požiadavka: Uložiť a ukončiť.
+[ 17:20:38 ]  === STOP MANAGEMENTU ===
+[ 17:20:38 ]  Požiadavka: Uložiť a ukončiť.
+[ 17:20:38 ]  Pripájam sa na Chromium cez CDP: 9222
+[ 17:20:38 ]  Playwright pripojený cez CDP.
+[ 17:20:38 ]  Aktuálna URL: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
+[ 17:20:38 ]  Hľadám tlačidlo #backBtn...
+[ 17:20:38 ]  Tlačidlo #backBtn nájdené.
+[ 17:20:38 ]  Klikám na „Uložiť a odísť“...
+[ 17:20:38 ]  ULOŽIŤ A UKONČIŤ - kliknuté.
+[ 17:20:38 ]  Čakám 7 sekúnd na dokončenie uloženia...
+[ 17:20:45 ]  7 sekúnd uplynulo.
+[ 17:20:45 ]  Vypínam Chromium...
+[ 17:20:47 ]  Ukončujem Chromium PID: 7372
+[ 17:20:47 ]  Ukončujem Chromium PID: 7120
+[ 17:20:47 ]  Ukončujem Chromium PID: 9984
+[ 17:20:47 ]  Ukončujem Chromium PID: 10764
+[ 17:20:47 ]  Ukončujem Chromium PID: 13456
+[ 17:20:47 ]  Ukončujem Chromium PID: 4656
+[ 17:20:47 ]  Ukončujem Chromium PID: 13580
+[ 17:20:47 ]  Ukončujem Chromium PID: 10168
+[ 17:20:47 ]  Ukončujem Chromium PID: 9272
+[ 17:20:47 ]  Ukončujem Chromium PID: 11056
+[ 17:20:48 ]  Ukončujem Chromium PID: 9464
+[ 17:20:48 ]  Management ukončený.
+[ 17:20:48 ]  Stop proces skončil | Exit code: 0
+[ 17:22:07 ]  Nastavenia uložené
+[ 17:22:16 ]  Spúšťam management.py
+[ 17:22:16 ]  ============================================================
+[ 17:22:16 ]  WocaFuckOff™ MANAGEMENT
+[ 17:22:16 ]  ============================================================
+[ 17:22:16 ]  Načítavam config.toml...
+[ 17:22:16 ]  URL: https://wocabee.app/app
+[ 17:22:16 ]  Headless: False
+[ 17:22:16 ]  Class index: 0
+[ 17:22:16 ]  Selected package ID: 1848183
+[ 17:22:16 ]  Double points: True
+[ 17:22:16 ]  CDP port: 9222
+[ 17:22:17 ]  Spúšťam Playwright...
+[ 17:22:17 ]  Playwright pripravený.
+[ 17:22:17 ]  === CHROMIUM ===
+[ 17:22:17 ]  Chromium executable:
+[ 17:22:17 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
+[ 17:22:17 ]  Spúšťam Chromium ako samostatný proces...
+[ 17:22:17 ]  CDP port: 9222
+[ 17:22:17 ]  Headless: False
+[ 17:22:17 ]  Profil:
+[ 17:22:17 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium
+[ 17:22:17 ]  Chromium PID: 8796
+[ 17:22:17 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
+[ 17:22:18 ]  CDP je pripravené.
+[ 17:22:18 ]  Pripájam Playwright na Chromium cez CDP...
+[ 17:22:18 ]  Playwright pripojený cez CDP.
+[ 17:22:18 ]  Otváram WocaBee...
+[ 17:22:19 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 17:22:19 ]  === PRIHLÁSENIE ===
+[ 17:22:19 ]  Používateľ je už prihlásený.
+[ 17:22:19 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 17:22:19 ]  === WOCAPOINTS ===
+[ 17:22:19 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 17:22:19 ]  === VÝBER TRIEDY ===
+[ 17:22:19 ]  Index triedy: 0
+[ 17:22:19 ]  Nájdených tried: 1
+[ 17:22:19 ]  Klikám na triedu 0...
+[ 17:22:20 ]  Trieda vybraná.
+[ 17:22:20 ]  === WOCAPOINTS ===
+[ 17:22:20 ]  WOCAPOINTS: 7028
+[ 17:22:20 ]  WocaPoints: 7028
+[ 17:22:20 ]  === VÝBER BALÍKA ===
+[ 17:22:20 ]  ID balíka: 1848183
+[ 17:22:20 ]  === NAČÍTANIE BALÍKOV ===
+[ 17:22:20 ]  Nájdených balíkov: 3
+[ 17:22:20 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
+[ 17:22:20 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
+[ 17:22:20 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
+[ 17:22:20 ]  Úspešne načítaných balíkov: 3
+[ 17:22:20 ]  Čakám na tlačidlo balíka...
+[ 17:22:20 ]  Klikám na balík...
+[ 17:22:21 ]  Balík vybraný.
+[ 17:22:21 ]  === WOCAPOINTS ===
+[ 17:22:21 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 17:22:21 ]  === DOUBLE POINTS ===
+[ 17:22:21 ]  Aktivujem double points...
+[ 17:22:21 ]  Double points aktivované.
+[ 17:22:21 ]  === SOLVER ===
+[ 17:22:21 ]  Spúšťam solver.py...
+[ 17:22:21 ]  Solver PID: 12628
+[ 17:22:22 ]  ========================================
+[ 17:22:22 ]  WOCAFUCKOFF RIEŠIČ
+[ 17:22:22 ]  ========================================
+[ 17:22:22 ]  Dvojité body sú aktivované.
+[ 17:22:22 ]  Automatický preklad cez DeepL je aktivovaný.
+[ 17:22:22 ]  Adresa WocaBee: https://wocabee.app/app
+[ 17:22:22 ]  Súbor slovníka: wordlist.json
+[ 17:22:22 ]  Počet uložených slov: 50
+[ 17:22:22 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
+[ 17:22:22 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
+[ 17:22:22 ]  Riešič je pripravený.
+[ 17:22:22 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:22:22 ]  Slovo: shoot
+[ 17:22:32 ]  Odpoveď: zastrelit
+[ 17:22:32 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:22:32 ]  Slovo: shoot
+[ 17:22:50 ]  Odpoveď: zastrelit
+[ 17:22:51 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:22:51 ]  Slovo: archeológ
+[ 17:22:58 ]  Odpoveď: archaeologist
+[ 17:22:58 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:22:58 ]  Slovo: hrot šípu
+[ 17:23:06 ]  Odpoveď: arrowhead
+[ 17:23:06 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:23:06 ]  Slovo: archeológ
+[ 17:23:11 ]  Odpoveď: archaeologist
+[ 17:23:12 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:23:12 ]  Slovo: obilie
+[ 17:23:14 ]  Odpoveď: corn
+[ 17:23:14 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:23:14 ]  Slovo: archeológ
+[ 17:23:17 ]  Odpoveď: archaeologist
+[ 17:23:17 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:23:17 ]  Slovo: prebiehať
+[ 17:23:23 ]  Odpoveď: be in progress
+[ 17:23:23 ]  === PREKLAD PADAJÚCEHO SLOVA ===
+[ 17:23:23 ]  Slovo: material
+[ 17:23:24 ]  DeepL chyba HTTP 403: Forbidden. You can find more info in our docs: https://developers.deepl.com/docs/getting-started/auth
+[ 17:23:24 ]  DeepL chyba HTTP 403: Forbidden. You can find more info in our docs: https://developers.deepl.com/docs/getting-started/auth
+[ 17:23:24 ]  DeepL nedokázal určiť smer prekladu pre: 'material'
+[ 18:22:36 ]  Požiadavka: Uložiť a ukončiť.
+[ 18:22:37 ]  === STOP MANAGEMENTU ===
+[ 18:22:37 ]  Požiadavka: Uložiť a ukončiť.
+[ 18:22:37 ]  Pripájam sa na Chromium cez CDP: 9222
+[ 18:22:37 ]  CHYBA pri zastavovaní: Error: BrowserType.connect_over_cdp: connect ECONNREFUSED 127.0.0.1:9222
+[ 18:22:37 ]  Call log:
+[ 18:22:37 ]  - <ws preparing> retrieving websocket url from http://127.0.0.1:9222
+[ 18:22:37 ]  Vypínam Chromium...
+[ 18:22:38 ]  Stop proces skončil | Exit code: 62097

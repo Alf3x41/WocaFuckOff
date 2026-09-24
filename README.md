@@ -55,9 +55,9 @@ GUI poskytuje hlavné ovládanie aplikácie a postupne sa rozširuje o ďalšie 
 
 Nastavenia aplikácie sú uložené v:
 
-```text
+
 config.toml
-```
+
 
 Konfigurácia umožňuje oddeliť nastavenia programu od jeho hlavnej logiky.
 
