@@ -11,10 +11,10 @@
 ################################################################################
 
 # Základná URL cieľovej aplikácie
-urlbase = "https://wocabee.app/app"
+urlbase = "[https://wocabee.app/app](https://wocabee.app/app)"
 
 # Port pre Debug CDP pripojenie
-debug_port = "http://localhost:9222"
+debug_port = "[http://localhost:9222](http://localhost:9222)"
 
 ################################################################################
 #
@@ -52,7 +52,7 @@ package_index = 1
 ################################################################################
 #
 # ANSWER LOOKUP + AUTO TRANSLATE
-#             DEEPL
+# DEEPL
 #
 ################################################################################
 
@@ -96,9 +96,10 @@ password = ""
 
 # Ak nechcete používať ntfy, nechajte ntfy_server prázdny
 # alebo tieto nastavenia odstráňte.
+
 ntfy_server = ""
-ntfy_topic = "wocabee-bot"
-ntfy_token = "secret_token_here"
+ntfy_topic = ""
+ntfy_token = ""
 
 ################################################################################
 #
@@ -107,7 +108,9 @@ ntfy_token = "secret_token_here"
 ################################################################################
 
 # WocaFuckOff™
+
 # Automatizácia aktivovaná.
+
 # Nechaj to na mňa.
 
 ################################################################################
