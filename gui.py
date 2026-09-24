@@ -1,11 +1,15 @@
 # ============================================================
+
 # GUI.PY
+
 # ============================================================
 
 # -*- coding: utf-8 -*-
 
 # ============================================================
+
 # IMPORTY
+
 # ============================================================
 
 import sys
@@ -34,6 +38,7 @@ from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QHBoxLayout,
+    QGridLayout,
     QLabel,
     QPushButton,
     QFrame,
@@ -50,19 +55,12 @@ from PySide6.QtWidgets import (
 )
 
 
-# ============================================================
-# QSPINBOX BEZ SCROLLU
-# ============================================================
-
 class NoScrollSpinBox(QSpinBox):
 
     def wheelEvent(self, event):
+
         event.ignore()
 
-
-# ============================================================
-# TLAČIDLO MENU
-# ============================================================
 
 class MenuButton(QPushButton):
 
@@ -150,15 +148,7 @@ class MenuButton(QPushButton):
             )
 
 
-# ============================================================
-# HLAVNÁ APLIKÁCIA
-# ============================================================
-
 class WocaFuckOff(QMainWindow):
-
-    # ========================================================
-    # SPUSTENIE APLIKÁCIE
-    # ========================================================
 
     def __init__(self):
 
@@ -183,8 +173,21 @@ class WocaFuckOff(QMainWindow):
         self.stop_output_buffer = ""
 
         # ====================================================
-        # EVENT LOG
+        # BALÍČKY
         # ====================================================
+
+        self.packages_process = None
+        self.packages_output_buffer = ""
+        self.packages_json_buffer = ""
+        self.packages_waiting_for_json = False
+        self.packages = []
+        self.selected_package_index = None
+        self.packages_dialog = None
+        self.packages_content = None
+        self.packages_status = None
+
+        self.packages_original_config_text = None
+        self.packages_headless_override = False
 
         self.event_log = []
 
@@ -196,7 +199,6 @@ class WocaFuckOff(QMainWindow):
             )
 
         except Exception:
-
             pass
 
         self.events_dialog = None
@@ -556,13 +558,8 @@ class WocaFuckOff(QMainWindow):
             "subtitle"
         )
 
-        title_layout.addWidget(
-            title
-        )
-
-        title_layout.addWidget(
-            subtitle
-        )
+        title_layout.addWidget(title)
+        title_layout.addWidget(subtitle)
 
         header.addWidget(
             self.menu_button
@@ -621,7 +618,7 @@ class WocaFuckOff(QMainWindow):
         )
 
         # ====================================================
-        # STAV ÚČTU A BODY
+        # STAV ÚČTU A WOCAPOINTS
         # ====================================================
 
         info_row = QHBoxLayout()
@@ -667,13 +664,8 @@ class WocaFuckOff(QMainWindow):
             "infoValue"
         )
 
-        account_layout.addWidget(
-            account_title
-        )
-
-        account_layout.addWidget(
-            self.account_label
-        )
+        account_layout.addWidget(account_title)
+        account_layout.addWidget(self.account_label)
 
         points_card = QFrame()
 
@@ -697,7 +689,7 @@ class WocaFuckOff(QMainWindow):
         )
 
         points_title = QLabel(
-            "Body"
+            "WocaPoints"
         )
 
         points_title.setObjectName(
@@ -750,11 +742,7 @@ class WocaFuckOff(QMainWindow):
         start_container = QHBoxLayout()
 
         start_container.addStretch()
-
-        start_container.addWidget(
-            start_button
-        )
-
+        start_container.addWidget(start_button)
         start_container.addStretch()
 
         main_layout.addLayout(
@@ -794,8 +782,7 @@ class WocaFuckOff(QMainWindow):
         )
 
         copyright.setAlignment(
-            Qt.AlignRight
-            | Qt.AlignBottom
+            Qt.AlignRight | Qt.AlignBottom
         )
 
         main_layout.addWidget(
@@ -820,7 +807,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         self.flyout.show()
-
         self.flyout.raise_()
 
         flyout_layout = QVBoxLayout(
@@ -881,8 +867,7 @@ class WocaFuckOff(QMainWindow):
         )
 
         flyout_title.setAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         close_layout.addWidget(
@@ -923,19 +908,25 @@ class WocaFuckOff(QMainWindow):
                 48
             )
 
-            if label == "O aplikácii":
+            if label == "Balíčky":
+
+                button.clicked.connect(
+                    self.show_packages
+                )
+
+            elif label == "O aplikácii":
 
                 button.clicked.connect(
                     self.show_about
                 )
 
-            if label == "Nastavenia":
+            elif label == "Nastavenia":
 
                 button.clicked.connect(
                     self.show_settings
                 )
 
-            if label == "Udalosti":
+            elif label == "Udalosti":
 
                 button.clicked.connect(
                     self.show_events
@@ -985,8 +976,7 @@ class WocaFuckOff(QMainWindow):
             )
 
             text_label.setAlignment(
-                Qt.AlignLeft
-                | Qt.AlignVCenter
+                Qt.AlignLeft | Qt.AlignVCenter
             )
 
             text_label.setAttribute(
@@ -1012,7 +1002,7 @@ class WocaFuckOff(QMainWindow):
         self.apply_styles()
 
     # ========================================================
-    # ÚČET + POSLEDNÉ ZAPAMÄTANÉ BODY
+    # ÚČET + WOCAPOINTS
     # ========================================================
 
     def load_account_preview(self):
@@ -1118,7 +1108,7 @@ class WocaFuckOff(QMainWindow):
             )
 
     # ========================================================
-    # ULOŽENIE POSLEDNÝCH BODOV
+    # ULOŽENIE WOCAPOINTS
     # ========================================================
 
     def save_last_points(self, points):
@@ -1128,7 +1118,6 @@ class WocaFuckOff(QMainWindow):
             config_path = self.get_config_path()
 
             if not config_path.exists():
-
                 return
 
             lines = config_path.read_text(
@@ -1165,7 +1154,6 @@ class WocaFuckOff(QMainWindow):
             if not updated:
 
                 if lines and lines[-1].strip():
-
                     lines.append("")
 
                 lines.append(
@@ -1173,19 +1161,18 @@ class WocaFuckOff(QMainWindow):
                 )
 
             config_path.write_text(
-                "\n".join(lines)
-                + "\n",
+                "\n".join(lines) + "\n",
                 encoding="utf-8"
             )
 
         except Exception as error:
 
             self.add_event(
-                f"CHYBA: Nepodarilo sa uložiť last_points: {error}"
+                f"CHYBA: Nepodarilo sa uložiť WocaPoints: {error}"
             )
 
     # ========================================================
-    # ZÁZNAM UDALOSTÍ
+    # UDALOSTI
     # ========================================================
 
     def get_events_path(self):
@@ -1210,7 +1197,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         if len(self.event_log) > 200:
-
             self.event_log = self.event_log[-200:]
 
         try:
@@ -1225,7 +1211,6 @@ class WocaFuckOff(QMainWindow):
                 )
 
         except Exception:
-
             pass
 
         self.refresh_events_view()
@@ -1233,7 +1218,6 @@ class WocaFuckOff(QMainWindow):
     def refresh_events_view(self):
 
         if self.events_text is None:
-
             return
 
         if self.event_log:
@@ -1257,14 +1241,1469 @@ class WocaFuckOff(QMainWindow):
     def clear_events_view(self, *_):
 
         self.events_dialog = None
-
         self.events_text = None
 
     # ========================================================
-    # SPUSTIŤ / ZASTAVIŤ
+    # BALÍČKY
+    # ========================================================
+
+    def show_packages(self):
+
+        if (
+            self.packages_process is not None
+            and self.packages_process.state()
+            != QProcess.NotRunning
+        ):
+
+            if self.packages_dialog is not None:
+
+                self.packages_dialog.raise_()
+                self.packages_dialog.activateWindow()
+
+            return
+
+        if (
+            self.management_process is not None
+            and self.management_process.state()
+            != QProcess.NotRunning
+        ):
+
+            QMessageBox.information(
+                self,
+                "Balíčky",
+                "Najprv zastav aktuálny management.\n\n"
+                "Balíčky používajú samostatné pripojenie k WocaBee."
+            )
+
+            return
+
+        dialog = QDialog(
+            self
+        )
+
+        self.packages_dialog = dialog
+
+        dialog.setWindowTitle(
+            "Balíčky"
+        )
+
+        dialog.setFixedSize(
+            820,
+            560
+        )
+
+        layout = QVBoxLayout(
+            dialog
+        )
+
+        layout.setContentsMargins(
+            24,
+            24,
+            24,
+            24
+        )
+
+        layout.setSpacing(
+            10
+        )
+
+        title = QLabel(
+            "Balíčky"
+        )
+
+        title.setObjectName(
+            "packagesTitle"
+        )
+
+        title.setAlignment(
+            Qt.AlignCenter
+        )
+
+        subtitle = QLabel(
+            "Aktuálne balíčky z WocaBee"
+        )
+
+        subtitle.setObjectName(
+            "packagesSubtitle"
+        )
+
+        subtitle.setAlignment(
+            Qt.AlignCenter
+        )
+
+        self.packages_status = subtitle
+
+        layout.addWidget(
+            title
+        )
+
+        layout.addWidget(
+            subtitle
+        )
+
+        separator = QFrame()
+
+        separator.setFrameShape(
+            QFrame.HLine
+        )
+
+        separator.setObjectName(
+            "packagesSeparator"
+        )
+
+        layout.addWidget(
+            separator
+        )
+
+        scroll = QScrollArea()
+
+        scroll.setWidgetResizable(
+            True
+        )
+
+        scroll.setFrameShape(
+            QFrame.NoFrame
+        )
+
+        scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarAlwaysOff
+        )
+
+        content = QWidget()
+
+        content.setObjectName(
+            "packagesContent"
+        )
+
+        content_layout = QVBoxLayout(
+            content
+        )
+
+        content_layout.setContentsMargins(
+            2,
+            4,
+            8,
+            4
+        )
+
+        content_layout.setSpacing(
+            8
+        )
+
+        self.packages_content = content_layout
+
+        scroll.setWidget(
+            content
+        )
+
+        layout.addWidget(
+            scroll,
+            1
+        )
+
+        bottom_layout = QHBoxLayout()
+
+        refresh_button = QPushButton(
+            "↻   Obnoviť"
+        )
+
+        refresh_button.setObjectName(
+            "packagesSecondaryButton"
+        )
+
+        refresh_button.setFixedHeight(
+            40
+        )
+
+        refresh_button.clicked.connect(
+            self.refresh_packages
+        )
+
+        close_button = QPushButton(
+            "Zavrieť"
+        )
+
+        close_button.setObjectName(
+            "packagesPrimaryButton"
+        )
+
+        close_button.setFixedHeight(
+            40
+        )
+
+        close_button.clicked.connect(
+            dialog.accept
+        )
+
+        bottom_layout.addWidget(
+            refresh_button
+        )
+
+        bottom_layout.addStretch()
+
+        bottom_layout.addWidget(
+            close_button
+        )
+
+        layout.addLayout(
+            bottom_layout
+        )
+
+        dialog.setStyleSheet("""
+            QDialog {
+                background: #101010;
+            }
+
+            QLabel#packagesTitle {
+                color: #ffffff;
+                font-size: 26px;
+                font-weight: 700;
+            }
+
+            QLabel#packagesSubtitle {
+                color: #777777;
+                font-size: 12px;
+            }
+
+            QFrame#packagesSeparator {
+                color: #292929;
+                background: #292929;
+                max-height: 1px;
+            }
+
+            QScrollArea,
+            QWidget#packagesContent {
+                background: #101010;
+                border: none;
+            }
+
+            QFrame#packageHeader {
+                background: transparent;
+                border: none;
+            }
+
+            QFrame#packageRow {
+                background: #171717;
+                border: 1px solid #252525;
+                border-radius: 12px;
+            }
+
+            QFrame#packageRow[selected="true"] {
+                background: #202020;
+                border: 1px solid #ffffff;
+            }
+
+            QLabel#packageName {
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            QLabel#packageDeadline {
+                color: #aaaaaa;
+                font-size: 12px;
+            }
+
+            QLabel#packageProgress {
+                color: #ffffff;
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            QLabel#packageStatus {
+                color: #bbbbbb;
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            QPushButton#packageSelectButton {
+                background: #ffffff;
+                color: #111111;
+                border: none;
+                border-radius: 9px;
+                padding: 0 14px;
+                font-size: 12px;
+                font-weight: 800;
+                min-width: 116px;
+                min-height: 36px;
+            }
+
+            QPushButton#packageSelectButton:hover {
+                background: #e2e2e2;
+            }
+
+            QPushButton#packageSelectButton:pressed {
+                background: #bbbbbb;
+            }
+
+            QPushButton#packageSelectButton[selected="true"] {
+                background: #ffffff;
+                color: #111111;
+                border: 2px solid #ffffff;
+            }
+
+            QPushButton#packageSelectButton[selected="true"]:hover {
+                background: #e2e2e2;
+            }
+
+            QPushButton#packagesSecondaryButton {
+                background: #1b1b1b;
+                color: #cccccc;
+                border: 1px solid #2c2c2c;
+                border-radius: 9px;
+                font-size: 12px;
+                font-weight: 700;
+                padding: 0 16px;
+            }
+
+            QPushButton#packagesSecondaryButton:hover {
+                background: #242424;
+                color: #ffffff;
+            }
+
+            QPushButton#packagesPrimaryButton {
+                background: #ffffff;
+                color: #111111;
+                border: none;
+                border-radius: 9px;
+                font-size: 12px;
+                font-weight: 700;
+                padding: 0 20px;
+            }
+
+            QPushButton#packagesPrimaryButton:hover {
+                background: #dddddd;
+            }
+
+            QScrollBar:vertical {
+                background: #101010;
+                width: 10px;
+                margin: 4px;
+            }
+
+            QScrollBar::handle:vertical {
+                background: #3a3a3a;
+                border-radius: 5px;
+                min-height: 30px;
+            }
+
+            QScrollBar::handle:vertical:hover {
+                background: #555555;
+            }
+
+            QScrollBar::add-line:vertical,
+            QScrollBar::sub-line:vertical {
+                height: 0px;
+            }
+        """)
+
+        dialog.finished.connect(
+            self.packages_dialog_closed
+        )
+
+        dialog.show()
+
+        self.refresh_packages()
+
+    def set_packages_headless_override(self):
+
+        config_path = self.get_config_path()
+
+        if not config_path.exists():
+            return False
+
+        try:
+
+            original_text = config_path.read_text(
+                encoding="utf-8"
+            )
+
+            self.packages_original_config_text = original_text
+
+            lines = original_text.splitlines()
+
+            found = False
+
+            for index, line in enumerate(lines):
+
+                stripped = line.strip()
+
+                if (
+                    stripped.startswith("headless")
+                    and "=" in stripped
+                    and not stripped.startswith("#")
+                ):
+
+                    prefix = line.split(
+                        "=",
+                        1
+                    )[0]
+
+                    lines[index] = (
+                        prefix
+                        + " = true"
+                    )
+
+                    found = True
+                    break
+
+            if not found:
+
+                if lines and lines[-1].strip():
+                    lines.append("")
+
+                lines.append(
+                    "headless = true"
+                )
+
+            config_path.write_text(
+                "\n".join(lines) + "\n",
+                encoding="utf-8"
+            )
+
+            self.packages_headless_override = True
+
+            return True
+
+        except Exception as error:
+
+            self.packages_original_config_text = None
+            self.packages_headless_override = False
+
+            self.add_event(
+                f"CHYBA: Nepodarilo sa nastaviť headless režim balíkov: {error}"
+            )
+
+            return False
+
+    def restore_packages_headless_override(self):
+
+        if not self.packages_headless_override:
+            return
+
+        if self.packages_original_config_text is None:
+            self.packages_headless_override = False
+            return
+
+        config_path = self.get_config_path()
+
+        try:
+
+            config_path.write_text(
+                self.packages_original_config_text,
+                encoding="utf-8"
+            )
+
+        except Exception as error:
+
+            self.add_event(
+                f"CHYBA: Nepodarilo sa obnoviť nastavenie headless: {error}"
+            )
+
+        self.packages_original_config_text = None
+        self.packages_headless_override = False
+
+    def refresh_packages(self):
+
+        if self.packages_process is not None:
+
+            if (
+                self.packages_process.state()
+                != QProcess.NotRunning
+            ):
+
+                return
+
+        if self.packages_content is None:
+            return
+
+        self.clear_packages_view()
+
+        if self.packages_status is not None:
+
+            self.packages_status.setText(
+                "Načítavam aktuálne balíčky z WocaBee..."
+            )
+
+        self.packages = []
+        self.packages_output_buffer = ""
+        self.packages_json_buffer = ""
+        self.packages_waiting_for_json = False
+
+        base_path = self.get_base_path()
+
+        management_path = (
+            base_path
+            / "management.py"
+        )
+
+        if not management_path.exists():
+
+            if self.packages_status is not None:
+
+                self.packages_status.setText(
+                    "management.py sa nenašiel."
+                )
+
+            self.add_event(
+                "CHYBA: management.py sa nenašiel pri načítavaní balíkov."
+            )
+
+            return
+
+        if not self.set_packages_headless_override():
+
+            if self.packages_status is not None:
+
+                self.packages_status.setText(
+                    "Nepodarilo sa aktivovať headless režim."
+                )
+
+            return
+
+        self.packages_process = QProcess(
+            self
+        )
+
+        self.packages_process.setWorkingDirectory(
+            str(base_path)
+        )
+
+        environment = (
+            self.packages_process
+            .processEnvironment()
+        )
+
+        environment.insert(
+            "PYTHONUNBUFFERED",
+            "1"
+        )
+
+        environment.insert(
+            "WOCAFO_PACKAGES_HEADLESS",
+            "1"
+        )
+
+        self.packages_process.setProcessEnvironment(
+            environment
+        )
+
+        self.packages_process.readyReadStandardOutput.connect(
+            self.packages_stdout
+        )
+
+        self.packages_process.readyReadStandardError.connect(
+            self.packages_stderr
+        )
+
+        self.packages_process.finished.connect(
+            self.packages_finished
+        )
+
+        self.packages_process.errorOccurred.connect(
+            self.packages_error
+        )
+
+        self.add_event(
+            "Načítavam balíčky cez management.py --packages | Headless"
+        )
+
+        self.packages_process.start(
+            sys.executable,
+            [
+                str(management_path),
+                "--packages"
+            ]
+        )
+
+    # ========================================================
+    # SPRACOVANIE PACKAGES JSON
+    # ========================================================
+
+    def process_packages_json(
+        self,
+        raw_json
+    ):
+
+        raw_json = raw_json.strip()
+
+        if not raw_json:
+            return False
+
+        try:
+
+            packages = json.loads(
+                raw_json
+            )
+
+        except json.JSONDecodeError:
+
+            return False
+
+        if not isinstance(
+            packages,
+            list
+        ):
+
+            self.add_event(
+                "CHYBA: PACKAGES_JSON nemá formát zoznamu."
+            )
+
+            if self.packages_status is not None:
+
+                self.packages_status.setText(
+                    "Neplatný formát balíkov."
+                )
+
+            return False
+
+        self.packages = packages
+
+        self.packages_json_buffer = ""
+
+        self.packages_waiting_for_json = False
+
+        self.add_event(
+            f"Úspešne načítaných balíkov: {len(packages)}"
+        )
+
+        self.render_packages()
+
+        return True
+
+    def handle_packages_line(
+        self,
+        line
+    ):
+
+        line = line.strip()
+
+        if not line:
+            return
+
+        self.add_event(
+            line
+        )
+
+        self.update_account_and_points(
+            line
+        )
+
+        prefix = "PACKAGES_JSON:"
+
+        # ====================================================
+        # NOVÝ PACKAGES_JSON
+        # ====================================================
+
+        if line.startswith(prefix):
+
+            payload = line[
+                len(prefix):
+            ].strip()
+
+            if not payload:
+
+                self.packages_waiting_for_json = True
+                self.packages_json_buffer = ""
+
+                return
+
+            if self.process_packages_json(
+                payload
+            ):
+
+                return
+
+            self.packages_waiting_for_json = True
+            self.packages_json_buffer = payload
+
+            return
+
+        # ====================================================
+        # POKRAČOVANIE ROZDELENÉHO PACKAGES_JSON
+        # ====================================================
+
+        if self.packages_waiting_for_json:
+
+            if self.packages_json_buffer:
+
+                self.packages_json_buffer += "\n" + line
+
+            else:
+
+                self.packages_json_buffer = line
+
+            if self.process_packages_json(
+                self.packages_json_buffer
+            ):
+
+                return
+
+    def packages_stdout(self):
+
+        if self.packages_process is None:
+            return
+
+        raw_data = (
+            self.packages_process
+            .readAllStandardOutput()
+            .data()
+        )
+
+        if not raw_data:
+            return
+
+        try:
+
+            data = raw_data.decode(
+                "utf-8"
+            )
+
+        except UnicodeDecodeError:
+
+            data = raw_data.decode(
+                "cp1250",
+                errors="replace"
+            )
+
+        self.packages_output_buffer += data
+
+        while "\n" in self.packages_output_buffer:
+
+            line, self.packages_output_buffer = (
+                self.packages_output_buffer.split(
+                    "\n",
+                    1
+                )
+            )
+
+            line = line.rstrip("\r")
+
+            self.handle_packages_line(
+                line
+            )
+
+    def packages_stderr(self):
+
+        if self.packages_process is None:
+            return
+
+        raw_data = (
+            self.packages_process
+            .readAllStandardError()
+            .data()
+        )
+
+        if not raw_data:
+            return
+
+        try:
+
+            data = raw_data.decode(
+                "utf-8"
+            )
+
+        except UnicodeDecodeError:
+
+            data = raw_data.decode(
+                "cp1250",
+                errors="replace"
+            )
+
+        for line in data.splitlines():
+
+            line = line.strip()
+
+            if not line:
+                continue
+
+            self.add_event(
+                f"CHYBA BALÍČKY: {line}"
+            )
+
+    def packages_finished(
+        self,
+        exit_code,
+        exit_status
+    ):
+
+        if self.packages_process is None:
+            self.restore_packages_headless_override()
+            return
+
+        process = self.packages_process
+
+        # ====================================================
+        # SPRACOVANIE POSLEDNÉHO STDOUT BUFFERA
+        # ====================================================
+
+        remaining = (
+            self.packages_output_buffer.strip()
+        )
+
+        if remaining:
+
+            self.packages_output_buffer = ""
+
+            self.handle_packages_line(
+                remaining
+            )
+
+        # ====================================================
+        # SPRACOVANIE ROZDELENÉHO PACKAGES_JSON
+        # ====================================================
+
+        if self.packages_waiting_for_json:
+
+            pending_json = (
+                self.packages_json_buffer.strip()
+            )
+
+            if pending_json:
+
+                if not self.process_packages_json(
+                    pending_json
+                ):
+
+                    self.add_event(
+                        "CHYBA: PACKAGES_JSON sa nepodarilo dokončiť."
+                    )
+
+                    if self.packages_status is not None:
+
+                        self.packages_status.setText(
+                            "Balíčky sa nepodarilo načítať."
+                        )
+
+        self.packages_output_buffer = ""
+        self.packages_json_buffer = ""
+        self.packages_waiting_for_json = False
+
+        self.restore_packages_headless_override()
+
+        self.packages_process = None
+
+        if exit_code == 0:
+
+            if self.packages:
+
+                if self.packages_status is not None:
+
+                    self.packages_status.setText(
+                        f"Načítaných balíkov: {len(self.packages)}"
+                    )
+
+            else:
+
+                if self.packages_status is not None:
+
+                    self.packages_status.setText(
+                        "Nenašli sa žiadne balíčky."
+                    )
+
+        else:
+
+            if self.packages_status is not None:
+
+                self.packages_status.setText(
+                    "Načítanie balíčkov skončilo s chybou."
+                )
+
+            self.add_event(
+                f"Načítanie balíčkov skončilo | Exit code: {exit_code}"
+            )
+
+        process.deleteLater()
+
+    def packages_error(
+        self,
+        error
+    ):
+
+        if self.packages_process is None:
+            return
+
+        self.add_event(
+            f"QProcess chyba pri balíčkoch: {error}"
+        )
+
+        if self.packages_status is not None:
+
+            self.packages_status.setText(
+                "Nepodarilo sa načítať balíčky."
+            )
+
+    def packages_dialog_closed(self):
+
+        if (
+            self.packages_process is not None
+            and self.packages_process.state()
+            != QProcess.NotRunning
+        ):
+
+            try:
+                self.packages_process.kill()
+            except Exception:
+                pass
+
+        self.restore_packages_headless_override()
+
+        self.packages_dialog = None
+        self.packages_content = None
+        self.packages_status = None
+
+    def clear_packages_view(self):
+
+        if self.packages_content is None:
+            return
+
+        while self.packages_content.count():
+
+            item = self.packages_content.takeAt(0)
+
+            widget = item.widget()
+
+            if widget is not None:
+
+                widget.deleteLater()
+
+    def progress_symbol(
+        self,
+        value
+    ):
+
+        try:
+
+            value = int(value)
+
+        except (
+            ValueError,
+            TypeError
+        ):
+
+            value = 0
+
+        if value >= 100:
+            return "●"
+
+        if value >= 50:
+            return "◐"
+
+        return "○"
+
+    def render_packages(self):
+
+        if self.packages_content is None:
+            return
+
+        self.clear_packages_view()
+
+        if not self.packages:
+
+            empty = QLabel(
+                "Žiadne balíčky."
+            )
+
+            empty.setAlignment(
+                Qt.AlignCenter
+            )
+
+            empty.setStyleSheet("""
+                color: #777777;
+                font-size: 13px;
+                padding: 30px;
+            """)
+
+            self.packages_content.addWidget(
+                empty
+            )
+
+            return
+
+        config = {}
+
+        try:
+
+            config_path = self.get_config_path()
+
+            if config_path.exists():
+
+                config = toml.load(
+                    config_path
+                )
+
+        except Exception:
+
+            config = {}
+
+        try:
+
+            configured_index = int(
+                config.get(
+                    "package_index",
+                    -1
+                )
+            )
+
+        except (
+            ValueError,
+            TypeError
+        ):
+
+            configured_index = -1
+
+        self.selected_package_index = (
+            configured_index
+            if 0 <= configured_index < len(self.packages)
+            else None
+        )
+
+        # ====================================================
+        # HLAVIČKA
+        # ====================================================
+
+        header = QFrame()
+
+        header.setObjectName(
+            "packageHeader"
+        )
+
+        header_layout = QGridLayout(
+            header
+        )
+
+        header_layout.setContentsMargins(
+            12,
+            5,
+            12,
+            5
+        )
+
+        header_layout.setHorizontalSpacing(
+            12
+        )
+
+        header_layout.setVerticalSpacing(
+            0
+        )
+
+        header_layout.setColumnStretch(
+            0,
+            4
+        )
+
+        header_layout.setColumnStretch(
+            1,
+            2
+        )
+
+        header_layout.setColumnStretch(
+            2,
+            1
+        )
+
+        header_layout.setColumnStretch(
+            3,
+            2
+        )
+
+        header_layout.setColumnMinimumWidth(
+            4,
+            116
+        )
+
+        headers = [
+            ("BALÍK", 0),
+            ("TERMÍN", 1),
+            ("PROGRESS", 2),
+            ("STAV", 3),
+            ("VÝBER", 4),
+        ]
+
+        for text, column in headers:
+
+            label = QLabel(
+                text
+            )
+
+            label.setStyleSheet("""
+                color: #666666;
+                font-size: 9px;
+                font-weight: 700;
+            """)
+
+            if column == 2:
+
+                label.setAlignment(
+                    Qt.AlignCenter
+                )
+
+            elif column == 4:
+
+                label.setAlignment(
+                    Qt.AlignCenter
+                )
+
+            else:
+
+                label.setAlignment(
+                    Qt.AlignLeft | Qt.AlignVCenter
+                )
+
+            header_layout.addWidget(
+                label,
+                0,
+                column
+            )
+
+        self.packages_content.addWidget(
+            header
+        )
+
+        # ====================================================
+        # RIADKY BALÍKOV
+        # ====================================================
+
+        for position, package in enumerate(
+            self.packages
+        ):
+
+            row = QFrame()
+
+            row.setObjectName(
+                "packageRow"
+            )
+
+            is_selected = (
+                self.selected_package_index == position
+            )
+
+            row.setProperty(
+                "selected",
+                is_selected
+            )
+
+            row_layout = QGridLayout(
+                row
+            )
+
+            row_layout.setContentsMargins(
+                12,
+                10,
+                12,
+                10
+            )
+
+            row_layout.setHorizontalSpacing(
+                12
+            )
+
+            row_layout.setVerticalSpacing(
+                0
+            )
+
+            row_layout.setColumnStretch(
+                0,
+                4
+            )
+
+            row_layout.setColumnStretch(
+                1,
+                2
+            )
+
+            row_layout.setColumnStretch(
+                2,
+                1
+            )
+
+            row_layout.setColumnStretch(
+                3,
+                2
+            )
+
+            row_layout.setColumnMinimumWidth(
+                4,
+                116
+            )
+
+            name = str(
+                package.get(
+                    "name",
+                    "Neznámy balík"
+                )
+            )
+
+            deadline = str(
+                package.get(
+                    "deadline",
+                    "—"
+                )
+            ).strip()
+
+            progress_values = package.get(
+                "progress_values",
+                []
+            )
+
+            if not isinstance(
+                progress_values,
+                list
+            ):
+
+                progress_values = []
+
+            while len(progress_values) < 3:
+
+                progress_values.append(
+                    0
+                )
+
+            progress_values = progress_values[:3]
+
+            progress = "".join(
+                self.progress_symbol(value)
+                for value in progress_values
+            )
+
+            status = str(
+                package.get(
+                    "status",
+                    "nezačaté"
+                )
+            )
+
+            if status == "dokončené":
+
+                status_text = "Dokončené"
+
+            elif status == "rozpracované":
+
+                status_text = "Rozpracované"
+
+            else:
+
+                status_text = "Nezačaté"
+
+            name_label = QLabel(
+                name
+            )
+
+            name_label.setObjectName(
+                "packageName"
+            )
+
+            name_label.setWordWrap(
+                True
+            )
+
+            deadline_label = QLabel(
+                deadline
+            )
+
+            deadline_label.setObjectName(
+                "packageDeadline"
+            )
+
+            progress_label = QLabel(
+                progress
+            )
+
+            progress_label.setObjectName(
+                "packageProgress"
+            )
+
+            progress_label.setAlignment(
+                Qt.AlignCenter
+            )
+
+            status_label = QLabel(
+                status_text
+            )
+
+            status_label.setObjectName(
+                "packageStatus"
+            )
+
+            select_button = QPushButton(
+                "✓  Vybrané"
+                if is_selected
+                else "Vybrať"
+            )
+
+            select_button.setObjectName(
+                "packageSelectButton"
+            )
+
+            select_button.setProperty(
+                "selected",
+                is_selected
+            )
+
+            select_button.setFixedSize(
+                116,
+                36
+            )
+
+            select_button.clicked.connect(
+                lambda checked=False, index=position:
+                self.select_package(index)
+            )
+
+            row_layout.addWidget(
+                name_label,
+                0,
+                0
+            )
+
+            row_layout.addWidget(
+                deadline_label,
+                0,
+                1
+            )
+
+            row_layout.addWidget(
+                progress_label,
+                0,
+                2
+            )
+
+            row_layout.addWidget(
+                status_label,
+                0,
+                3
+            )
+
+            row_layout.addWidget(
+                select_button,
+                0,
+                4,
+                Qt.AlignCenter
+            )
+
+            self.packages_content.addWidget(
+                row
+            )
+
+        self.packages_content.addStretch()
+
+    def select_package(
+        self,
+        index
+    ):
+
+        if (
+            index < 0
+            or index >= len(self.packages)
+        ):
+
+            return
+
+        package = self.packages[index]
+
+        self.selected_package_index = index
+
+        package_name = str(
+            package.get(
+                "name",
+                "Neznámy balík"
+            )
+        )
+
+        package_id = str(
+            package.get(
+                "id",
+                "?"
+            )
+        )
+
+        self.save_selected_package(
+            index
+        )
+
+        self.add_event(
+            f"Vybraný balík: {package_name} | index {index} | ID {package_id}"
+        )
+
+        if self.packages_status is not None:
+
+            self.packages_status.setText(
+                f"Vybraný balík: {package_name}"
+            )
+
+        self.render_packages()
+
+    def save_selected_package(
+        self,
+        package_index
+    ):
+
+        try:
+
+            config_path = self.get_config_path()
+
+            if not config_path.exists():
+                return
+
+            lines = config_path.read_text(
+                encoding="utf-8"
+            ).splitlines()
+
+            updated = False
+
+            for index, line in enumerate(lines):
+
+                stripped = line.strip()
+
+                if (
+                    stripped.startswith("package_index")
+                    and "=" in stripped
+                    and not stripped.startswith("#")
+                ):
+
+                    prefix = line.split(
+                        "=",
+                        1
+                    )[0]
+
+                    lines[index] = (
+                        prefix
+                        + " = "
+                        + str(package_index)
+                    )
+
+                    updated = True
+
+                    break
+
+            if not updated:
+
+                if lines and lines[-1].strip():
+                    lines.append("")
+
+                lines.append(
+                    f"package_index = {package_index}"
+                )
+
+            config_path.write_text(
+                "\n".join(lines) + "\n",
+                encoding="utf-8"
+            )
+
+        except Exception as error:
+
+            self.add_event(
+                f"CHYBA: Nepodarilo sa uložiť vybraný balík: {error}"
+            )
+
+    # ========================================================
+    # SPUSTIŤ / SPUSTIŤ ZNOVA / ZASTAVIŤ
     # ========================================================
 
     def toggle_management(self):
+
+        if self.management_stopping:
+            return
 
         if (
             self.management_process is not None
@@ -1283,6 +2722,9 @@ class WocaFuckOff(QMainWindow):
     # ========================================================
 
     def start_management(self):
+
+        if self.management_stopping:
+            return
 
         if (
             self.management_process is not None
@@ -1319,7 +2761,6 @@ class WocaFuckOff(QMainWindow):
             return
 
         self.management_stopping = False
-
         self.management_output_buffer = ""
 
         self.start_button.setEnabled(
@@ -1389,11 +2830,24 @@ class WocaFuckOff(QMainWindow):
 
     def stop_management(self):
 
+        if self.management_stopping:
+            return
+
         if (
             self.management_process is None
             or self.management_process.state()
             == QProcess.NotRunning
         ):
+
+            self.management_process = None
+
+            self.start_button.setText(
+                "▶   SPUSTIŤ ZNOVA"
+            )
+
+            self.start_button.setEnabled(
+                True
+            )
 
             return
 
@@ -1473,7 +2927,6 @@ class WocaFuckOff(QMainWindow):
     def stop_stdout(self):
 
         if self.stop_process is None:
-
             return
 
         raw_data = (
@@ -1483,7 +2936,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         if not raw_data:
-
             return
 
         try:
@@ -1504,7 +2956,6 @@ class WocaFuckOff(QMainWindow):
             line = line.strip()
 
             if not line:
-
                 continue
 
             self.add_event(
@@ -1522,7 +2973,6 @@ class WocaFuckOff(QMainWindow):
     def stop_stderr(self):
 
         if self.stop_process is None:
-
             return
 
         raw_data = (
@@ -1532,7 +2982,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         if not raw_data:
-
             return
 
         try:
@@ -1553,7 +3002,6 @@ class WocaFuckOff(QMainWindow):
             line = line.strip()
 
             if not line:
-
                 continue
 
             self.add_event(
@@ -1576,31 +3024,29 @@ class WocaFuckOff(QMainWindow):
 
         self.stop_process = None
 
+        self.management_process = None
+
+        self.management_stopping = False
+
         if exit_code == 0:
 
             self.status_label.setText(
                 "●  Uložené a ukončené"
             )
 
-            self.start_button.setText(
-                "▶   SPUSTIŤ"
-            )
-
         else:
 
             self.status_label.setText(
-                "●  Nepodarilo sa uložiť a ukončiť"
+                "●  Ukončené s upozornením"
             )
 
-            self.start_button.setText(
-                "▶   SPUSTIŤ ZNOVA"
-            )
+        self.start_button.setText(
+            "▶   SPUSTIŤ ZNOVA"
+        )
 
         self.start_button.setEnabled(
             True
         )
-
-        self.management_stopping = False
 
         self.load_account_preview()
 
@@ -1611,7 +3057,6 @@ class WocaFuckOff(QMainWindow):
     def management_stdout(self):
 
         if self.management_process is None:
-
             return
 
         raw_data = (
@@ -1621,7 +3066,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         if not raw_data:
-
             return
 
         try:
@@ -1653,7 +3097,6 @@ class WocaFuckOff(QMainWindow):
             line = line.strip()
 
             if not line:
-
                 continue
 
             self.add_event(
@@ -1675,7 +3118,6 @@ class WocaFuckOff(QMainWindow):
     def management_stderr(self):
 
         if self.management_process is None:
-
             return
 
         raw_data = (
@@ -1685,7 +3127,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         if not raw_data:
-
             return
 
         try:
@@ -1706,7 +3147,6 @@ class WocaFuckOff(QMainWindow):
             line = line.strip()
 
             if not line:
-
                 continue
 
             self.add_event(
@@ -1780,7 +3220,7 @@ class WocaFuckOff(QMainWindow):
             )
 
     # ========================================================
-    # AKTUALIZÁCIA ÚČTU A BODOV
+    # AKTUALIZÁCIA ÚČTU A WOCAPOINTS
     # ========================================================
 
     def update_account_and_points(
@@ -1788,8 +3228,76 @@ class WocaFuckOff(QMainWindow):
         line
     ):
 
+        # ----------------------------------------------------
+        # WOCAPOINTS Z HTML:
+        #
+        # Tvoje skóre: <b>325</b> WocaPoints
+        #
+        # Zoberie číslo priamo medzi <b> a </b>.
+        # ----------------------------------------------------
+
+        html_point_match = re.search(
+            r"Tvoje\s+skóre\s*:\s*<b>\s*([0-9][0-9\s.,]*)\s*</b>\s*WocaPoints",
+            line,
+            re.IGNORECASE
+        )
+
+        if html_point_match:
+
+            raw_points = (
+                html_point_match.group(1)
+            )
+
+            raw_points = re.sub(
+                r"[^0-9]",
+                "",
+                raw_points
+            )
+
+            if raw_points:
+
+                try:
+
+                    points = int(
+                        raw_points
+                    )
+
+                    self.points_value = points
+
+                    self.points_label.setText(
+                        f"{points:,}".replace(
+                            ",",
+                            " "
+                        )
+                    )
+
+                    self.save_last_points(
+                        points
+                    )
+
+                    self.add_event(
+                        f"WocaPoints načítané z HTML: {points}"
+                    )
+
+                    return
+
+                except (
+                    ValueError,
+                    TypeError
+                ):
+
+                    pass
+
+        # ----------------------------------------------------
+        # VŠEOBECNÝ FORMÁT:
+        #
+        # POINTS: 325
+        # WOCAPOINTS: 325
+        # WOCAPOINT: 325
+        # ----------------------------------------------------
+
         point_match = re.search(
-            r"(?:POINTS|WOCAPOINTS|WOCAPOINT|BODY|BODOV)\s*[:=]\s*([0-9][0-9\s.,]*)",
+            r"(?:POINTS|WOCAPOINTS|WOCAPOINT)\s*[:=]\s*([0-9][0-9\s.,]*)",
             line,
             re.IGNORECASE
         )
@@ -1797,7 +3305,7 @@ class WocaFuckOff(QMainWindow):
         if not point_match:
 
             point_match = re.search(
-                r"([0-9][0-9\s.,]*)\s*(?:points|wocapoints|bodov)\b",
+                r"([0-9][0-9\s.,]*)\s*(?:points|wocapoints)\b",
                 line,
                 re.IGNORECASE
             )
@@ -1813,7 +3321,6 @@ class WocaFuckOff(QMainWindow):
             )
 
             if not raw_points:
-
                 return
 
             try:
@@ -1846,40 +3353,39 @@ class WocaFuckOff(QMainWindow):
     # DOKONČENIE MANAGEMENTU
     # ========================================================
 
-    def management_finished(self, exit_code, exit_status):
+    def management_finished(
+        self,
+        exit_code,
+        exit_status
+    ):
 
         if self.management_stopping:
-            self.status_label.setText(
-                "●  Zastavené"
-            )
 
-            self.start_button.setText(
-                "▶   SPUSTIŤ"
-            )
+            self.management_process = None
 
-        elif exit_code == 0:
+            return
+
+        if exit_code == 0:
+
             self.status_label.setText(
                 "●  Dokončené"
             )
 
-            self.start_button.setText(
-                "▶   SPUSTIŤ ZNOVA"
-            )
-
         else:
+
             self.status_label.setText(
                 "●  Skončilo s chybou"
             )
 
-            self.start_button.setText(
-                "▶   SPUSTIŤ ZNOVA"
-            )
-
-        self.start_button.setEnabled(True)
-
         self.management_process = None
 
-        self.management_stopping = False
+        self.start_button.setText(
+            "▶   SPUSTIŤ ZNOVA"
+        )
+
+        self.start_button.setEnabled(
+            True
+        )
 
     # ========================================================
     # CHYBA PROCESU
@@ -1891,7 +3397,6 @@ class WocaFuckOff(QMainWindow):
     ):
 
         if self.management_stopping:
-
             return
 
         self.add_event(
@@ -1903,7 +3408,7 @@ class WocaFuckOff(QMainWindow):
         )
 
         self.start_button.setText(
-            "▶   SPUSTIŤ"
+            "▶   SPUSTIŤ ZNOVA"
         )
 
         self.start_button.setEnabled(
@@ -2061,67 +3566,21 @@ class WocaFuckOff(QMainWindow):
         )
 
         layout.addStretch()
-
-        layout.addWidget(
-            title
-        )
-
-        layout.addWidget(
-            subtitle
-        )
-
-        layout.addSpacing(
-            15
-        )
-
-        layout.addWidget(
-            separator1
-        )
-
-        layout.addSpacing(
-            18
-        )
-
-        layout.addWidget(
-            app_name
-        )
-
-        layout.addWidget(
-            version
-        )
-
-        layout.addSpacing(
-            12
-        )
-
-        layout.addWidget(
-            description
-        )
-
-        layout.addSpacing(
-            20
-        )
-
-        layout.addWidget(
-            copyright_label
-        )
-
-        layout.addSpacing(
-            12
-        )
-
-        layout.addWidget(
-            separator2
-        )
-
-        layout.addSpacing(
-            15
-        )
-
-        layout.addWidget(
-            close_button
-        )
-
+        layout.addWidget(title)
+        layout.addWidget(subtitle)
+        layout.addSpacing(15)
+        layout.addWidget(separator1)
+        layout.addSpacing(18)
+        layout.addWidget(app_name)
+        layout.addWidget(version)
+        layout.addSpacing(12)
+        layout.addWidget(description)
+        layout.addSpacing(20)
+        layout.addWidget(copyright_label)
+        layout.addSpacing(12)
+        layout.addWidget(separator2)
+        layout.addSpacing(15)
+        layout.addWidget(close_button)
         layout.addStretch()
 
         dialog.setStyleSheet("""
@@ -2211,10 +3670,6 @@ class WocaFuckOff(QMainWindow):
             14
         )
 
-        # ====================================================
-        # HLAVIČKA
-        # ====================================================
-
         title = QLabel(
             "Nastavenia"
         )
@@ -2231,13 +3686,8 @@ class WocaFuckOff(QMainWindow):
             "settingsSubtitle"
         )
 
-        root.addWidget(
-            title
-        )
-
-        root.addWidget(
-            subtitle
-        )
+        root.addWidget(title)
+        root.addWidget(subtitle)
 
         separator = QFrame()
 
@@ -2252,10 +3702,6 @@ class WocaFuckOff(QMainWindow):
         root.addWidget(
             separator
         )
-
-        # ====================================================
-        # SCROLL
-        # ====================================================
 
         scroll = QScrollArea()
 
@@ -2291,10 +3737,6 @@ class WocaFuckOff(QMainWindow):
         content_layout.setSpacing(
             10
         )
-
-        # ====================================================
-        # POMOCNÉ FUNKCIE
-        # ====================================================
 
         def make_card(
             title_text,
@@ -2440,10 +3882,6 @@ class WocaFuckOff(QMainWindow):
 
         fields = {}
 
-        # ====================================================
-        # AUTOMATIZÁCIA
-        # ====================================================
-
         card, card_layout = make_card(
             "Automatizácia",
             "Základné nastavenia spustenia."
@@ -2487,10 +3925,6 @@ class WocaFuckOff(QMainWindow):
             card
         )
 
-        # ====================================================
-        # PRIHLÁSENIE
-        # ====================================================
-
         card, card_layout = make_card(
             "Prihlásenie",
             "Prihlasovacie údaje pre automatické prihlásenie."
@@ -2499,8 +3933,7 @@ class WocaFuckOff(QMainWindow):
         form = QFormLayout()
 
         form.setLabelAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         form.setHorizontalSpacing(
@@ -2529,16 +3962,12 @@ class WocaFuckOff(QMainWindow):
         )
 
         form.addRow(
-            make_label(
-                "Username"
-            ),
+            make_label("Username"),
             fields["username"]
         )
 
         form.addRow(
-            make_label(
-                "Password"
-            ),
+            make_label("Password"),
             fields["password"]
         )
 
@@ -2549,10 +3978,6 @@ class WocaFuckOff(QMainWindow):
         content_layout.addWidget(
             card
         )
-
-        # ====================================================
-        # POKROČILÉ NASTAVENIA
-        # ====================================================
 
         advanced_button = QPushButton(
             "▶   Pokročilé nastavenia"
@@ -2599,10 +4024,6 @@ class WocaFuckOff(QMainWindow):
             False
         )
 
-        # ====================================================
-        # POKROČILÉ - WOCABEE
-        # ====================================================
-
         card, card_layout = make_card(
             "Wocabee",
             "Technické nastavenia pripojenia."
@@ -2611,8 +4032,7 @@ class WocaFuckOff(QMainWindow):
         form = QFormLayout()
 
         form.setLabelAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         form.setHorizontalSpacing(
@@ -2663,10 +4083,6 @@ class WocaFuckOff(QMainWindow):
             card
         )
 
-        # ====================================================
-        # POKROČILÉ - SÚBORY
-        # ====================================================
-
         card, card_layout = make_card(
             "Súbory",
             "Technické dátové súbory používané solverom."
@@ -2675,8 +4091,7 @@ class WocaFuckOff(QMainWindow):
         form = QFormLayout()
 
         form.setLabelAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         form.setHorizontalSpacing(
@@ -2727,10 +4142,6 @@ class WocaFuckOff(QMainWindow):
             card
         )
 
-        # ====================================================
-        # POKROČILÉ - AUTOMATIZÁCIA
-        # ====================================================
-
         card, card_layout = make_card(
             "Automatizácia",
             "Technické indexy a pomocné nastavenia."
@@ -2739,8 +4150,7 @@ class WocaFuckOff(QMainWindow):
         form = QFormLayout()
 
         form.setLabelAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         form.setHorizontalSpacing(
@@ -2843,10 +4253,6 @@ class WocaFuckOff(QMainWindow):
             card
         )
 
-        # ====================================================
-        # POKROČILÉ - NTFY
-        # ====================================================
-
         card, card_layout = make_card(
             "NTFY",
             "Technická konfigurácia notifikácií."
@@ -2855,8 +4261,7 @@ class WocaFuckOff(QMainWindow):
         form = QFormLayout()
 
         form.setLabelAlignment(
-            Qt.AlignLeft
-            | Qt.AlignVCenter
+            Qt.AlignLeft | Qt.AlignVCenter
         )
 
         form.setHorizontalSpacing(
@@ -2893,23 +4298,17 @@ class WocaFuckOff(QMainWindow):
         )
 
         form.addRow(
-            make_label(
-                "Server"
-            ),
+            make_label("Server"),
             fields["ntfy_server"]
         )
 
         form.addRow(
-            make_label(
-                "Topic"
-            ),
+            make_label("Topic"),
             fields["ntfy_topic"]
         )
 
         form.addRow(
-            make_label(
-                "Token"
-            ),
+            make_label("Token"),
             fields["ntfy_token"]
         )
 
@@ -2928,10 +4327,6 @@ class WocaFuckOff(QMainWindow):
         )
 
         content_layout.addStretch()
-
-        # ====================================================
-        # ROZBALENIE POKROČILÝCH NASTAVENÍ
-        # ====================================================
 
         def toggle_advanced():
 
@@ -2967,10 +4362,6 @@ class WocaFuckOff(QMainWindow):
             scroll,
             1
         )
-
-        # ====================================================
-        # TLAČIDLÁ
-        # ====================================================
 
         buttons = QHBoxLayout()
 
@@ -3018,16 +4409,9 @@ class WocaFuckOff(QMainWindow):
             buttons
         )
 
-        # ====================================================
-        # TOML
-        # ====================================================
-
         def toml_value(value):
 
-            if isinstance(
-                value,
-                bool
-            ):
+            if isinstance(value, bool):
 
                 return (
                     "true"
@@ -3035,26 +4419,16 @@ class WocaFuckOff(QMainWindow):
                     else "false"
                 )
 
-            if isinstance(
-                value,
-                int
-            ):
+            if isinstance(value, int):
 
-                return str(
-                    value
-                )
+                return str(value)
 
-            if isinstance(
-                value,
-                list
-            ):
+            if isinstance(value, list):
 
                 return (
                     "["
                     + ", ".join(
-                        toml_value(
-                            item
-                        )
+                        toml_value(item)
                         for item in value
                     )
                     + "]"
@@ -3076,9 +4450,7 @@ class WocaFuckOff(QMainWindow):
 
             found_keys = set()
 
-            for index, line in enumerate(
-                lines
-            ):
+            for index, line in enumerate(lines):
 
                 stripped = line.lstrip()
 
@@ -3128,14 +4500,9 @@ class WocaFuckOff(QMainWindow):
                     )
 
             path.write_text(
-                "\n".join(lines)
-                + "\n",
+                "\n".join(lines) + "\n",
                 encoding="utf-8"
             )
-
-        # ====================================================
-        # ULOŽENIE
-        # ====================================================
 
         def save_settings():
 
@@ -3148,74 +4515,47 @@ class WocaFuckOff(QMainWindow):
             ]
 
             values = {
-
                 "urlbase":
-                    fields[
-                        "urlbase"
-                    ].text().strip(),
+                    fields["urlbase"].text().strip(),
 
                 "debug_port":
-                    fields[
-                        "debug_port"
-                    ].text().strip(),
+                    fields["debug_port"].text().strip(),
 
                 "wordlist_file":
-                    fields[
-                        "wordlist_file"
-                    ].text().strip(),
+                    fields["wordlist_file"].text().strip(),
 
                 "picture_file":
-                    fields[
-                        "picture_file"
-                    ].text().strip(),
+                    fields["picture_file"].text().strip(),
 
                 "placeholder_words":
                     placeholder_words,
 
                 "class_index":
-                    fields[
-                        "class_index"
-                    ].value(),
+                    fields["class_index"].value(),
 
                 "package_index":
-                    fields[
-                        "package_index"
-                    ].value(),
+                    fields["package_index"].value(),
 
                 "headless":
-                    fields[
-                        "headless"
-                    ].isChecked(),
+                    fields["headless"].isChecked(),
 
                 "double_points":
-                    fields[
-                        "double_points"
-                    ].isChecked(),
+                    fields["double_points"].isChecked(),
 
                 "username":
-                    fields[
-                        "username"
-                    ].text(),
+                    fields["username"].text(),
 
                 "password":
-                    fields[
-                        "password"
-                    ].text(),
+                    fields["password"].text(),
 
                 "ntfy_server":
-                    fields[
-                        "ntfy_server"
-                    ].text().strip(),
+                    fields["ntfy_server"].text().strip(),
 
                 "ntfy_topic":
-                    fields[
-                        "ntfy_topic"
-                    ].text().strip(),
+                    fields["ntfy_topic"].text().strip(),
 
                 "ntfy_token":
-                    fields[
-                        "ntfy_token"
-                    ].text(),
+                    fields["ntfy_token"].text(),
             }
 
             try:
@@ -3256,10 +4596,6 @@ class WocaFuckOff(QMainWindow):
         save_button.clicked.connect(
             save_settings
         )
-
-        # ====================================================
-        # VZHĽAD
-        # ====================================================
 
         dialog.setStyleSheet("""
             QDialog {
@@ -3577,42 +4913,15 @@ class WocaFuckOff(QMainWindow):
             dialog.accept
         )
 
-        layout.addWidget(
-            title
-        )
-
-        layout.addWidget(
-            subtitle
-        )
-
-        layout.addSpacing(
-            8
-        )
-
-        layout.addWidget(
-            separator1
-        )
-
-        layout.addSpacing(
-            8
-        )
-
-        layout.addWidget(
-            events_text,
-            1
-        )
-
-        layout.addWidget(
-            copy_hint
-        )
-
-        layout.addSpacing(
-            4
-        )
-
-        layout.addWidget(
-            close_button
-        )
+        layout.addWidget(title)
+        layout.addWidget(subtitle)
+        layout.addSpacing(8)
+        layout.addWidget(separator1)
+        layout.addSpacing(8)
+        layout.addWidget(events_text, 1)
+        layout.addWidget(copy_hint)
+        layout.addSpacing(4)
+        layout.addWidget(close_button)
 
         dialog.setStyleSheet("""
             QDialog {
@@ -3652,7 +4961,6 @@ class WocaFuckOff(QMainWindow):
     def toggle_menu(self):
 
         self.flyout.show()
-
         self.flyout.raise_()
 
         self.menu_open = not self.menu_open
@@ -3719,12 +5027,22 @@ class WocaFuckOff(QMainWindow):
         ):
 
             try:
-
                 self.stop_process.kill()
-
             except Exception:
-
                 pass
+
+        if (
+            self.packages_process is not None
+            and self.packages_process.state()
+            != QProcess.NotRunning
+        ):
+
+            try:
+                self.packages_process.kill()
+            except Exception:
+                pass
+
+        self.restore_packages_headless_override()
 
         if (
             self.management_process is not None
@@ -3749,9 +5067,7 @@ class WocaFuckOff(QMainWindow):
                         str(management_path),
                         "--stop"
                     ],
-                    cwd=str(
-                        base_path
-                    ),
+                    cwd=str(base_path),
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     creationflags=getattr(
@@ -3762,7 +5078,6 @@ class WocaFuckOff(QMainWindow):
                 )
 
             except Exception:
-
                 pass
 
         event.accept()
@@ -3936,6 +5251,11 @@ class WocaFuckOff(QMainWindow):
                 background: #bbbbbb;
             }
 
+            QPushButton#startButton:disabled {
+                background: #555555;
+                color: #999999;
+            }
+
             QFrame#flyout {
                 background: #181818;
                 border-right: 1px solid #303030;
@@ -3985,7 +5305,9 @@ class WocaFuckOff(QMainWindow):
 
 
 # ============================================================
+
 # SPUSTENIE PROGRAMU
+
 # ============================================================
 
 if __name__ == "__main__":
