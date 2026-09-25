@@ -10,6 +10,7 @@ import urllib.request
 import urllib.error
 import re
 import json
+import hashlib
 import toml
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
@@ -38,7 +39,7 @@ def report_wocapoints(page):
     """
     Načíta aktuálne WocaPoints priamo z HTML stránky.
 
-    WocaBee môže mať na stránke napríklad:
+    Wocabee môže mať na stránke napríklad:
 
         Tvoje skóre: <b>325</b> WocaPoints
 
@@ -51,11 +52,21 @@ def report_wocapoints(page):
     log("")
     log("=== WOCAPOINTS ===")
     try:
+        counter = page.locator("#WocaPoints:visible").first
+        if counter.count():
+            digits = re.sub(r"[^0-9]", "", counter.inner_text(timeout=500))
+            if digits:
+                points = int(digits)
+                log(f"WOCAPOINTS: {points}")
+                return points
+    except Exception as error:
+        log(f"WocaPoints počas riešenia nie sú dostupné: {error}")
+    try:
         html = page.content()
     except Exception as error:
         log(f"VAROVANIE: Nepodarilo sa načítať HTML pre WocaPoints: {error}")
         return None
-    # Presný HTML formát WocaBee
+    # Presný HTML formát Wocabee
     match = re.search(
         r"Tvoje\s+skóre:\s*"
         r"<b>\s*"
@@ -126,6 +137,24 @@ def load_config():
         return {}
 
 
+def get_chromium_profile_dir(urlbase, username):
+    """Return a stable, private Chromium profile path for one WocaBee account.
+
+    A shared persistent profile can contain a valid login for a different account.
+    In that case WocaBee skips the login form and the selected package belongs to a
+    different class.  Keep browser sessions isolated without putting the username
+    into the directory name.
+    """
+    normalized_url = str(urlbase).strip()
+    if not normalized_url.startswith(("http://", "https://")):
+        normalized_url = "https://" + normalized_url
+    normalized_url = normalized_url.rstrip("/").casefold()
+    normalized_username = str(username).strip().casefold()
+    identity = f"{normalized_url}\0{normalized_username}".encode("utf-8")
+    suffix = hashlib.sha256(identity).hexdigest()[:16]
+    return f"{CHROMIUM_PROFILE_DIR}-{suffix}"
+
+
 # CDP PORT
 def get_debug_port(value):
     value = str(value).strip()
@@ -161,6 +190,33 @@ def is_port_in_use(port):
         sock.close()
 
 
+def terminate_port_processes(port):
+    """Stop every process listening on a CDP port and verify it became free."""
+    if not is_port_in_use(port):
+        return True
+    log(f"VAROVANIE: Port {port} je obsadený. Ukončujem procesy na tomto porte...")
+    script = (
+        f"$ids = Get-NetTCPConnection -LocalPort {int(port)} -State Listen "
+        "-ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique; "
+        "$ids | ForEach-Object { Write-Output $_; Stop-Process -Id $_ -Force "
+        "-ErrorAction SilentlyContinue }"
+    )
+    try:
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        for pid in result.stdout.splitlines():
+            if pid.strip().isdigit():
+                log(f"INFO: Ukončený proces PID {pid.strip()} na porte {port}.")
+        time.sleep(0.5)
+        return not is_port_in_use(port)
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
 # ČAKANIE NA CDP
 def wait_for_cdp(port, timeout=15):
     url = f"http://127.0.0.1:{port}/json/version"
@@ -180,7 +236,7 @@ def wait_for_cdp(port, timeout=15):
 
 
 # SPUSTENIE CHROMIUM
-def launch_chromium(p, headless, port):
+def launch_chromium(p, headless, port, profile_dir):
     log("")
     log("=== CHROMIUM ===")
     executable = p.chromium.executable_path
@@ -190,13 +246,15 @@ def launch_chromium(p, headless, port):
         raise RuntimeError("Playwright neposkytol cestu k Chromium.")
     if not os.path.exists(executable):
         raise RuntimeError(f"Chromium executable neexistuje:\n{executable}")
-    os.makedirs(CHROMIUM_PROFILE_DIR, exist_ok=True)
+    profile_dir = os.path.abspath(profile_dir)
+    os.makedirs(profile_dir, exist_ok=True)
     args = [
         executable,
         f"--remote-debugging-port={port}",
         "--remote-debugging-address=127.0.0.1",
-        f"--user-data-dir={CHROMIUM_PROFILE_DIR}",
+        f"--user-data-dir={profile_dir}",
         "--no-first-run",
+        "--mute-audio",
         "--no-default-browser-check",
         "--disable-background-networking",
         "--disable-component-update",
@@ -210,7 +268,7 @@ def launch_chromium(p, headless, port):
     log(f"CDP port: {port}")
     log(f"Headless: {headless}")
     log("Profil:")
-    log(CHROMIUM_PROFILE_DIR)
+    log(profile_dir)
     process = subprocess.Popen(
         args,
         cwd=BASE_DIR,
@@ -242,7 +300,7 @@ def login(page, username, password):
         page.fill("#login", username)
         log("Username vyplnený.")
     except PlaywrightTimeoutError:
-        log("CHYBA: #login sa nenašiel.")
+        log("CHYBA[UI_CHANGED]: WocaBee zmenilo rozhranie alebo sa nenačítal prihlasovací formulár (#login).")
         return False
     except Exception as error:
         log(f"CHYBA username: {error}")
@@ -253,7 +311,7 @@ def login(page, username, password):
         page.fill("#password", password)
         log("Password vyplnený.")
     except PlaywrightTimeoutError:
-        log("CHYBA: #password sa nenašiel.")
+        log("CHYBA[UI_CHANGED]: WocaBee zmenilo rozhranie alebo chýba pole hesla (#password).")
         return False
     except Exception as error:
         log(f"CHYBA password: {error}")
@@ -271,6 +329,7 @@ def login(page, username, password):
     except PlaywrightTimeoutError:
         log(f"VAROVANIE: Redirect sa nepotvrdil. URL: {page.url}")
         if "/student" not in page.url.lower():
+            log("CHYBA[AUTH]: Nesprávne prihlasovacie meno alebo heslo.")
             return False
     log(f"Aktuálna URL: {page.url}")
     return True
@@ -298,7 +357,7 @@ def click_class_by_index(page, index):
         log("Trieda vybraná.")
         return True
     except PlaywrightTimeoutError:
-        log("CHYBA: Triedy sa nenašli.")
+        log("CHYBA[UI_CHANGED]: WocaBee opakovane nenašlo očakávaný zoznam tried.")
         return False
     except Exception as error:
         log(f"CHYBA triedy: {error}")
@@ -308,7 +367,7 @@ def click_class_by_index(page, index):
 # NAČÍTANIE BALÍKOV
 def get_packages(page):
     """
-    Načíta všetky aktuálne balíky z WocaBee.
+    Načíta všetky aktuálne balíky z Wocabee.
 
     Každý balík obsahuje:
 
@@ -331,7 +390,7 @@ def get_packages(page):
     try:
         page.wait_for_selector("tr.pTableRow", timeout=10000)
     except PlaywrightTimeoutError:
-        log("CHYBA: Tabuľka balíkov sa do 10 sekúnd nenašla.")
+        log("CHYBA[UI_CHANGED]: WocaBee opakovane nenašlo očakávanú tabuľku balíkov.")
         return []
     except Exception as error:
         log(f"CHYBA pri hľadaní balíkov: {error}")
@@ -475,7 +534,7 @@ def click_package_by_id(page, selected_package_id):
         if not selected_package_id:
             log("CHYBA: Najprv vyber balík v sekcii Balíčky.")
             return False
-        # Resolve the saved ID against the current WocaBee list.
+        # Resolve the saved ID against the current Wocabee list.
         current_packages = get_packages(page)
         matches = [
             p
@@ -497,7 +556,7 @@ def click_package_by_id(page, selected_package_id):
         log("Balík vybraný.")
         return True
     except PlaywrightTimeoutError:
-        log("CHYBA: Balík alebo tlačidlo sa nenašlo.")
+        log("CHYBA[UI_CHANGED]: WocaBee opakovane nenašlo očakávaný balík alebo tlačidlo.")
         return False
     except Exception as error:
         log(f"CHYBA balíka: {error}")
@@ -532,7 +591,7 @@ def enable_double_points(page):
 
 
 # SOLVER
-def start_solver():
+def start_solver(auto_translate):
     log("")
     log("=== SOLVER ===")
     solver_path = os.path.join(BASE_DIR, "solver.py")
@@ -545,7 +604,9 @@ def start_solver():
     log("Spúšťam solver.py...")
     try:
         process = subprocess.Popen(
-            [sys.executable, "-u", solver_path], cwd=BASE_DIR, env=env
+            [sys.executable, "-u", solver_path,
+             "--auto-translate" if auto_translate else "--no-auto-translate"],
+            cwd=BASE_DIR, env=env
         )
         log(f"Solver PID: {process.pid}")
         code = process.wait()
@@ -557,10 +618,10 @@ def start_solver():
 
 
 # VYPNUTIE CHROMIUM
-def kill_chromium():
+def kill_chromium(profile_dir=None):
     log("")
     log("Vypínam Chromium...")
-    profile_dir = os.path.abspath(CHROMIUM_PROFILE_DIR)
+    profile_dir = os.path.abspath(profile_dir or CHROMIUM_PROFILE_DIR)
     try:
         result = subprocess.run(
             [
@@ -620,6 +681,9 @@ def stop_management():
     if not cfg:
         return 1
     debug_port = get_debug_port(cfg.get("debug_port", "http://localhost:9222"))
+    profile_dir = get_chromium_profile_dir(
+        cfg.get("urlbase", "https://wocabee.app/app"), cfg.get("username", "")
+    )
     log(f"Pripájam sa na Chromium cez CDP: {debug_port}")
     p = None
     browser = None
@@ -682,7 +746,7 @@ def stop_management():
                 p.stop()
             except Exception:
                 pass
-        kill_chromium()
+        kill_chromium(profile_dir)
         log("Management ukončený.")
 
 
@@ -726,18 +790,22 @@ def packages_mode():
         log("Playwright pripravený.")
         # Package loading owns a separate temporary browser, without a CDP port.
         log("Spúšťam samostatný prehliadač pre načítanie balíkov...")
-        browser = p.chromium.launch(headless=headless)
+        browser = p.chromium.launch(headless=headless, args=["--mute-audio"])
         context = browser.new_context()
         page = context.new_page()
         page.set_default_timeout(10000)
         page.set_default_navigation_timeout(15000)
         # WOCABEE
         log("")
-        log("Otváram WocaBee...")
+        log("Otváram Wocabee...")
         try:
-            page.goto(urlbase, wait_until="domcontentloaded", timeout=15000)
+            response = page.goto(urlbase, wait_until="domcontentloaded", timeout=15000)
+            if response is not None and response.status >= 400:
+                log(f"CHYBA[WOCABEE]: WocaBee vrátilo HTTP {response.status}.")
+                return 1
         except PlaywrightTimeoutError:
-            log("VAROVANIE: WocaBee prekročilo 15 s timeout.")
+            log("CHYBA[WOCABEE]: WocaBee sa do 15 sekúnd nenačítalo.")
+            return 1
         log(f"Aktuálna URL: {page.url}")
         # PRIHLÁSENIE
         if not login(page, username, password):
@@ -794,6 +862,7 @@ def main():
         username = str(cfg.get("username", ""))
         password = str(cfg.get("password", ""))
         double_points = bool(cfg.get("double_points", False))
+        auto_translate = bool(cfg.get("auto_translate", True))
         class_index = int(cfg.get("class_index", 0))
         selected_package_id = str(cfg.get("selected_package_id", ""))
         urlbase = str(cfg.get("urlbase", "https://wocabee.app/app"))
@@ -806,15 +875,17 @@ def main():
         return 1
     if not urlbase.startswith(("http://", "https://")):
         urlbase = "https://" + urlbase
+    profile_dir = get_chromium_profile_dir(urlbase, username)
     log(f"URL: {urlbase}")
     log(f"Headless: {headless}")
     log(f"Class index: {class_index}")
     log(f"Selected package ID: {selected_package_id}")
     log(f"Double points: {double_points}")
+    log(f"AutoTranslate: {'zapnutý' if auto_translate else 'vypnutý'}")
     log(f"CDP port: {debug_port}")
-    if is_port_in_use(debug_port):
+    if is_port_in_use(debug_port) and not terminate_port_processes(debug_port):
         log("")
-        log(f"CHYBA: Port {debug_port} je už používaný.")
+        log(f"CHYBA[PORT]: Port {debug_port} je obsadený a proces sa nepodarilo ukončiť.")
         return 1
     p = None
     chromium_process = None
@@ -826,7 +897,7 @@ def main():
         p = sync_playwright().start()
         log("Playwright pripravený.")
         # CHROMIUM
-        chromium_process = launch_chromium(p, headless, debug_port)
+        chromium_process = launch_chromium(p, headless, debug_port, profile_dir)
         log("")
         log("Pripájam Playwright na Chromium cez CDP...")
         browser = p.chromium.connect_over_cdp(
@@ -849,11 +920,15 @@ def main():
         page.set_default_navigation_timeout(15000)
         # WOCABEE
         log("")
-        log("Otváram WocaBee...")
+        log("Otváram Wocabee...")
         try:
-            page.goto(urlbase, wait_until="domcontentloaded", timeout=15000)
+            response = page.goto(urlbase, wait_until="domcontentloaded", timeout=15000)
+            if response is not None and response.status >= 400:
+                log(f"CHYBA[WOCABEE]: WocaBee vrátilo HTTP {response.status}.")
+                return 1
         except PlaywrightTimeoutError:
-            log("VAROVANIE: WocaBee prekročilo 15 s timeout.")
+            log("CHYBA[WOCABEE]: WocaBee sa do 15 sekúnd nenačítalo.")
+            return 1
         log(f"Aktuálna URL: {page.url}")
         # PRIHLÁSENIE
         if not login(page, username, password):
@@ -874,7 +949,7 @@ def main():
         if double_points:
             enable_double_points(page)
         # SOLVER
-        return start_solver()
+        return start_solver(auto_translate)
     except KeyboardInterrupt:
         log("Management prerušený.")
         return 130
