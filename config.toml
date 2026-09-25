@@ -1,4 +1,6 @@
-selected_package_id = "1848183"
+selected_package_id = "1848181"
+packages_cache_key = "d309a55fc07de635b63bb7db35803bebeaff30ea16c0713c9ac339e2e667cb9a"
+packages_cache = "[{\"id\": \"1850925\", \"index\": 0, \"name\": \"Unit 1B + 1C - 1. časť\", \"deadline\": \"24.09. 21:59\", \"progress\": \"●●●\", \"progress_values\": [100, 100, 100], \"status\": \"dokončené\", \"practice_url\": \"./practice/?class_id=138537&package_id=1850925&mode=practice\", \"pronunciation_url\": \"./pronunciation/?class_id=138537&package_id=1850925\", \"run_url\": null, \"has_practice\": true, \"has_pronunciation\": true, \"has_run\": false}, {\"id\": \"1848183\", \"index\": 1, \"name\": \"Unit 1A - 1. časť\", \"deadline\": \"22.09. 21:59\", \"progress\": \"●●●\", \"progress_values\": [100, 100, 100], \"status\": \"dokončené\", \"practice_url\": \"./practice/?class_id=138537&package_id=1848183&mode=practice\", \"pronunciation_url\": \"./pronunciation/?class_id=138537&package_id=1848183\", \"run_url\": null, \"has_practice\": true, \"has_pronunciation\": true, \"has_run\": false}, {\"id\": \"1848181\", \"index\": 2, \"name\": \"Unit 1A - 2. časť + materials\", \"deadline\": \"20.09. 21:59\", \"progress\": \"●●●\", \"progress_values\": [100, 100, 100], \"status\": \"dokončené\", \"practice_url\": \"./practice/?class_id=138537&package_id=1848181&mode=practice\", \"pronunciation_url\": \"./pronunciation/?class_id=138537&package_id=1848181\", \"run_url\": null, \"has_practice\": true, \"has_pronunciation\": true, \"has_run\": false}]"
 ################################################################################
 #
 # WocaFuckOff™ KONFIGURÁCIA
@@ -14,7 +16,7 @@ selected_package_id = "1848183"
 
 # Zvolenie témy, ktorú gui.py bude používať.
 # Dostupné témy: graphite, ocean, plum, forest
-theme = "forest"
+theme = "plum"
 
 ################################################################################
 #
@@ -23,10 +25,10 @@ theme = "forest"
 ################################################################################
 
 # Základná URL cieľovej aplikácie
-urlbase         = "https://wocabee.app/app"
+urlbase            = "https://wocabee.app/app"
 
 # Port pre Debug CDP pripojenie
-debug_port         = "9222"
+debug_port            = "9222"
 
 
 ################################################################################
@@ -36,10 +38,10 @@ debug_port         = "9222"
 ################################################################################
 
 # Súbor s mapovaním slov
-wordlist_file         = "wordlist.json"
+wordlist_file            = "wordlist.json"
 
 # Súbor s mapovaním obrázkov
-picture_file         = "picturelist.json"
+picture_file            = "picturelist.json"
 
 
 ################################################################################
@@ -49,7 +51,7 @@ picture_file         = "picturelist.json"
 ################################################################################
 
 # Slová, ktoré sa majú pri preklade preskočiť
-placeholder_words         = ["translate", "check"]
+placeholder_words            = ["translate", "check"]
 
 
 ################################################################################
@@ -59,7 +61,7 @@ placeholder_words         = ["translate", "check"]
 ################################################################################
 
 # Index triedy, ktorá sa automaticky vyberie po spustení
-class_index         = 0
+class_index            = 0
 
 # ID aktuálne vybraného balíka
 
@@ -71,13 +73,19 @@ class_index         = 0
 ################################################################################
 
 # Automatický preklad neznámych slov
-auto_translate = true
+auto_translate            = true
 
-# DeepL API kľúč
-deepl_api_key = ""
+# Azure Translator. Kľúč je bezpečnejšie uložiť do premennej
+# prostredia AZURE_TRANSLATOR_KEY.
+azure_translator_key = "A9dtovmv7OGZpmaTB12OmmEeKQFXo60u9nHxPmRY2Rg7cvYweyk5JQQJ99CIACi5YpzXJ3w3AAAbACOGc8ET"
+azure_translator_region = "northeurope"
 
-# Cieľový jazyk automatického prekladu
+# Jazyková dvojica pre automatický preklad
+translation_primary_language = "en"
 translation_target_language = "sk"
+
+# auto = obojsmerne podľa úlohy/detekcie; en alebo sk = pevný zdrojový jazyk
+translation_source_language = "auto"
 
 # Súbor s cache prekladov
 translation_cache_file = "translation_cache.json"
@@ -90,16 +98,16 @@ translation_cache_file = "translation_cache.json"
 ################################################################################
 
 # Spustiť prehliadač bez jeho zobrazenia
-headless         = false
+headless            = false
 
 # Aktivovať Double Points
-double_points         = true
+double_points            = true
 
 # Počet WocaPoints, ktoré má bot získať pred zastavením
 addon_points = 1000
 
 # Posledný zapamätaný počet WocaPoints
-last_points             = 7028
+last_points                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       = 7588
 
 
 ################################################################################
@@ -108,9 +116,9 @@ last_points             = 7028
 #
 ################################################################################
 
-# WocaBee používateľské meno a heslo
-username         = ""
-password         = ""
+# Wocabee používateľské meno a heslo
+username            = "apolak62"
+password            = "V1oletN3bulaW4rden"
 
 
 ################################################################################
@@ -140,6 +148,6 @@ auto_report = false
 ################################################################################
 
 # Ak NTFY nepoužívaš, nechaj hodnoty prázdne
-ntfy_server         = ""
-ntfy_topic         = ""
-ntfy_token         = ""
+ntfy_server            = ""
+ntfy_topic            = ""
+ntfy_token            = ""

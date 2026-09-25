@@ -5,7 +5,12 @@ import sys
 import random
 import subprocess
 import json
+import hashlib
 import re
+import ctypes
+import socket
+import urllib.error
+import urllib.request
 import toml
 from datetime import datetime
 from pathlib import Path
@@ -18,6 +23,8 @@ from PySide6.QtCore import (
     QProcessEnvironment,
     QRectF,
     QEvent,
+    QLockFile,
+    QDir,
 )
 from PySide6.QtGui import QColor, QPainter, QPen, QPixmap, QTextCursor
 from PySide6.QtWidgets import (
@@ -49,6 +56,193 @@ THEMES = {
     "plum": ("Slivka", "#1a1323", "#2b2038", "#493750", "#d8b6ff"),
     "forest": ("Les", "#101c19", "#1b2d27", "#304c40", "#a6dfbf"),
 }
+
+
+def parse_sleep_timeout(powercfg_output, on_battery=False):
+    """Extract the active AC/DC sleep timeout from powercfg output."""
+    output = str(powercfg_output)
+    values = re.findall(
+        r"Current\s+(AC|DC)\s+Power\s+Setting\s+Index\s*:\s*0x([0-9a-fA-F]+)",
+        output,
+        re.IGNORECASE,
+    )
+    settings = {kind.upper(): int(value, 16) for kind, value in values}
+    selected = settings.get("DC" if on_battery else "AC")
+    if selected is not None:
+        return selected
+
+    # Labels are localized on some Windows installations.  In a query limited
+    # to STANDBYIDLE, the last two hexadecimal values are always AC and DC.
+    all_values = re.findall(r"0x([0-9a-fA-F]+)", output)
+    if len(all_values) >= 2:
+        return int(all_values[-1 if on_battery else -2], 16)
+    return None
+
+
+def is_running_on_battery():
+    if sys.platform != "win32":
+        return False
+
+    class SystemPowerStatus(ctypes.Structure):
+        _fields_ = [
+            ("ACLineStatus", ctypes.c_ubyte),
+            ("BatteryFlag", ctypes.c_ubyte),
+            ("BatteryLifePercent", ctypes.c_ubyte),
+            ("SystemStatusFlag", ctypes.c_ubyte),
+            ("BatteryLifeTime", ctypes.c_ulong),
+            ("BatteryFullLifeTime", ctypes.c_ulong),
+        ]
+
+    status = SystemPowerStatus()
+    try:
+        if ctypes.windll.kernel32.GetSystemPowerStatus(ctypes.byref(status)):
+            return status.ACLineStatus == 0
+    except (AttributeError, OSError):
+        pass
+    return False
+
+
+def get_power_timeout_seconds(subgroup, setting):
+    """Read one timeout from the current Windows power plan; zero means Never."""
+    if sys.platform != "win32":
+        return 0
+    try:
+        completed = subprocess.run(
+            ["powercfg", "/query", "SCHEME_CURRENT", subgroup, setting],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+        if completed.returncode != 0:
+            return 0
+        return parse_sleep_timeout(completed.stdout, is_running_on_battery()) or 0
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return 0
+
+
+def get_sleep_timeout_seconds():
+    return get_power_timeout_seconds("SUB_SLEEP", "STANDBYIDLE")
+
+
+def get_display_timeout_seconds():
+    return get_power_timeout_seconds("SUB_VIDEO", "VIDEOIDLE")
+
+
+def format_sleep_timeout(seconds):
+    minutes = max(1, (int(seconds) + 59) // 60)
+    if minutes < 60:
+        return f"Šetrič energie uspí počítač po {minutes} minútach"
+    hours, remaining = divmod(minutes, 60)
+    if remaining:
+        return f"Šetrič energie uspí počítač po {hours} h {remaining} min"
+    return f"Šetrič energie uspí počítač po {hours} h"
+
+
+def format_display_timeout(seconds):
+    minutes = max(1, (int(seconds) + 59) // 60)
+    if minutes < 60:
+        return f"Šetrič energie vypne obrazovku po {minutes} minútach"
+    hours, remaining = divmod(minutes, 60)
+    if remaining:
+        return f"Šetrič energie vypne obrazovku po {hours} h {remaining} min"
+    return f"Šetrič energie vypne obrazovku po {hours} h"
+
+
+def get_debug_port(value):
+    match = re.search(r"(\d{1,5})\s*$", str(value or "9222"))
+    port = int(match.group(1)) if match else 9222
+    return port if 1 <= port <= 65535 else 9222
+
+
+def port_is_busy(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+        probe.settimeout(0.3)
+        return probe.connect_ex(("127.0.0.1", int(port))) == 0
+
+
+def terminate_processes_on_port(port):
+    """Terminate every Windows process listening on the requested local port."""
+    if sys.platform != "win32" or not port_is_busy(port):
+        return True, []
+    script = (
+        f"$ids = Get-NetTCPConnection -LocalPort {int(port)} -State Listen "
+        "-ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique; "
+        "$ids | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }; "
+        "$ids"
+    )
+    try:
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+        pids = [int(line) for line in result.stdout.splitlines() if line.strip().isdigit()]
+        return not port_is_busy(port), pids
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return False, []
+
+
+def check_start_services(config):
+    """Return blocking startup diagnostics as (severity, message, target)."""
+    diagnostics = []
+    try:
+        with urllib.request.urlopen(
+            "http://www.msftconnecttest.com/connecttest.txt", timeout=4
+        ) as response:
+            if response.status >= 400:
+                raise OSError("connectivity check failed")
+    except (OSError, urllib.error.URLError, urllib.error.HTTPError):
+        return [("CHYBA", "Internetové pripojenie nie je dostupné", "network")]
+
+    urlbase = str(config.get("urlbase") or "https://wocabee.app/app").strip()
+    if not urlbase.startswith(("http://", "https://")):
+        urlbase = "https://" + urlbase
+    try:
+        request = urllib.request.Request(urlbase, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(request, timeout=6) as response:
+            if response.status >= 400:
+                raise urllib.error.HTTPError(urlbase, response.status, "", {}, None)
+    except (OSError, urllib.error.URLError, urllib.error.HTTPError):
+        diagnostics.append(("CHYBA", "WocaBee je nedostupné alebo stránka vracia chybu", "network"))
+        return diagnostics
+
+    if bool(config.get("auto_translate", True)):
+        key = str(config.get("azure_translator_key") or "").strip()
+        region = str(config.get("azure_translator_region") or "northeurope").strip()
+        if not key:
+            diagnostics.append(("CHYBA", "AutoTranslate nemá nastavený Azure API kľúč", "azure"))
+        else:
+            endpoint = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=sk"
+            headers = {
+                "Ocp-Apim-Subscription-Key": key,
+                "Content-Type": "application/json",
+            }
+            if region and region.casefold() != "global":
+                headers["Ocp-Apim-Subscription-Region"] = region
+            request = urllib.request.Request(
+                endpoint,
+                data=json.dumps([{"text": "connection test"}]).encode("utf-8"),
+                headers=headers,
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(request, timeout=8) as response:
+                    if response.status != 200:
+                        raise urllib.error.HTTPError(endpoint, response.status, "", {}, None)
+            except urllib.error.HTTPError as error:
+                if error.code in (401, 403):
+                    message = "AutoTranslate nefunguje: neplatný kľúč alebo región Azure"
+                elif error.code == 429:
+                    message = "AutoTranslate nefunguje: Azure API limit je vyčerpaný"
+                else:
+                    message = f"AutoTranslate nefunguje: Azure API vrátilo HTTP {error.code}"
+                diagnostics.append(("CHYBA", message, "azure"))
+            except (OSError, urllib.error.URLError):
+                diagnostics.append(("CHYBA", "AutoTranslate sa nevie pripojiť k Azure API", "azure"))
+    return diagnostics
 
 
 class SaveOnCloseDialog(QDialog):
@@ -102,7 +296,6 @@ class ThemePreview(QPushButton):
         self.setMinimumWidth(115)
         self.setCursor(Qt.PointingHandCursor)
         self.setAccessibleName("Téma " + THEMES[key][0])
-        self.setToolTip(THEMES[key][0])
 
     def paintEvent(self, event):
         name, bg, surface, border, accent = THEMES[self.key]
@@ -219,6 +412,8 @@ class WocaFuckOff(QMainWindow):
         self.packages_dialog = None
         self.packages_content = None
         self.packages_status = None
+        self.runtime_diagnostics = []
+        self.last_runtime_error = ""
         self.event_log = []
         try:
             self.get_events_path().write_text("", encoding="utf-8")
@@ -238,7 +433,12 @@ class WocaFuckOff(QMainWindow):
         except (OSError, ValueError):
             saved_theme = "graphite"
         self.theme = saved_theme if saved_theme in THEMES else "graphite"
+        self.restore_packages()
         self.build_boot_screen()
+        self.power_status_timer = QTimer(self)
+        self.power_status_timer.setInterval(2000)
+        self.power_status_timer.timeout.connect(self.refresh_readiness)
+        self.power_status_timer.start()
 
     # CESTY
     def get_base_path(self):
@@ -282,6 +482,7 @@ class WocaFuckOff(QMainWindow):
         boot_layout.addWidget(self.progress)
         boot_layout.addStretch()
         self.apply_boot_styles()
+        self.add_grain(self.boot_widget)
         self.boot_opacity = QGraphicsOpacityEffect()
         self.boot_widget.setGraphicsEffect(self.boot_opacity)
         self.boot_opacity.setOpacity(0)
@@ -588,12 +789,12 @@ class WocaFuckOff(QMainWindow):
         try:
             config = toml.load(self.get_config_path())
         except (OSError, ValueError):
-            return [("Nastavenia účtu sa nedajú načítať", "settings")]
+            return [("CHYBA", "Nastavenia účtu sa nedajú načítať", "settings")]
         issues = []
         if not str(config.get("username") or "").strip():
-            issues.append(("Chýba prihlasovacie meno", "username"))
+            issues.append(("CHYBA", "Chýba prihlasovacie meno", "username"))
         if not str(config.get("password") or "").strip():
-            issues.append(("Chýba heslo k účtu", "password"))
+            issues.append(("CHYBA", "Chýba heslo k účtu", "password"))
         saved_id = str(config.get("selected_package_id") or "").strip()
         if not (
             saved_id
@@ -603,12 +804,27 @@ class WocaFuckOff(QMainWindow):
                 for package in self.packages
             )
         ):
-            issues.append(("Nie je vybraný balík", "packages"))
+            issues.append(("CHYBA", "Nie je vybraný balík", "packages"))
+        if is_running_on_battery():
+            issues.append(
+                (
+                    "VAROVANIE",
+                    "Počítač je napájaný z batérie. Pri vybití alebo uspatí sa môže automatizácia ukončiť bez uloženia.",
+                    None,
+                )
+            )
+        display_timeout = get_display_timeout_seconds()
+        if display_timeout > 0:
+            issues.append(("INFO", format_display_timeout(display_timeout), "power"))
+        sleep_timeout = get_sleep_timeout_seconds()
+        if sleep_timeout > 0:
+            issues.append(("INFO", format_sleep_timeout(sleep_timeout), "power"))
+        issues.extend(self.runtime_diagnostics)
         return issues
 
     def readiness_issue(self):
         issues = self.readiness_issues()
-        return issues[0] if issues else None
+        return next((issue for issue in issues if issue[0] == "CHYBA"), None)
 
     def refresh_readiness(self):
         if self.management_stopping or (
@@ -617,23 +833,53 @@ class WocaFuckOff(QMainWindow):
         ):
             return
         warnings = []
-        for message, target in self.readiness_issues():
-            action = "Vybrať balík" if target == "packages" else "Otvoriť nastavenia"
-            warnings.append(
-                f'<span style="color:#f0b65a">●  {message}</span> '
-                f'<a href="{target}" style="color:#f0b65a">{action} →</a>'
-            )
+        colors = {"INFO": "#67c587", "VAROVANIE": "#f0b65a", "CHYBA": "#ef6b73"}
+        for severity, message, target in self.readiness_issues():
+            if target == "packages":
+                action = "Vybrať balík"
+            elif target == "power":
+                action = "Otvoriť napájanie"
+            elif target == "azure":
+                action = "Otvoriť Azure nastavenia"
+            elif target == "network":
+                action = "Skontrolovať pripojenie"
+            else:
+                action = "Otvoriť nastavenia"
+            color = colors[severity]
+            warning = f'<span style="color:{color}">●  {message}</span>'
+            if target:
+                warning += f' <a href="{target}" style="color:{color}">{action} →</a>'
+            warnings.append(warning)
         self.status_label.setText(
             "<br>".join(warnings) if warnings else "●  Pripravené"
         )
 
     def open_readiness_fix(self, target):
-        targets = {issue[1] for issue in self.readiness_issues()}
+        targets = {issue[2] for issue in self.readiness_issues() if issue[2]}
         if target not in targets:
             self.refresh_readiness()
             return
         if target == "packages":
             self.show_packages()
+        elif target == "power":
+            try:
+                subprocess.Popen(
+                    [
+                        "control.exe",
+                        "/name",
+                        "Microsoft.PowerOptions",
+                        "/page",
+                        "pagePlanSettings",
+                    ],
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                )
+            except OSError as error:
+                self.add_event(f"CHYBA: Nastavenia napájania sa nedajú otvoriť: {error}")
+        elif target == "network":
+            self.runtime_diagnostics = []
+            self.refresh_readiness()
+        elif target == "azure":
+            self.show_settings()
         else:
             self.show_settings(target)
         self.refresh_readiness()
@@ -650,12 +896,17 @@ class WocaFuckOff(QMainWindow):
                 return
             config = toml.load(config_path)
             username = str(config.get("username", "")).strip()
-            if username:
+            password = str(config.get("password", "")).strip()
+            if username and password:
                 self.account_name = username
                 self.account_label.setText(f"●  {username} · Pripojený")
             else:
                 self.account_name = "—"
                 self.account_label.setText("●  Nepripojený")
+                self.points_value = None
+                self.points_label.setText("—")
+                self.clear_last_points()
+                return
             last_points = config.get("last_points", None)
             try:
                 if last_points is not None:
@@ -679,6 +930,21 @@ class WocaFuckOff(QMainWindow):
             self.refresh_readiness()
 
     # ULOŽENIE WOCAPOINTS
+    def clear_last_points(self):
+        try:
+            config_path = self.get_config_path()
+            if not config_path.exists():
+                return
+            lines = config_path.read_text(encoding="utf-8").splitlines()
+            lines = [
+                line
+                for line in lines
+                if not re.match(r"^\s*last_points\s*=", line)
+            ]
+            config_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        except OSError as error:
+            self.add_event(f"CHYBA: WocaPoints sa nepodarilo vymazať: {error}")
+
     def save_last_points(self, points):
         try:
             config_path = self.get_config_path()
@@ -757,6 +1023,46 @@ class WocaFuckOff(QMainWindow):
         self.events_dialog = None
         self.events_text = None
 
+    def package_context_key(self, context):
+        return hashlib.sha256(json.dumps(context, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+    def restore_packages(self):
+        try:
+            config = toml.load(self.get_config_path())
+            self.selected_package_id = str(config.get("selected_package_id") or "").strip()
+            context = self.package_context()
+            if config.get("packages_cache_key") != self.package_context_key(context):
+                return
+            packages = json.loads(config.get("packages_cache", "[]"))
+            if not isinstance(packages, list) or not all(isinstance(p, dict) for p in packages):
+                return
+            self.packages = packages
+            self.packages_loaded = True
+            self.packages_cache_context = context
+        except (OSError, ValueError, TypeError):
+            pass
+
+    def save_packages_cache(self):
+        try:
+            path = self.get_config_path()
+            values = {
+                "packages_cache_key": self.package_context_key(self.packages_cache_context),
+                "packages_cache": json.dumps(self.packages, ensure_ascii=False),
+            }
+            lines = path.read_text(encoding="utf-8").splitlines()
+            root = True
+            result = []
+            for line in lines:
+                if line.lstrip().startswith("["):
+                    root = False
+                if root and line.split("=", 1)[0].strip() in values:
+                    continue
+                result.append(line)
+            entries = [f"{key} = {json.dumps(value, ensure_ascii=False)}" for key, value in values.items()]
+            path.write_text("\n".join(entries + result) + "\n", encoding="utf-8")
+        except (OSError, ValueError, TypeError) as error:
+            self.add_event(f"Zoznam balíkov sa nepodarilo uložiť: {error}")
+
     def package_context(self):
         try:
             config = toml.load(self.get_config_path())
@@ -782,13 +1088,13 @@ class WocaFuckOff(QMainWindow):
                 self,
                 "Balíčky",
                 "Najprv zastav aktuálny management.\n\n"
-                "Balíčky používajú samostatné pripojenie k WocaBee.",
+                "Balíčky používajú samostatné pripojenie k Wocabee.",
             )
             return
         issue = self.readiness_issue()
-        if issue and issue[1] != "packages":
+        if issue and issue[2] != "packages":
             self.refresh_readiness()
-            self.open_readiness_fix(issue[1])
+            self.open_readiness_fix(issue[2])
             return
         dialog = QDialog(self)
         self.packages_dialog = dialog
@@ -801,7 +1107,7 @@ class WocaFuckOff(QMainWindow):
         title = QLabel("Balíčky")
         title.setObjectName("packagesTitle")
         title.setAlignment(Qt.AlignCenter)
-        subtitle = QLabel("Aktuálne balíčky z WocaBee")
+        subtitle = QLabel("Aktuálne balíčky z Wocabee")
         subtitle.setObjectName("packagesSubtitle")
         subtitle.setAlignment(Qt.AlignCenter)
         self.packages_status = subtitle
@@ -988,7 +1294,7 @@ class WocaFuckOff(QMainWindow):
             return
         self.clear_packages_view()
         if self.packages_status is not None:
-            self.packages_status.setText("Načítavam aktuálne balíčky z WocaBee...")
+            self.packages_status.setText("Načítavam aktuálne balíčky z Wocabee...")
         self.packages_request_context = self.package_context()
         self.packages = []
         self.packages_loaded = False
@@ -1037,6 +1343,7 @@ class WocaFuckOff(QMainWindow):
         self.packages = packages
         self.packages_loaded = True
         self.packages_cache_context = getattr(self, "packages_request_context", self.package_context())
+        self.save_packages_cache()
         self.packages_json_buffer = ""
         self.packages_waiting_for_json = False
         self.add_event(f"Úspešne načítaných balíkov: {len(packages)}")
@@ -1324,10 +1631,41 @@ class WocaFuckOff(QMainWindow):
         ):
             self.status_label.setText("●  Počkaj na dokončenie načítavania balíkov")
             return
+        self.runtime_diagnostics = []
         issue = self.readiness_issue()
         if issue:
             self.refresh_readiness()
-            self.open_readiness_fix(issue[1])
+            self.open_readiness_fix(issue[2])
+            return
+        try:
+            config = toml.load(self.get_config_path())
+        except (OSError, ValueError):
+            self.runtime_diagnostics = [("CHYBA", "Nastavenia sa nedajú načítať", "settings")]
+            self.refresh_readiness()
+            return
+
+        port = get_debug_port(config.get("debug_port", "9222"))
+        if port_is_busy(port):
+            released, pids = terminate_processes_on_port(port)
+            if released:
+                pid_text = ", ".join(map(str, pids)) if pids else "neznámy"
+                message = f"Port {port} bol obsadený; procesy PID {pid_text} boli ukončené"
+                self.runtime_diagnostics.append(("VAROVANIE", message, "network"))
+                self.add_event(f"VAROVANIE: {message}")
+            else:
+                self.runtime_diagnostics.append(
+                    ("CHYBA", f"Port {port} je obsadený a proces sa nepodarilo ukončiť", "network")
+                )
+
+        if not any(item[0] == "CHYBA" for item in self.runtime_diagnostics):
+            self.status_label.setText("●  Kontrolujem internet, Wocabee a AutoTranslate...")
+            QApplication.processEvents()
+            self.runtime_diagnostics.extend(check_start_services(config))
+        issue = self.readiness_issue()
+        if issue:
+            for severity, message, _target in self.runtime_diagnostics:
+                self.add_event(f"{severity}: {message}")
+            self.refresh_readiness()
             return
         self.refresh_readiness()
         base_path = self.get_base_path()
@@ -1344,6 +1682,7 @@ class WocaFuckOff(QMainWindow):
             return
         self.management_stopping = False
         self.management_output_buffer = ""
+        self.last_runtime_error = ""
         self.start_button.setEnabled(True)
         self.start_button.setText("■   ZASTAVIŤ")
         self.status_label.setText("●  Spúšťam management...")
@@ -1481,7 +1820,11 @@ class WocaFuckOff(QMainWindow):
     # AKTUALIZÁCIA STAVU
     def update_management_status(self, line):
         text = line.lower()
-        if "attached to tab" in text or "opened new browser" in text:
+        marked_error = re.search(r"CHYBA\[[^]]+\]:\s*(.+)", line, re.IGNORECASE)
+        if marked_error:
+            self.last_runtime_error = marked_error.group(1).strip()
+            self.status_label.setText(f"●  CHYBA: {self.last_runtime_error}")
+        elif "attached to tab" in text or "opened new browser" in text:
             self.status_label.setText("●  Prehliadač pripojený")
         elif "clicking class" in text:
             self.status_label.setText("●  Vyberám triedu...")
@@ -1495,8 +1838,11 @@ class WocaFuckOff(QMainWindow):
             or "answered:" in text
             or "question:" in text
             or "auto-learned:" in text
+            or "riešič je pripravený" in text
+            or "wocapoints:" in text
+            or "automatický preklad cez azure translator je aktivovaný" in text
         ):
-            self.status_label.setText("●  Solver pracuje...")
+            self.status_label.setText("●  Automatizácia je aktívna")
         elif "bot has stopped" in text or "bot finished" in text:
             self.status_label.setText("●  Dokončené")
 
@@ -1559,8 +1905,10 @@ class WocaFuckOff(QMainWindow):
             return
         if exit_code == 0:
             self.status_label.setText("●  Dokončené")
+        elif self.last_runtime_error:
+            self.status_label.setText(f"●  CHYBA: {self.last_runtime_error}")
         else:
-            self.status_label.setText("●  Skončilo s chybou")
+            self.status_label.setText("●  CHYBA: Proces skončil s chybou")
         self.management_process = None
         self.start_button.setText("▶   SPUSTIŤ ZNOVA")
         self.start_button.setEnabled(True)
@@ -1765,30 +2113,57 @@ class WocaFuckOff(QMainWindow):
             return card, layout
 
         def make_label(text, hint=None):
-            holder = QWidget()
-            holder_layout = QVBoxLayout(holder)
-            holder_layout.setContentsMargins(0, 0, 0, 0)
-            holder_layout.setSpacing(1)
             label = QLabel(text)
             label.setObjectName("fieldLabel")
-            holder_layout.addWidget(label)
+            label.setFixedWidth(160)
+            label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
             if hint:
-                small = QLabel(hint)
-                small.setObjectName("fieldHint")
-                small.setWordWrap(True)
-                holder_layout.addWidget(small)
-            return holder
+                label.setToolTip(hint)
+            return label
+
+        class SettingsForm(QGridLayout):
+            def __init__(self):
+                super().__init__()
+                self.setContentsMargins(0, 6, 0, 0)
+                self.setHorizontalSpacing(16)
+                self.setVerticalSpacing(12)
+                self.setColumnMinimumWidth(0, 160)
+                self.setColumnStretch(1, 1)
+
+            def addRow(self, label, field):
+                row = self.rowCount()
+                label.setBuddy(field)
+                field.setAccessibleName(label.text())
+                if label.toolTip() and not field.toolTip():
+                    field.setToolTip(label.toolTip())
+                self.addWidget(label, row, 0, Qt.AlignVCenter)
+                self.addWidget(field, row, 1)
 
         def make_line(value="", password=False, placeholder=""):
             widget = QLineEdit()
             widget.setText(str(value))
-            widget.setMinimumHeight(34)
+            widget.setFixedHeight(42)
             if placeholder:
                 widget.setPlaceholderText(placeholder)
             if password:
                 widget.setEchoMode(QLineEdit.Password)
             return widget
 
+        fields = {}
+        card, card_layout = make_card(
+            "Prihlásenie", "Prihlasovacie údaje pre automatické prihlásenie."
+        )
+        form = SettingsForm()
+        fields["username"] = make_line(
+            config.get("username", ""), placeholder="Prihlasovacie meno"
+        )
+        fields["password"] = make_line(
+            config.get("password", ""), password=True, placeholder="••••••••"
+        )
+        form.addRow(make_label("Prihlasovacie meno"), fields["username"])
+        form.addRow(make_label("Heslo"), fields["password"])
+        card_layout.addLayout(form)
+        content_layout.addWidget(card)
         card, card_layout = make_card(
             "Vzhľad", "Vyber tému. Zmena sa prejaví hneď a automaticky sa uloží."
         )
@@ -1804,30 +2179,20 @@ class WocaFuckOff(QMainWindow):
             previews.addWidget(preview)
         card_layout.addLayout(previews)
         content_layout.addWidget(card)
-        fields = {}
         card, card_layout = make_card("Automatizácia", "Základné nastavenia spustenia.")
-        fields["headless"] = QCheckBox("Spustiť bez zobrazenia prehliadača")
-        fields["headless"].setChecked(bool(config.get("headless", False)))
-        fields["double_points"] = QCheckBox("Používať double points")
+        fields["show_browser"] = QCheckBox()
+        fields["show_browser"].setChecked(not bool(config.get("headless", False)))
+        fields["double_points"] = QCheckBox()
         fields["double_points"].setChecked(bool(config.get("double_points", False)))
-        card_layout.addWidget(fields["headless"])
-        card_layout.addWidget(fields["double_points"])
-        content_layout.addWidget(card)
-        card, card_layout = make_card(
-            "Prihlásenie", "Prihlasovacie údaje pre automatické prihlásenie."
+        fields["auto_translate"] = QCheckBox()
+        fields["auto_translate"].setChecked(bool(config.get("auto_translate", True)))
+        fields["auto_translate"].setToolTip(
+            "Preklad cez Azure Translator vyžaduje API kľúč. Zmena sa použije pri ďalšom spustení riešenia."
         )
-        form = QFormLayout()
-        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        form.setHorizontalSpacing(14)
-        form.setVerticalSpacing(10)
-        fields["username"] = make_line(
-            config.get("username", ""), placeholder="username"
-        )
-        fields["password"] = make_line(
-            config.get("password", ""), password=True, placeholder="••••••••"
-        )
-        form.addRow(make_label("Username"), fields["username"])
-        form.addRow(make_label("Password"), fields["password"])
+        form = SettingsForm()
+        form.addRow(make_label("Zobraziť prehliadač", "Zobraziť okno prehliadača počas riešenia"), fields["show_browser"])
+        form.addRow(make_label("Double Points"), fields["double_points"])
+        form.addRow(make_label("AutoTranslate", "Automatický preklad neznámych slov"), fields["auto_translate"])
         card_layout.addLayout(form)
         content_layout.addWidget(card)
         advanced_button = QPushButton("▶   Pokročilé nastavenia")
@@ -1842,10 +2207,7 @@ class WocaFuckOff(QMainWindow):
         advanced_layout.setSpacing(10)
         advanced_content.setVisible(False)
         card, card_layout = make_card("Wocabee", "Technické nastavenia pripojenia.")
-        form = QFormLayout()
-        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        form.setHorizontalSpacing(14)
-        form.setVerticalSpacing(10)
+        form = SettingsForm()
         fields["urlbase"] = make_line(
             config.get("urlbase", ""), placeholder="https://wocabee.app/app"
         )
@@ -1863,10 +2225,7 @@ class WocaFuckOff(QMainWindow):
         card, card_layout = make_card(
             "Súbory", "Technické dátové súbory používané solverom."
         )
-        form = QFormLayout()
-        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        form.setHorizontalSpacing(14)
-        form.setVerticalSpacing(10)
+        form = SettingsForm()
         fields["wordlist_file"] = make_line(
             config.get("wordlist_file", "wordlist.json"), placeholder="wordlist.json"
         )
@@ -1886,10 +2245,7 @@ class WocaFuckOff(QMainWindow):
         card, card_layout = make_card(
             "Automatizácia", "Technické indexy a pomocné nastavenia."
         )
-        form = QFormLayout()
-        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        form.setHorizontalSpacing(14)
-        form.setVerticalSpacing(10)
+        form = SettingsForm()
         placeholder_config = config.get("placeholder_words", [])
         fields["placeholder_words"] = make_line(
             ", ".join(str(x) for x in placeholder_config)
@@ -1900,7 +2256,7 @@ class WocaFuckOff(QMainWindow):
         fields["class_index"] = NoScrollSpinBox()
         fields["class_index"].setRange(0, 999999)
         fields["class_index"].setValue(int(config.get("class_index", 0)))
-        fields["class_index"].setMinimumHeight(34)
+        fields["class_index"].setFixedHeight(42)
         form.addRow(
             make_label("Ignorované slová", "Oddelené čiarkou"),
             fields["placeholder_words"],
@@ -1909,10 +2265,7 @@ class WocaFuckOff(QMainWindow):
         card_layout.addLayout(form)
         advanced_layout.addWidget(card)
         card, card_layout = make_card("NTFY", "Technická konfigurácia notifikácií.")
-        form = QFormLayout()
-        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        form.setHorizontalSpacing(14)
-        form.setVerticalSpacing(10)
+        form = SettingsForm()
         fields["ntfy_server"] = make_line(
             config.get("ntfy_server", ""), placeholder="https://example.ntfy.server"
         )
@@ -1991,8 +2344,9 @@ class WocaFuckOff(QMainWindow):
                 "picture_file": fields["picture_file"].text().strip(),
                 "placeholder_words": placeholder_words,
                 "class_index": fields["class_index"].value(),
-                "headless": fields["headless"].isChecked(),
+                "headless": not fields["show_browser"].isChecked(),
                 "double_points": fields["double_points"].isChecked(),
+                "auto_translate": fields["auto_translate"].isChecked(),
                 "username": fields["username"].text(),
                 "password": fields["password"].text(),
                 "ntfy_server": fields["ntfy_server"].text().strip(),
@@ -2083,7 +2437,8 @@ class WocaFuckOff(QMainWindow):
                 border: 1px solid #2d2d2d;
                 border-radius: 8px;
                 padding: 5px 8px;
-                min-height: 32px;
+                min-height: 30px;
+                max-height: 30px;
                 selection-background-color: #454545;
                 font-size: 11px;
             }
@@ -2577,6 +2932,15 @@ class WocaFuckOff(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
+    instance_lock = QLockFile(QDir.temp().filePath("wocafuckoff-gui.lock"))
+    instance_lock.setStaleLockTime(5000)
+    if not instance_lock.tryLock(100):
+        QMessageBox.critical(
+            None,
+            "WocaFuckOff – CHYBA",
+            "CHYBA: Aplikácia už beží. Najprv zatvor existujúce okno.",
+        )
+        sys.exit(2)
     window = WocaFuckOff()
     window.show()
     sys.exit(app.exec())

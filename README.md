@@ -1,8 +1,8 @@
 # WocaFuckOff
 
-> **Automatizácia WocaBee. Menej klikania. Viac času.**
+> **Automatizácia Wocabee. Menej klikania. Viac času.**
 
-WocaFuckOff je experimentálny nástroj vytvorený na automatizáciu práce s platformou **WocaBee**.
+WocaFuckOff je experimentálny nástroj vytvorený na automatizáciu práce s platformou **Wocabee**.
 
 Projekt je momentálne **aktívne vo vývoji**. Funkcie, používateľské rozhranie aj vnútorná architektúra sa môžu priebežne meniť.
 
@@ -20,7 +20,7 @@ Aktuálna verzia slúži predovšetkým na:
 * testovanie automatizácie,
 * ladenie solvera,
 * testovanie používateľského rozhrania,
-* overovanie komunikácie s WocaBee,
+* overovanie komunikácie s Wocabee,
 * experimentovanie s ďalšími komponentmi projektu.
 
 **Používanie vývojovej verzie je na vlastné riziko.**
@@ -33,7 +33,7 @@ WocaFuckOff je navrhnutý ako automatizačný nástroj s viacerými komponentmi.
 
 ### Automatizácia
 
-Program je schopný automatizovať vybrané časti práce s WocaBee a pracovať s aktuálnymi údajmi priamo počas behu programu.
+Program je schopný automatizovať vybrané časti práce s Wocabee a pracovať s aktuálnymi údajmi priamo počas behu programu.
 
 ### Solver
 
@@ -134,6 +134,7 @@ Prípadne vo Windows:
 py main.py
 ```
 
+
 ### Dôležité
 
 **`main.py` je aktuálny vstupný bod aplikácie.**
@@ -158,7 +159,7 @@ Počas vývoja môžu byť pridané alebo upravené napríklad:
 * úpravy GUI,
 * lepšie spracovanie chýb,
 * optimalizácia výkonu,
-* stabilnejšia práca s WocaBee,
+* stabilnejšia práca s Wocabee,
 * ďalšie pomocné funkcie.
 
 ---
@@ -183,7 +184,7 @@ Projekt je rozdelený na viacero samostatných komponentov.
           │                       │
           └───────────┬───────────┘
                       ▼
-                  WocaBee
+                  Wocabee
 ```
 
 Takéto rozdelenie umožňuje vyvíjať jednotlivé časti projektu nezávisle od seba a zároveň zachovať prehľadnú štruktúru zdrojového kódu.
@@ -220,7 +221,7 @@ Pri testovaní je potrebné počítať s tým, že:
 
 * aplikácia nemusí vždy správne spracovať neočakávané údaje,
 * experimentálne funkcie môžu obsahovať chyby,
-* zmeny na strane WocaBee môžu ovplyvniť funkčnosť programu,
+* zmeny na strane Wocabee môžu ovplyvniť funkčnosť programu,
 * vývojová verzia nemusí poskytovať rovnakú stabilitu ako budúca release verzia.
 
 Nepoužívajte citlivé údaje v konfiguračných súboroch ani ich nezverejňujte v repozitári.
@@ -243,7 +244,7 @@ Pred použitím, úpravou alebo distribúciou projektu si prečítajte podmienky
 
 WocaFuckOff je **nezávislý komunitný/vývojový projekt**.
 
-Projekt nie je oficiálnym produktom spoločnosti WocaBee ani jej prevádzkovateľa, pokiaľ nie je výslovne uvedené inak.
+Projekt nie je oficiálnym produktom spoločnosti Wocabee ani jej prevádzkovateľa, pokiaľ nie je výslovne uvedené inak.
 
 Názvy a ochranné známky tretích strán patria ich príslušným vlastníkom.
 

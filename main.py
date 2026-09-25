@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox
+from installer import overiť_playwright
 
 # CESTY APLIKÁCIA
 PRIEČINOK_APLIKÁCIE = Path(__file__).resolve().parent
@@ -55,7 +56,10 @@ def je_všetko_pripravené():
     try:
         from PySide6 import QtWidgets
 
-        return QtWidgets.QApplication is not None
+        if QtWidgets.QApplication is None:
+            return False
+        overiť_playwright()
+        return True
     except Exception:
         return False
 
@@ -66,7 +70,8 @@ def spustiť_inštalátor():
         return False, -1
     try:
         výsledok = subprocess.run(
-            [sys.executable, str(INŠTALÁTOR)], cwd=str(PRIEČINOK_APLIKÁCIE), check=False
+            [sys.executable, str(INŠTALÁTOR)], cwd=str(PRIEČINOK_APLIKÁCIE), check=False,
+            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
         )
         return (výsledok.returncode == 0, výsledok.returncode)
     except Exception:
@@ -99,7 +104,10 @@ def spustiť_hlavný_program():
         zobraziť_chybu()
         return
     try:
-        subprocess.Popen([sys.executable, str(GUI)], cwd=str(PRIEČINOK_APLIKÁCIE))
+        subprocess.Popen(
+            [sys.executable, str(GUI)], cwd=str(PRIEČINOK_APLIKÁCIE),
+            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+        )
     except Exception:
         zobraziť_chybu()
 

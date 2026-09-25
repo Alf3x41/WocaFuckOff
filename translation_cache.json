@@ -1,0 +1,14 @@
+{
+  "[\"azure-v2\", \"en\", \"sk\", \"hen\"]": "Sliepka",
+  "[\"azure-v2\", \"sk\", \"en\", \"sliepka\"]": "Hen",
+  "[\"azure-v2\", \"en\", \"sk\", \"turkey\"]": "Turecko",
+  "[\"azure-v2\", \"en\", \"sk\", \"swan\"]": "labuť",
+  "[\"azure-v2\", \"en\", \"sk\", \"bird\"]": "vták",
+  "[\"azure-v2\", \"en\", \"sk\", \"emu\"]": "Emu",
+  "[\"azure-v2\", \"sk\", \"en\", \"emu\"]": "Emu",
+  "[\"azure-v2\", \"en\", \"sk\", \"ostrich\"]": "Pštros",
+  "[\"azure-v2\", \"en\", \"sk\", \"peacock\"]": "páv",
+  "[\"azure-v2\", \"en\", \"sk\", \"goose\"]": "hus",
+  "[\"azure-v2\", \"en\", \"sk\", \"duck\"]": "Kačka",
+  "[\"azure-v2\", \"en\", \"sk\", \"chicken\"]": "Kuracie mäso"
+}

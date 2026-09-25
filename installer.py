@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # IMPORTY
 import ctypes
+import random
 import importlib.util
 import subprocess
 import sys
@@ -12,6 +13,23 @@ import winreg
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox
+
+def overiť_playwright():
+    # Import až po inštalácii Python balíkov.
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as playwright:
+        # Bežný Chromium používa management pri spustení cez CDP.
+        executable = Path(playwright.chromium.executable_path)
+        if not executable.is_file():
+            raise RuntimeError(f"Chromium neexistuje:\n{executable}")
+        # Headless režim používa samostatný binárny súbor. Samotná
+        # kontrola chromium.executable_path jeho dostupnosť neoverí.
+        browser = playwright.chromium.launch(
+            headless=True, timeout=15000, args=["--mute-audio"]
+        )
+        browser.close()
+
 
 # POŽADOVANÉ ZÁVISLOSTI
 POŽADOVANÉ_BALÍKY = {
@@ -25,6 +43,58 @@ VC_REDIST_X64_URL = "https://aka.ms/vc14/vc_redist.x64.exe"
 VC_REDIST_X86_URL = "https://aka.ms/vc14/vc_redist.x86.exe"
 # LOG VISUAL C++
 VC_REDIST_LOG = Path(tempfile.gettempdir()) / "WocaFuckOff_vc_redist.log"
+INSTALL_LOG = Path(tempfile.gettempdir()) / "WocaFuckOff_install.log"
+
+
+def spustiť_inštalačný_príkaz(argumenty):
+    # Výstup ostane dostupný na diagnostiku aj pri spustení cez pythonw.exe.
+    with INSTALL_LOG.open("a", encoding="utf-8") as log:
+        výsledok = subprocess.run(
+            argumenty,
+            stdout=log,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.DEVNULL,
+            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+            check=False,
+        )
+    if výsledok.returncode != 0:
+        raise RuntimeError(
+            f"Inštalačný príkaz zlyhal (kód {výsledok.returncode}).\nLog: {INSTALL_LOG}"
+        )
+
+
+def python_pre_inštaláciu():
+    executable = Path(sys.executable)
+    if executable.name.lower() == "pythonw.exe":
+        return str(executable.with_name("python.exe"))
+    return str(executable)
+
+
+def spustiť_gui():
+    """Spustí GUI po úspešnom dokončení inštalácie."""
+    základ = Path(__file__).resolve().parent
+    gui_path = základ / "gui.py"
+    if not gui_path.is_file():
+        raise RuntimeError(f"GUI sa nenašlo:\n{gui_path}")
+
+    python_gui = Path(sys.executable)
+    if sys.platform == "win32" and python_gui.name.lower() == "python.exe":
+        pythonw = python_gui.with_name("pythonw.exe")
+        if pythonw.is_file():
+            python_gui = pythonw
+
+    subprocess.Popen(
+        [str(python_gui), str(gui_path)],
+        cwd=str(základ),
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        creationflags=(
+            subprocess.CREATE_NEW_PROCESS_GROUP
+            if sys.platform == "win32"
+            else 0
+        ),
+    )
 
 
 # ARCHITEKTÚRA
@@ -135,6 +205,7 @@ def spustiť_ako_správca(cesta, parametre):
         f"-FilePath '{str(cesta).replace("'", "''")}' "
         f"-ArgumentList '{parametre.replace("'", "''")}' "
         "-Verb RunAs "
+        "-WindowStyle Hidden "
         "-Wait "
         "-PassThru; "
         "exit $proces.ExitCode"
@@ -150,6 +221,7 @@ def spustiť_ako_správca(cesta, parametre):
             powershell_príkaz,
         ],
         check=False,
+        creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
     )
     return výsledok.returncode
 
@@ -195,9 +267,9 @@ def nainštalovať_python_balíky():
     počet = len(chýbajúce)
     for index, balík in enumerate(chýbajúce, 1):
         aktualizovať_stav(f"Inštalujem {balík}...")
-        subprocess.check_call(
+        spustiť_inštalačný_príkaz(
             [
-                sys.executable,
+                python_pre_inštaláciu(),
                 "-m",
                 "pip",
                 "install",
@@ -223,11 +295,11 @@ def overiť_pyside6():
 # INŠTALÁCIA PLAYWRIGHT
 def nainštalovať_playwright():
     aktualizovať_stav("Pripravujem Playwright...")
-    výsledok = subprocess.run(
-        [sys.executable, "-m", "playwright", "install"], check=False
+    spustiť_inštalačný_príkaz(
+        [python_pre_inštaláciu(), "-m", "playwright", "install", "chromium"]
     )
-    if výsledok.returncode != 0:
-        raise RuntimeError("Playwright sa nepodarilo pripraviť.")
+    aktualizovať_stav("Overujem spustenie Chromium...")
+    overiť_playwright()
     aktualizovať_priebeh(100)
 
 
@@ -270,101 +342,75 @@ def zobraziť_chybu(chyba):
     okno.destroy()
 
 
+class TextNaPlatne:
+    """Text nad šumom s rovnakým rozhraním config ako pôvodný Label."""
+
+    def __init__(self, platno, x, y, **options):
+        self.platno = platno
+        self.item = platno.create_text(x, y, **options)
+
+    def config(self, **options):
+        self.platno.itemconfigure(self.item, **options)
+
+
+def vytvoriť_okno():
+    global okno, stav_label, priebeh, detail_label
+    okno = tk.Tk()
+    okno.title("WocaFuckOff – Príprava")
+    okno.prázdna_ikona = tk.PhotoImage(width=16, height=16)
+    okno.iconphoto(True, okno.prázdna_ikona)
+    okno.resizable(False, False)
+    šírka, výška = 560, 350
+    x = (okno.winfo_screenwidth() - šírka) // 2
+    y = (okno.winfo_screenheight() - výška) // 2
+    okno.geometry(f"{šírka}x{výška}+{x}+{y}")
+    platno = tk.Canvas(okno, width=šírka, height=výška, highlightthickness=0, bg="#111318")
+    platno.pack(fill="both", expand=True)
+    # Textúra nevyžaduje Pillow ani ďalšiu inštalovanú knižnicu.
+    rng = random.Random(42)
+    dlaždica = [rng.randrange(0, 8) for _ in range(64 * 64)]
+    pixely = bytearray()
+    for y in range(výška):
+        for x in range(šírka):
+            alfa = dlaždica[(y % 64) * 64 + x % 64]
+            pixely.extend(round(základ + (255 - základ) * alfa / 255) for základ in (17, 19, 24))
+    data = f"P6\n{šírka} {výška}\n255\n".encode("ascii") + bytes(pixely)
+    platno.textura = tk.PhotoImage(data=data, format="PPM")
+    platno.create_image(0, 0, image=platno.textura, anchor="nw")
+    platno.create_text(280, 58, text="WocaFuckOff", fill="#e0e6ef", font=("Segoe UI", 28, "bold"))
+    platno.create_text(280, 96, text="Pripravujem aplikáciu na prvé spustenie", fill="#999999", font=("Segoe UI", 11))
+    stav_label = TextNaPlatne(platno, 280, 156, text="Kontrolujem systémové súčasti...", fill="#cccccc", font=("Segoe UI", 10), width=480)
+    štýl = ttk.Style()
+    štýl.theme_use("clam")
+    štýl.configure(
+        "Woca.Horizontal.TProgressbar", troughcolor="#1d2129", background="#e0e6ef",
+        bordercolor="#303743", lightcolor="#e0e6ef", darkcolor="#e0e6ef",
+    )
+    priebeh = ttk.Progressbar(platno, style="Woca.Horizontal.TProgressbar", orient="horizontal", length=420, mode="determinate", maximum=100)
+    platno.create_window(280, 190, window=priebeh, width=420, height=8)
+    platno.create_text(
+        280, 230,
+        text="Inštalácia závislostí môže trvať niekoľko minút.\nPriebeh sa počas niektorých krokov nemusí meniť.\nPočkajte, prosím, na dokončenie a nezatvárajte toto okno.",
+        fill="#a0a8b5", font=("Segoe UI", 9), width=480, justify="center",
+    )
+    detail_label = TextNaPlatne(platno, 280, 284, text="", fill="#999999", font=("Segoe UI", 8), width=460)
+    platno.create_text(530, 326, anchor="e", text="© 2026 Alex Polák. Všetky práva vyhradené.", fill="#777777", font=("Segoe UI", 8))
+
+
 # HLAVNÉ OKNO INŠTALÁTORA
-okno = tk.Tk()
-okno.title("WocaFuckOff – Príprava")
-okno.geometry("560x310")
-okno.resizable(False, False)
-okno.configure(bg="#101010")
-# VYROVNANIE OKNA
-okno.update_idletasks()
-šírka = 560
-výška = 310
-obrazovka_šírka = okno.winfo_screenwidth()
-obrazovka_výška = okno.winfo_screenheight()
-x = (obrazovka_šírka - šírka) // 2
-y = (obrazovka_výška - výška) // 2
-okno.geometry(f"{šírka}x{výška}+{x}+{y}")
-# HLAVNÝ KONTAJNER
-hlavný_rám = tk.Frame(okno, bg="#101010")
-hlavný_rám.pack(fill="both", expand=True, padx=40, pady=28)
-# NADPIS
-nadpis = tk.Label(
-    hlavný_rám,
-    text="WocaFuckOff",
-    fg="#ffffff",
-    bg="#101010",
-    font=("Segoe UI", 28, "bold"),
-)
-nadpis.pack()
-# PODNADPIS
-podnadpis = tk.Label(
-    hlavný_rám,
-    text="Pripravujem aplikáciu na prvé spustenie",
-    fg="#777777",
-    bg="#101010",
-    font=("Segoe UI", 11),
-)
-podnadpis.pack(pady=(2, 0))
-# MEDZERA
-tk.Frame(hlavný_rám, height=32, bg="#101010").pack()
-# STAV
-stav_label = tk.Label(
-    hlavný_rám,
-    text="Kontrolujem systémové súčasti...",
-    fg="#aaaaaa",
-    bg="#101010",
-    font=("Segoe UI", 10),
-)
-stav_label.pack()
-# PROGRESS BAR
-štýl = ttk.Style()
-štýl.theme_use("clam")
-štýl.configure(
-    "Woca.Horizontal.TProgressbar",
-    troughcolor="#1c1c1c",
-    background="#ffffff",
-    bordercolor="#1c1c1c",
-    lightcolor="#ffffff",
-    darkcolor="#ffffff",
-)
-priebeh = ttk.Progressbar(
-    hlavný_rám,
-    style="Woca.Horizontal.TProgressbar",
-    orient="horizontal",
-    length=420,
-    mode="determinate",
-    maximum=100,
-)
-priebeh.pack(pady=(12, 0))
-# DETAIL CHYBY
-detail_label = tk.Label(
-    hlavný_rám,
-    text="",
-    fg="#555555",
-    bg="#101010",
-    font=("Segoe UI", 8),
-    wraplength=460,
-)
-detail_label.pack(pady=(10, 0))
-# SPODNÁ ČASŤ
-spodok = tk.Frame(hlavný_rám, bg="#101010")
-spodok.pack(side="bottom", fill="x")
-# COPYRIGHT
-copyright_label = tk.Label(
-    spodok,
-    text="© 2026 Alex Polák. Všetky práva vyhradené.",
-    fg="#555555",
-    bg="#101010",
-    font=("Segoe UI", 8),
-)
-copyright_label.pack(side="right")
-# VÝCHODISKOVÝ EXIT CODE
-EXIT_CODE = 1
-# SPUSTENIE INŠTALÁCIE
-vlákno = threading.Thread(target=nainštalovať, daemon=True)
-vlákno.start()
-# SPUSTENIE OKNA
-okno.mainloop()
-# UKONČENIE PROGRAMU
-sys.exit(EXIT_CODE)
+if __name__ == "__main__":
+    vytvoriť_okno()
+    EXIT_CODE = 1
+    vlákno = threading.Thread(target=nainštalovať, daemon=True)
+    vlákno.start()
+    okno.mainloop()
+    if EXIT_CODE == 0:
+        try:
+            spustiť_gui()
+        except Exception as chyba:
+            EXIT_CODE = 1
+            messagebox.showerror(
+                "WocaFuckOff – Chyba",
+                f"Inštalácia bola dokončená, ale GUI sa nepodarilo spustiť:\n\n{chyba}",
+            )
+    sys.exit(EXIT_CODE)

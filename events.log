@@ -1,259 +1,1806 @@
-[ 17:19:39 ]  Aplikácia spustená
-[ 17:20:15 ]  Načítavam balíčky cez management.py --packages | Headless
-[ 17:20:15 ]  ============================================================
-[ 17:20:15 ]  WocaFuckOff™ PACKAGES
-[ 17:20:15 ]  ============================================================
-[ 17:20:15 ]  Načítavam config.toml...
-[ 17:20:15 ]  URL: https://wocabee.app/app
-[ 17:20:15 ]  Headless: True
-[ 17:20:15 ]  Class index: 0
-[ 17:20:15 ]  Spúšťam Playwright...
-[ 17:20:16 ]  Playwright pripravený.
-[ 17:20:16 ]  Spúšťam samostatný prehliadač pre načítanie balíkov...
-[ 17:20:16 ]  Otváram WocaBee...
-[ 17:20:16 ]  Aktuálna URL: https://wocabee.app/app/
-[ 17:20:16 ]  === PRIHLÁSENIE ===
-[ 17:20:16 ]  Hľadám #login...
-[ 17:20:16 ]  Username vyplnený.
-[ 17:20:16 ]  Hľadám #password...
-[ 17:20:16 ]  Password vyplnený.
-[ 17:20:16 ]  Prihlasovacie údaje odoslané.
-[ 17:20:16 ]  Čakám na prihlásenie...
-[ 17:20:18 ]  Prihlásenie úspešné.
-[ 17:20:18 ]  Aktuálna URL: https://wocabee.app/app/student/
-[ 17:20:18 ]  === WOCAPOINTS ===
-[ 17:20:18 ]  WocaPoints sa v aktuálnej stránke nenašli.
-[ 17:20:18 ]  === VÝBER TRIEDY ===
-[ 17:20:18 ]  Index triedy: 0
-[ 17:20:18 ]  Nájdených tried: 1
-[ 17:20:18 ]  Klikám na triedu 0...
-[ 17:20:19 ]  Trieda vybraná.
-[ 17:20:19 ]  === WOCAPOINTS ===
-[ 17:20:19 ]  WOCAPOINTS: 7026
-[ 17:20:19 ]  WocaPoints: 7026
-[ 17:20:19 ]  === NAČÍTANIE BALÍKOV ===
-[ 17:20:19 ]  Nájdených balíkov: 3
-[ 17:20:19 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
-[ 17:20:19 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
-[ 17:20:19 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
-[ 17:20:19 ]  Úspešne načítaných balíkov: 3
-[ 17:20:19 ]  PACKAGES_JSON: [{"id": "1850925", "index": 0, "name": "Unit 1B + 1C - 1. časť", "deadline": "24.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1850925&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1850925", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848183", "index": 1, "name": "Unit 1A - 1. časť", "deadline": "22.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848183&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848183", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848181", "index": 2, "name": "Unit 1A - 2. časť + materials", "deadline": "20.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848181&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848181", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}]
-[ 17:20:19 ]  Úspešne načítaných balíkov: 3
-[ 17:20:19 ]  Čistím prostredie...
-[ 17:20:19 ]  Management ukončený.
-[ 17:20:20 ]  Vybraný balík: Unit 1A - 1. časť | ID 1848183
-[ 17:20:21 ]  Spúšťam management.py
-[ 17:20:21 ]  ============================================================
-[ 17:20:21 ]  WocaFuckOff™ MANAGEMENT
-[ 17:20:21 ]  ============================================================
-[ 17:20:21 ]  Načítavam config.toml...
-[ 17:20:21 ]  URL: https://wocabee.app/app
-[ 17:20:21 ]  Headless: False
-[ 17:20:21 ]  Class index: 0
-[ 17:20:21 ]  Selected package ID: 1848183
-[ 17:20:21 ]  Double points: True
-[ 17:20:21 ]  CDP port: 9222
-[ 17:20:22 ]  Spúšťam Playwright...
-[ 17:20:22 ]  Playwright pripravený.
-[ 17:20:22 ]  === CHROMIUM ===
-[ 17:20:22 ]  Chromium executable:
-[ 17:20:22 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
-[ 17:20:22 ]  Spúšťam Chromium ako samostatný proces...
-[ 17:20:22 ]  CDP port: 9222
-[ 17:20:22 ]  Headless: False
-[ 17:20:22 ]  Profil:
-[ 17:20:22 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium
-[ 17:20:22 ]  Chromium PID: 7372
-[ 17:20:22 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
-[ 17:20:22 ]  CDP je pripravené.
-[ 17:20:22 ]  Pripájam Playwright na Chromium cez CDP...
-[ 17:20:23 ]  Playwright pripojený cez CDP.
-[ 17:20:23 ]  Otváram WocaBee...
-[ 17:20:23 ]  Aktuálna URL: https://wocabee.app/app/
-[ 17:20:23 ]  === PRIHLÁSENIE ===
-[ 17:20:23 ]  Hľadám #login...
-[ 17:20:23 ]  Username vyplnený.
-[ 17:20:23 ]  Hľadám #password...
-[ 17:20:23 ]  Password vyplnený.
-[ 17:20:23 ]  Prihlasovacie údaje odoslané.
-[ 17:20:23 ]  Čakám na prihlásenie...
-[ 17:20:24 ]  Prihlásenie úspešné.
-[ 17:20:24 ]  Aktuálna URL: https://wocabee.app/app/student/
-[ 17:20:24 ]  === WOCAPOINTS ===
-[ 17:20:25 ]  WocaPoints sa v aktuálnej stránke nenašli.
-[ 17:20:25 ]  === VÝBER TRIEDY ===
-[ 17:20:25 ]  Index triedy: 0
-[ 17:20:25 ]  Nájdených tried: 1
-[ 17:20:25 ]  Klikám na triedu 0...
-[ 17:20:25 ]  Trieda vybraná.
-[ 17:20:25 ]  === WOCAPOINTS ===
-[ 17:20:25 ]  WOCAPOINTS: 7026
-[ 17:20:25 ]  WocaPoints: 7026
-[ 17:20:25 ]  === VÝBER BALÍKA ===
-[ 17:20:25 ]  ID balíka: 1848183
-[ 17:20:25 ]  === NAČÍTANIE BALÍKOV ===
-[ 17:20:25 ]  Nájdených balíkov: 3
-[ 17:20:26 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
-[ 17:20:26 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
-[ 17:20:26 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
-[ 17:20:26 ]  Úspešne načítaných balíkov: 3
-[ 17:20:26 ]  Čakám na tlačidlo balíka...
-[ 17:20:26 ]  Klikám na balík...
-[ 17:20:26 ]  Balík vybraný.
-[ 17:20:26 ]  === WOCAPOINTS ===
-[ 17:20:26 ]  WocaPoints sa v aktuálnej stránke nenašli.
-[ 17:20:26 ]  === DOUBLE POINTS ===
-[ 17:20:27 ]  Aktivujem double points...
-[ 17:20:27 ]  Double points aktivované.
-[ 17:20:27 ]  === SOLVER ===
-[ 17:20:27 ]  Spúšťam solver.py...
-[ 17:20:27 ]  Solver PID: 11380
-[ 17:20:28 ]  ========================================
-[ 17:20:28 ]  WOCAFUCKOFF RIEŠIČ
-[ 17:20:28 ]  ========================================
-[ 17:20:28 ]  Dvojité body sú aktivované.
-[ 17:20:28 ]  Automatický preklad cez DeepL je aktivovaný.
-[ 17:20:28 ]  Adresa WocaBee: https://wocabee.app/app
-[ 17:20:28 ]  Súbor slovníka: wordlist.json
-[ 17:20:28 ]  Počet uložených slov: 50
-[ 17:20:28 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
-[ 17:20:28 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
-[ 17:20:28 ]  Riešič je pripravený.
-[ 17:20:28 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:20:28 ]  Slovo: hrot šípu
-[ 17:20:37 ]  Požiadavka: Uložiť a ukončiť.
-[ 17:20:38 ]  === STOP MANAGEMENTU ===
-[ 17:20:38 ]  Požiadavka: Uložiť a ukončiť.
-[ 17:20:38 ]  Pripájam sa na Chromium cez CDP: 9222
-[ 17:20:38 ]  Playwright pripojený cez CDP.
-[ 17:20:38 ]  Aktuálna URL: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
-[ 17:20:38 ]  Hľadám tlačidlo #backBtn...
-[ 17:20:38 ]  Tlačidlo #backBtn nájdené.
-[ 17:20:38 ]  Klikám na „Uložiť a odísť“...
-[ 17:20:38 ]  ULOŽIŤ A UKONČIŤ - kliknuté.
-[ 17:20:38 ]  Čakám 7 sekúnd na dokončenie uloženia...
-[ 17:20:45 ]  7 sekúnd uplynulo.
-[ 17:20:45 ]  Vypínam Chromium...
-[ 17:20:47 ]  Ukončujem Chromium PID: 7372
-[ 17:20:47 ]  Ukončujem Chromium PID: 7120
-[ 17:20:47 ]  Ukončujem Chromium PID: 9984
-[ 17:20:47 ]  Ukončujem Chromium PID: 10764
-[ 17:20:47 ]  Ukončujem Chromium PID: 13456
-[ 17:20:47 ]  Ukončujem Chromium PID: 4656
-[ 17:20:47 ]  Ukončujem Chromium PID: 13580
-[ 17:20:47 ]  Ukončujem Chromium PID: 10168
-[ 17:20:47 ]  Ukončujem Chromium PID: 9272
-[ 17:20:47 ]  Ukončujem Chromium PID: 11056
-[ 17:20:48 ]  Ukončujem Chromium PID: 9464
-[ 17:20:48 ]  Management ukončený.
-[ 17:20:48 ]  Stop proces skončil | Exit code: 0
-[ 17:22:07 ]  Nastavenia uložené
-[ 17:22:16 ]  Spúšťam management.py
-[ 17:22:16 ]  ============================================================
-[ 17:22:16 ]  WocaFuckOff™ MANAGEMENT
-[ 17:22:16 ]  ============================================================
-[ 17:22:16 ]  Načítavam config.toml...
-[ 17:22:16 ]  URL: https://wocabee.app/app
-[ 17:22:16 ]  Headless: False
-[ 17:22:16 ]  Class index: 0
-[ 17:22:16 ]  Selected package ID: 1848183
-[ 17:22:16 ]  Double points: True
-[ 17:22:16 ]  CDP port: 9222
-[ 17:22:17 ]  Spúšťam Playwright...
-[ 17:22:17 ]  Playwright pripravený.
-[ 17:22:17 ]  === CHROMIUM ===
-[ 17:22:17 ]  Chromium executable:
-[ 17:22:17 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
-[ 17:22:17 ]  Spúšťam Chromium ako samostatný proces...
-[ 17:22:17 ]  CDP port: 9222
-[ 17:22:17 ]  Headless: False
-[ 17:22:17 ]  Profil:
-[ 17:22:17 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium
-[ 17:22:17 ]  Chromium PID: 8796
-[ 17:22:17 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
-[ 17:22:18 ]  CDP je pripravené.
-[ 17:22:18 ]  Pripájam Playwright na Chromium cez CDP...
-[ 17:22:18 ]  Playwright pripojený cez CDP.
-[ 17:22:18 ]  Otváram WocaBee...
-[ 17:22:19 ]  Aktuálna URL: https://wocabee.app/app/student/
-[ 17:22:19 ]  === PRIHLÁSENIE ===
-[ 17:22:19 ]  Používateľ je už prihlásený.
-[ 17:22:19 ]  Aktuálna URL: https://wocabee.app/app/student/
-[ 17:22:19 ]  === WOCAPOINTS ===
-[ 17:22:19 ]  WocaPoints sa v aktuálnej stránke nenašli.
-[ 17:22:19 ]  === VÝBER TRIEDY ===
-[ 17:22:19 ]  Index triedy: 0
-[ 17:22:19 ]  Nájdených tried: 1
-[ 17:22:19 ]  Klikám na triedu 0...
-[ 17:22:20 ]  Trieda vybraná.
-[ 17:22:20 ]  === WOCAPOINTS ===
-[ 17:22:20 ]  WOCAPOINTS: 7028
-[ 17:22:20 ]  WocaPoints: 7028
-[ 17:22:20 ]  === VÝBER BALÍKA ===
-[ 17:22:20 ]  ID balíka: 1848183
-[ 17:22:20 ]  === NAČÍTANIE BALÍKOV ===
-[ 17:22:20 ]  Nájdených balíkov: 3
-[ 17:22:20 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
-[ 17:22:20 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
-[ 17:22:20 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
-[ 17:22:20 ]  Úspešne načítaných balíkov: 3
-[ 17:22:20 ]  Čakám na tlačidlo balíka...
-[ 17:22:20 ]  Klikám na balík...
-[ 17:22:21 ]  Balík vybraný.
-[ 17:22:21 ]  === WOCAPOINTS ===
-[ 17:22:21 ]  WocaPoints sa v aktuálnej stránke nenašli.
-[ 17:22:21 ]  === DOUBLE POINTS ===
-[ 17:22:21 ]  Aktivujem double points...
-[ 17:22:21 ]  Double points aktivované.
-[ 17:22:21 ]  === SOLVER ===
-[ 17:22:21 ]  Spúšťam solver.py...
-[ 17:22:21 ]  Solver PID: 12628
-[ 17:22:22 ]  ========================================
-[ 17:22:22 ]  WOCAFUCKOFF RIEŠIČ
-[ 17:22:22 ]  ========================================
-[ 17:22:22 ]  Dvojité body sú aktivované.
-[ 17:22:22 ]  Automatický preklad cez DeepL je aktivovaný.
-[ 17:22:22 ]  Adresa WocaBee: https://wocabee.app/app
-[ 17:22:22 ]  Súbor slovníka: wordlist.json
-[ 17:22:22 ]  Počet uložených slov: 50
-[ 17:22:22 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
-[ 17:22:22 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848183&mode=practice
-[ 17:22:22 ]  Riešič je pripravený.
-[ 17:22:22 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:22:22 ]  Slovo: shoot
-[ 17:22:32 ]  Odpoveď: zastrelit
-[ 17:22:32 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:22:32 ]  Slovo: shoot
-[ 17:22:50 ]  Odpoveď: zastrelit
-[ 17:22:51 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:22:51 ]  Slovo: archeológ
-[ 17:22:58 ]  Odpoveď: archaeologist
-[ 17:22:58 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:22:58 ]  Slovo: hrot šípu
-[ 17:23:06 ]  Odpoveď: arrowhead
-[ 17:23:06 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:23:06 ]  Slovo: archeológ
-[ 17:23:11 ]  Odpoveď: archaeologist
-[ 17:23:12 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:23:12 ]  Slovo: obilie
-[ 17:23:14 ]  Odpoveď: corn
-[ 17:23:14 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:23:14 ]  Slovo: archeológ
-[ 17:23:17 ]  Odpoveď: archaeologist
-[ 17:23:17 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:23:17 ]  Slovo: prebiehať
-[ 17:23:23 ]  Odpoveď: be in progress
-[ 17:23:23 ]  === PREKLAD PADAJÚCEHO SLOVA ===
-[ 17:23:23 ]  Slovo: material
-[ 17:23:24 ]  DeepL chyba HTTP 403: Forbidden. You can find more info in our docs: https://developers.deepl.com/docs/getting-started/auth
-[ 17:23:24 ]  DeepL chyba HTTP 403: Forbidden. You can find more info in our docs: https://developers.deepl.com/docs/getting-started/auth
-[ 17:23:24 ]  DeepL nedokázal určiť smer prekladu pre: 'material'
-[ 18:22:36 ]  Požiadavka: Uložiť a ukončiť.
-[ 18:22:37 ]  === STOP MANAGEMENTU ===
-[ 18:22:37 ]  Požiadavka: Uložiť a ukončiť.
-[ 18:22:37 ]  Pripájam sa na Chromium cez CDP: 9222
-[ 18:22:37 ]  CHYBA pri zastavovaní: Error: BrowserType.connect_over_cdp: connect ECONNREFUSED 127.0.0.1:9222
-[ 18:22:37 ]  Call log:
-[ 18:22:37 ]  - <ws preparing> retrieving websocket url from http://127.0.0.1:9222
-[ 18:22:37 ]  Vypínam Chromium...
-[ 18:22:38 ]  Stop proces skončil | Exit code: 62097
+[ 18:32:13 ]  Aplikácia spustená
+[ 18:32:23 ]  Spúšťam management.py
+[ 18:32:23 ]  ============================================================
+[ 18:32:23 ]  WocaFuckOff™ MANAGEMENT
+[ 18:32:23 ]  ============================================================
+[ 18:32:23 ]  Načítavam config.toml...
+[ 18:32:23 ]  URL: https://wocabee.app/app
+[ 18:32:23 ]  Headless: False
+[ 18:32:23 ]  Class index: 0
+[ 18:32:23 ]  Selected package ID: 1850882
+[ 18:32:23 ]  Double points: True
+[ 18:32:23 ]  AutoTranslate: zapnutý
+[ 18:32:23 ]  CDP port: 9222
+[ 18:32:23 ]  Spúšťam Playwright...
+[ 18:32:24 ]  Playwright pripravený.
+[ 18:32:24 ]  === CHROMIUM ===
+[ 18:32:24 ]  Chromium executable:
+[ 18:32:24 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
+[ 18:32:24 ]  Spúšťam Chromium ako samostatný proces...
+[ 18:32:24 ]  CDP port: 9222
+[ 18:32:24 ]  Headless: False
+[ 18:32:24 ]  Profil:
+[ 18:32:24 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium-ef4418ad9c8c6ca0
+[ 18:32:24 ]  Chromium PID: 12140
+[ 18:32:24 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
+[ 18:32:24 ]  CDP je pripravené.
+[ 18:32:24 ]  Pripájam Playwright na Chromium cez CDP...
+[ 18:32:25 ]  Playwright pripojený cez CDP.
+[ 18:32:25 ]  Otváram Wocabee...
+[ 18:32:25 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 18:32:25 ]  === PRIHLÁSENIE ===
+[ 18:32:25 ]  Používateľ je už prihlásený.
+[ 18:32:25 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 18:32:25 ]  === WOCAPOINTS ===
+[ 18:32:25 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 18:32:25 ]  === VÝBER TRIEDY ===
+[ 18:32:25 ]  Index triedy: 0
+[ 18:32:25 ]  Nájdených tried: 1
+[ 18:32:25 ]  Klikám na triedu 0...
+[ 18:32:26 ]  Trieda vybraná.
+[ 18:32:26 ]  === WOCAPOINTS ===
+[ 18:32:26 ]  WOCAPOINTS: 11194
+[ 18:32:26 ]  WocaPoints: 11194
+[ 18:32:26 ]  === VÝBER BALÍKA ===
+[ 18:32:26 ]  ID balíka: 1850882
+[ 18:32:26 ]  === NAČÍTANIE BALÍKOV ===
+[ 18:32:26 ]  Nájdených balíkov: 2
+[ 18:32:26 ]  [0] Animals - birds 2 | 27.09. 20:59 | ○○○ | ID: 1854072
+[ 18:32:26 ]  [1] Zvieratá - vtáky 1 | 24.09. 17:59 | ●●● | ID: 1850882
+[ 18:32:26 ]  Úspešne načítaných balíkov: 2
+[ 18:32:26 ]  Čakám na tlačidlo balíka...
+[ 18:32:26 ]  Klikám na balík...
+[ 18:32:27 ]  Balík vybraný.
+[ 18:32:27 ]  === WOCAPOINTS ===
+[ 18:32:27 ]  WOCAPOINTS: 11194
+[ 18:32:27 ]  === DOUBLE POINTS ===
+[ 18:32:27 ]  Aktivujem double points...
+[ 18:32:28 ]  Double points aktivované.
+[ 18:32:28 ]  === SOLVER ===
+[ 18:32:28 ]  Spúšťam solver.py...
+[ 18:32:28 ]  Solver PID: 10052
+[ 18:32:28 ]  ========================================
+[ 18:32:28 ]  WOCAFUCKOFF RIEŠIČ
+[ 18:32:28 ]  ========================================
+[ 18:32:28 ]  Dvojité body sú aktivované.
+[ 18:32:28 ]  Automatický preklad cez Azure Translator je aktivovaný.
+[ 18:32:28 ]  Adresa Wocabee: https://wocabee.app/app
+[ 18:32:28 ]  Súbor slovníka: wordlist.json
+[ 18:32:28 ]  Počet uložených slov: 31
+[ 18:32:29 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
+[ 18:32:29 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138995&package_id=1850882&mode=practice
+[ 18:32:29 ]  Riešič je pripravený.
+[ 18:32:29 ]  WocaPoints: 11194
+[ 18:32:29 ]  Azure Translator: EN -> SK: ostrich -> Pštros
+[ 18:32:30 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:32:30 ]  WocaPoints: 11196
+[ 18:32:33 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:32:34 ]  WocaPoints: 11198
+[ 18:32:36 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:32:37 ]  WocaPoints: 11200
+[ 18:32:40 ]  Padajúce slovo: hen -> sliepka
+[ 18:32:40 ]  WocaPoints: 11202
+[ 18:32:43 ]  Azure Translator: EN -> SK: chicken -> Kurča
+[ 18:32:44 ]  Padajúce slovo: chicken -> Kurča
+[ 18:32:44 ]  WocaPoints: 11209
+[ 18:32:49 ]  Azure Translator: EN -> SK: goose -> hus
+[ 18:32:49 ]  Padajúce slovo: goose -> hus
+[ 18:32:49 ]  WocaPoints: 11211
+[ 18:32:52 ]  Azure Translator: EN -> SK: duck -> Kačka
+[ 18:32:53 ]  Padajúce slovo: duck -> Kačka
+[ 18:32:53 ]  WocaPoints: 11213
+[ 18:32:56 ]  Padajúce slovo: goose -> hus
+[ 18:32:56 ]  WocaPoints: 11215
+[ 18:32:59 ]  Padajúce slovo: duck -> Kačka
+[ 18:33:00 ]  WocaPoints: 11217
+[ 18:33:02 ]  Padajúce slovo: swan -> labuť
+[ 18:33:03 ]  WocaPoints: 11229
+[ 18:33:07 ]  Padajúce slovo: goose -> hus
+[ 18:33:07 ]  WocaPoints: 11231
+[ 18:33:10 ]  Padajúce slovo: goose -> hus
+[ 18:33:11 ]  WocaPoints: 11233
+[ 18:33:13 ]  Padajúce slovo: duck -> Kačka
+[ 18:33:14 ]  WocaPoints: 11235
+[ 18:33:17 ]  Padajúce slovo: goose -> hus
+[ 18:33:17 ]  WocaPoints: 11237
+[ 18:33:20 ]  Padajúce slovo: duck -> Kačka
+[ 18:33:20 ]  WocaPoints: 11239
+[ 18:33:23 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:33:24 ]  WocaPoints: 11241
+[ 18:33:26 ]  Padajúce slovo: swan -> labuť
+[ 18:33:27 ]  WocaPoints: 11243
+[ 18:33:30 ]  Azure Translator: EN -> SK: bird -> vták
+[ 18:33:30 ]  Padajúce slovo: bird -> vták
+[ 18:33:31 ]  WocaPoints: 11245
+[ 18:33:33 ]  Padajúce slovo: chicken -> Kurča
+[ 18:33:34 ]  WocaPoints: 11247
+[ 18:33:37 ]  Padajúce slovo: chicken -> Kurča
+[ 18:33:37 ]  WocaPoints: 11269
+[ 18:33:41 ]  Padajúce slovo: swan -> labuť
+[ 18:33:42 ]  WocaPoints: 11271
+[ 18:33:44 ]  Padajúce slovo: peacock -> páv
+[ 18:33:45 ]  WocaPoints: 11273
+[ 18:33:48 ]  Padajúce slovo: chicken -> Kurča
+[ 18:33:48 ]  WocaPoints: 11275
+[ 18:33:51 ]  Padajúce slovo: peacock -> páv
+[ 18:33:51 ]  WocaPoints: 11277
+[ 18:33:54 ]  Padajúce slovo: swan -> labuť
+[ 18:33:55 ]  WocaPoints: 11279
+[ 18:33:57 ]  Padajúce slovo: peacock -> páv
+[ 18:33:58 ]  WocaPoints: 11281
+[ 18:34:00 ]  Padajúce slovo: duck -> Kačka
+[ 18:34:01 ]  WocaPoints: 11283
+[ 18:34:04 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:34:04 ]  WocaPoints: 11285
+[ 18:34:07 ]  Padajúce slovo: swan -> labuť
+[ 18:34:07 ]  WocaPoints: 11287
+[ 18:34:10 ]  Padajúce slovo: bird -> vták
+[ 18:34:11 ]  WocaPoints: 11289
+[ 18:34:13 ]  Padajúce slovo: duck -> Kačka
+[ 18:34:14 ]  WocaPoints: 11291
+[ 18:34:17 ]  Padajúce slovo: emu -> emu
+[ 18:34:17 ]  WocaPoints: 11293
+[ 18:34:20 ]  Padajúce slovo: hen -> sliepka
+[ 18:34:20 ]  WocaPoints: 11295
+[ 18:34:23 ]  Padajúce slovo: duck -> Kačka
+[ 18:34:24 ]  WocaPoints: 11297
+[ 18:34:26 ]  Padajúce slovo: hen -> sliepka
+[ 18:34:27 ]  WocaPoints: 11299
+[ 18:34:30 ]  Padajúce slovo: chicken -> Kurča
+[ 18:34:30 ]  WocaPoints: 11301
+[ 18:34:33 ]  Padajúce slovo: peacock -> páv
+[ 18:34:33 ]  WocaPoints: 11303
+[ 18:34:36 ]  Padajúce slovo: chicken -> Kurča
+[ 18:34:37 ]  WocaPoints: 11305
+[ 18:34:39 ]  Padajúce slovo: swan -> labuť
+[ 18:34:40 ]  WocaPoints: 11307
+[ 18:34:43 ]  Padajúce slovo: emu -> emu
+[ 18:34:43 ]  WocaPoints: 11349
+[ 18:34:47 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:34:47 ]  WocaPoints: 11351
+[ 18:34:50 ]  Padajúce slovo: peacock -> páv
+[ 18:34:51 ]  WocaPoints: 11353
+[ 18:34:54 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:34:54 ]  WocaPoints: 11355
+[ 18:34:57 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:34:58 ]  WocaPoints: 11357
+[ 18:35:00 ]  Padajúce slovo: goose -> hus
+[ 18:35:01 ]  WocaPoints: 11359
+[ 18:35:03 ]  Padajúce slovo: chicken -> Kurča
+[ 18:35:04 ]  WocaPoints: 11361
+[ 18:35:07 ]  Padajúce slovo: hen -> sliepka
+[ 18:35:07 ]  WocaPoints: 11363
+[ 18:35:10 ]  Padajúce slovo: swan -> labuť
+[ 18:35:11 ]  WocaPoints: 11365
+[ 18:35:14 ]  Padajúce slovo: hen -> sliepka
+[ 18:35:14 ]  WocaPoints: 11367
+[ 18:35:17 ]  Padajúce slovo: swan -> labuť
+[ 18:35:17 ]  WocaPoints: 11369
+[ 18:35:20 ]  Padajúce slovo: bird -> vták
+[ 18:35:21 ]  WocaPoints: 11371
+[ 18:35:23 ]  Padajúce slovo: emu -> emu
+[ 18:35:24 ]  WocaPoints: 11373
+[ 18:35:27 ]  Padajúce slovo: duck -> Kačka
+[ 18:35:27 ]  WocaPoints: 11375
+[ 18:35:30 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:35:30 ]  WocaPoints: 11377
+[ 18:35:33 ]  Padajúce slovo: duck -> Kačka
+[ 18:35:34 ]  WocaPoints: 11379
+[ 18:35:36 ]  Padajúce slovo: emu -> emu
+[ 18:35:37 ]  WocaPoints: 11381
+[ 18:35:39 ]  Padajúce slovo: chicken -> Kurča
+[ 18:35:40 ]  WocaPoints: 11383
+[ 18:35:43 ]  Padajúce slovo: bird -> vták
+[ 18:35:43 ]  WocaPoints: 11385
+[ 18:35:46 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:35:47 ]  WocaPoints: 11387
+[ 18:35:49 ]  Padajúce slovo: emu -> emu
+[ 18:35:50 ]  WocaPoints: 11389
+[ 18:35:52 ]  Padajúce slovo: peacock -> páv
+[ 18:35:53 ]  WocaPoints: 11391
+[ 18:35:56 ]  Padajúce slovo: chicken -> Kurča
+[ 18:35:56 ]  WocaPoints: 11393
+[ 18:35:59 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:35:59 ]  WocaPoints: 11395
+[ 18:36:02 ]  Padajúce slovo: chicken -> Kurča
+[ 18:36:03 ]  WocaPoints: 11397
+[ 18:36:05 ]  Padajúce slovo: bird -> vták
+[ 18:36:06 ]  WocaPoints: 11399
+[ 18:36:08 ]  Padajúce slovo: goose -> hus
+[ 18:36:09 ]  WocaPoints: 11401
+[ 18:36:12 ]  Padajúce slovo: chicken -> Kurča
+[ 18:36:12 ]  WocaPoints: 11403
+[ 18:36:15 ]  Padajúce slovo: hen -> sliepka
+[ 18:36:16 ]  WocaPoints: 11405
+[ 18:36:18 ]  Padajúce slovo: peacock -> páv
+[ 18:36:19 ]  WocaPoints: 11407
+[ 18:36:22 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:36:22 ]  WocaPoints: 11409
+[ 18:36:25 ]  Padajúce slovo: swan -> labuť
+[ 18:36:26 ]  WocaPoints: 11411
+[ 18:36:29 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:36:29 ]  WocaPoints: 11413
+[ 18:36:32 ]  Padajúce slovo: hen -> sliepka
+[ 18:36:33 ]  WocaPoints: 11415
+[ 18:36:35 ]  Padajúce slovo: chicken -> Kurča
+[ 18:36:36 ]  WocaPoints: 11417
+[ 18:36:38 ]  Padajúce slovo: bird -> vták
+[ 18:36:39 ]  WocaPoints: 11419
+[ 18:36:42 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:36:43 ]  WocaPoints: 11421
+[ 18:36:45 ]  Padajúce slovo: hen -> sliepka
+[ 18:36:46 ]  WocaPoints: 11423
+[ 18:36:49 ]  Padajúce slovo: chicken -> Kurča
+[ 18:36:49 ]  WocaPoints: 11425
+[ 18:36:52 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:36:53 ]  WocaPoints: 11427
+[ 18:36:56 ]  Padajúce slovo: hen -> sliepka
+[ 18:36:57 ]  WocaPoints: 11509
+[ 18:37:01 ]  Padajúce slovo: duck -> Kačka
+[ 18:37:01 ]  WocaPoints: 11511
+[ 18:37:04 ]  Padajúce slovo: hen -> sliepka
+[ 18:37:05 ]  WocaPoints: 11513
+[ 18:37:07 ]  Padajúce slovo: emu -> emu
+[ 18:37:08 ]  WocaPoints: 11515
+[ 18:37:11 ]  Padajúce slovo: swan -> labuť
+[ 18:37:11 ]  WocaPoints: 11517
+[ 18:37:14 ]  Padajúce slovo: swan -> labuť
+[ 18:37:14 ]  WocaPoints: 11519
+[ 18:37:17 ]  Padajúce slovo: swan -> labuť
+[ 18:37:17 ]  WocaPoints: 11521
+[ 18:37:21 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:37:21 ]  WocaPoints: 11523
+[ 18:37:24 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:37:25 ]  WocaPoints: 11525
+[ 18:37:27 ]  Padajúce slovo: emu -> emu
+[ 18:37:28 ]  WocaPoints: 11527
+[ 18:37:30 ]  Padajúce slovo: duck -> Kačka
+[ 18:37:31 ]  WocaPoints: 11529
+[ 18:37:34 ]  Padajúce slovo: swan -> labuť
+[ 18:37:34 ]  WocaPoints: 11531
+[ 18:37:37 ]  Padajúce slovo: peacock -> páv
+[ 18:37:37 ]  WocaPoints: 11533
+[ 18:37:40 ]  Padajúce slovo: emu -> emu
+[ 18:37:40 ]  WocaPoints: 11535
+[ 18:37:43 ]  Padajúce slovo: duck -> Kačka
+[ 18:37:44 ]  WocaPoints: 11537
+[ 18:37:46 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:37:47 ]  WocaPoints: 11539
+[ 18:37:49 ]  Padajúce slovo: emu -> emu
+[ 18:37:50 ]  WocaPoints: 11541
+[ 18:37:53 ]  Padajúce slovo: peacock -> páv
+[ 18:37:53 ]  WocaPoints: 11543
+[ 18:37:56 ]  Padajúce slovo: duck -> Kačka
+[ 18:37:56 ]  WocaPoints: 11545
+[ 18:37:59 ]  Padajúce slovo: hen -> sliepka
+[ 18:38:00 ]  WocaPoints: 11547
+[ 18:38:02 ]  Padajúce slovo: duck -> Kačka
+[ 18:38:03 ]  WocaPoints: 11549
+[ 18:38:06 ]  Padajúce slovo: swan -> labuť
+[ 18:38:06 ]  WocaPoints: 11551
+[ 18:38:09 ]  Padajúce slovo: goose -> hus
+[ 18:38:09 ]  WocaPoints: 11553
+[ 18:38:12 ]  Padajúce slovo: hen -> sliepka
+[ 18:38:13 ]  WocaPoints: 11555
+[ 18:38:15 ]  Padajúce slovo: hen -> sliepka
+[ 18:38:16 ]  WocaPoints: 11557
+[ 18:38:19 ]  Padajúce slovo: duck -> Kačka
+[ 18:38:19 ]  WocaPoints: 11559
+[ 18:38:22 ]  Padajúce slovo: hen -> sliepka
+[ 18:38:23 ]  WocaPoints: 11561
+[ 18:38:25 ]  Padajúce slovo: bird -> vták
+[ 18:38:26 ]  WocaPoints: 11563
+[ 18:38:28 ]  Padajúce slovo: bird -> vták
+[ 18:38:29 ]  WocaPoints: 11565
+[ 18:38:31 ]  Padajúce slovo: emu -> emu
+[ 18:38:32 ]  WocaPoints: 11567
+[ 18:38:35 ]  Padajúce slovo: emu -> emu
+[ 18:38:35 ]  WocaPoints: 11569
+[ 18:38:38 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:38:39 ]  WocaPoints: 11571
+[ 18:38:42 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:38:42 ]  WocaPoints: 11573
+[ 18:38:45 ]  Padajúce slovo: hen -> sliepka
+[ 18:38:46 ]  WocaPoints: 11575
+[ 18:38:48 ]  Padajúce slovo: chicken -> Kurča
+[ 18:38:49 ]  WocaPoints: 11577
+[ 18:38:51 ]  Padajúce slovo: peacock -> páv
+[ 18:38:52 ]  WocaPoints: 11579
+[ 18:38:55 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:38:55 ]  WocaPoints: 11581
+[ 18:38:58 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:38:58 ]  WocaPoints: 11583
+[ 18:39:01 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:39:02 ]  WocaPoints: 11585
+[ 18:39:04 ]  Padajúce slovo: bird -> vták
+[ 18:39:05 ]  WocaPoints: 11587
+[ 18:39:08 ]  Padajúce slovo: hen -> sliepka
+[ 18:39:08 ]  WocaPoints: 11589
+[ 18:39:11 ]  Padajúce slovo: chicken -> Kurča
+[ 18:39:11 ]  WocaPoints: 11591
+[ 18:39:14 ]  Padajúce slovo: peacock -> páv
+[ 18:39:14 ]  WocaPoints: 11593
+[ 18:39:17 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:39:18 ]  WocaPoints: 11595
+[ 18:39:21 ]  Padajúce slovo: peacock -> páv
+[ 18:39:21 ]  WocaPoints: 11597
+[ 18:39:24 ]  Padajúce slovo: emu -> emu
+[ 18:39:24 ]  WocaPoints: 11599
+[ 18:39:27 ]  Padajúce slovo: hen -> sliepka
+[ 18:39:28 ]  WocaPoints: 11601
+[ 18:39:30 ]  Padajúce slovo: goose -> hus
+[ 18:39:31 ]  WocaPoints: 11603
+[ 18:39:34 ]  Padajúce slovo: duck -> Kačka
+[ 18:39:34 ]  WocaPoints: 11605
+[ 18:39:38 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:39:38 ]  WocaPoints: 11607
+[ 18:39:41 ]  Padajúce slovo: peacock -> páv
+[ 18:39:41 ]  WocaPoints: 11609
+[ 18:39:44 ]  Padajúce slovo: duck -> Kačka
+[ 18:39:45 ]  WocaPoints: 11611
+[ 18:39:47 ]  Padajúce slovo: swan -> labuť
+[ 18:39:48 ]  WocaPoints: 11613
+[ 18:39:51 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:39:51 ]  WocaPoints: 11615
+[ 18:39:54 ]  Padajúce slovo: chicken -> Kurča
+[ 18:39:55 ]  WocaPoints: 11617
+[ 18:39:57 ]  Padajúce slovo: goose -> hus
+[ 18:39:58 ]  WocaPoints: 11619
+[ 18:40:01 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:40:01 ]  WocaPoints: 11621
+[ 18:40:04 ]  Padajúce slovo: duck -> Kačka
+[ 18:40:05 ]  WocaPoints: 11623
+[ 18:40:07 ]  Padajúce slovo: chicken -> Kurča
+[ 18:40:08 ]  WocaPoints: 11625
+[ 18:40:11 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:11 ]  WocaPoints: 11627
+[ 18:40:14 ]  Padajúce slovo: peacock -> páv
+[ 18:40:14 ]  WocaPoints: 11629
+[ 18:40:17 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:18 ]  WocaPoints: 11631
+[ 18:40:20 ]  Padajúce slovo: duck -> Kačka
+[ 18:40:21 ]  WocaPoints: 11633
+[ 18:40:23 ]  Padajúce slovo: bird -> vták
+[ 18:40:24 ]  WocaPoints: 11635
+[ 18:40:27 ]  Padajúce slovo: swan -> labuť
+[ 18:40:27 ]  WocaPoints: 11637
+[ 18:40:30 ]  Padajúce slovo: bird -> vták
+[ 18:40:30 ]  WocaPoints: 11639
+[ 18:40:33 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:34 ]  WocaPoints: 11641
+[ 18:40:36 ]  Padajúce slovo: goose -> hus
+[ 18:40:37 ]  WocaPoints: 11643
+[ 18:40:40 ]  Padajúce slovo: swan -> labuť
+[ 18:40:40 ]  WocaPoints: 11645
+[ 18:40:43 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:40:43 ]  WocaPoints: 11647
+[ 18:40:46 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:47 ]  WocaPoints: 11649
+[ 18:40:49 ]  Padajúce slovo: emu -> emu
+[ 18:40:50 ]  WocaPoints: 11651
+[ 18:40:53 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:53 ]  WocaPoints: 11653
+[ 18:40:56 ]  Padajúce slovo: hen -> sliepka
+[ 18:40:57 ]  WocaPoints: 11655
+[ 18:40:59 ]  Padajúce slovo: duck -> Kačka
+[ 18:41:00 ]  WocaPoints: 11657
+[ 18:41:02 ]  Padajúce slovo: goose -> hus
+[ 18:41:03 ]  WocaPoints: 11659
+[ 18:41:05 ]  Padajúce slovo: duck -> Kačka
+[ 18:41:06 ]  WocaPoints: 11661
+[ 18:41:09 ]  Padajúce slovo: duck -> Kačka
+[ 18:41:09 ]  WocaPoints: 11663
+[ 18:41:12 ]  Padajúce slovo: goose -> hus
+[ 18:41:12 ]  WocaPoints: 11665
+[ 18:41:15 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:41:16 ]  WocaPoints: 11667
+[ 18:41:19 ]  Padajúce slovo: bird -> vták
+[ 18:41:19 ]  WocaPoints: 11829
+[ 18:41:23 ]  Padajúce slovo: swan -> labuť
+[ 18:41:23 ]  WocaPoints: 11831
+[ 18:41:26 ]  Padajúce slovo: hen -> sliepka
+[ 18:41:27 ]  WocaPoints: 11833
+[ 18:41:30 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:41:30 ]  WocaPoints: 11835
+[ 18:41:33 ]  Padajúce slovo: hen -> sliepka
+[ 18:41:34 ]  WocaPoints: 11837
+[ 18:41:37 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:41:37 ]  WocaPoints: 11839
+[ 18:41:40 ]  Padajúce slovo: bird -> vták
+[ 18:41:40 ]  WocaPoints: 11841
+[ 18:41:43 ]  Padajúce slovo: bird -> vták
+[ 18:41:43 ]  WocaPoints: 11843
+[ 18:41:46 ]  Padajúce slovo: peacock -> páv
+[ 18:41:46 ]  WocaPoints: 11845
+[ 18:41:49 ]  Padajúce slovo: swan -> labuť
+[ 18:41:50 ]  WocaPoints: 11847
+[ 18:41:52 ]  Padajúce slovo: duck -> Kačka
+[ 18:41:53 ]  WocaPoints: 11849
+[ 18:41:55 ]  Padajúce slovo: chicken -> Kurča
+[ 18:41:56 ]  WocaPoints: 11851
+[ 18:41:59 ]  Padajúce slovo: swan -> labuť
+[ 18:41:59 ]  WocaPoints: 11853
+[ 18:42:02 ]  Padajúce slovo: duck -> Kačka
+[ 18:42:02 ]  WocaPoints: 11855
+[ 18:42:05 ]  Padajúce slovo: emu -> emu
+[ 18:42:05 ]  WocaPoints: 11857
+[ 18:42:08 ]  Padajúce slovo: duck -> Kačka
+[ 18:42:09 ]  WocaPoints: 11859
+[ 18:42:11 ]  Padajúce slovo: chicken -> Kurča
+[ 18:42:12 ]  WocaPoints: 11861
+[ 18:42:15 ]  Padajúce slovo: emu -> emu
+[ 18:42:15 ]  WocaPoints: 11863
+[ 18:42:18 ]  Padajúce slovo: swan -> labuť
+[ 18:42:18 ]  WocaPoints: 11865
+[ 18:42:21 ]  Padajúce slovo: chicken -> Kurča
+[ 18:42:22 ]  WocaPoints: 11867
+[ 18:42:25 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:42:26 ]  WocaPoints: 11869
+[ 18:42:28 ]  Padajúce slovo: bird -> vták
+[ 18:42:29 ]  WocaPoints: 11871
+[ 18:42:32 ]  Padajúce slovo: bird -> vták
+[ 18:42:32 ]  WocaPoints: 11873
+[ 18:42:35 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:42:36 ]  WocaPoints: 11875
+[ 18:42:38 ]  Padajúce slovo: bird -> vták
+[ 18:42:39 ]  WocaPoints: 11877
+[ 18:42:42 ]  Padajúce slovo: hen -> sliepka
+[ 18:42:42 ]  WocaPoints: 11879
+[ 18:42:45 ]  Padajúce slovo: chicken -> Kurča
+[ 18:42:45 ]  WocaPoints: 11881
+[ 18:42:48 ]  Padajúce slovo: chicken -> Kurča
+[ 18:42:49 ]  WocaPoints: 11883
+[ 18:42:51 ]  Padajúce slovo: emu -> emu
+[ 18:42:52 ]  WocaPoints: 11885
+[ 18:42:54 ]  Padajúce slovo: bird -> vták
+[ 18:42:55 ]  WocaPoints: 11887
+[ 18:42:58 ]  Padajúce slovo: emu -> emu
+[ 18:42:58 ]  WocaPoints: 11889
+[ 18:43:01 ]  Padajúce slovo: goose -> hus
+[ 18:43:01 ]  WocaPoints: 11891
+[ 18:43:04 ]  Padajúce slovo: emu -> emu
+[ 18:43:04 ]  WocaPoints: 11893
+[ 18:43:07 ]  Padajúce slovo: peacock -> páv
+[ 18:43:07 ]  WocaPoints: 11895
+[ 18:43:10 ]  Padajúce slovo: goose -> hus
+[ 18:43:11 ]  WocaPoints: 11897
+[ 18:43:13 ]  Padajúce slovo: emu -> emu
+[ 18:43:14 ]  WocaPoints: 11899
+[ 18:43:16 ]  Padajúce slovo: chicken -> Kurča
+[ 18:43:17 ]  WocaPoints: 11901
+[ 18:43:20 ]  Padajúce slovo: duck -> Kačka
+[ 18:43:20 ]  WocaPoints: 11903
+[ 18:43:23 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:43:24 ]  WocaPoints: 11905
+[ 18:43:26 ]  Padajúce slovo: peacock -> páv
+[ 18:43:27 ]  WocaPoints: 11907
+[ 18:43:30 ]  Padajúce slovo: chicken -> Kurča
+[ 18:43:30 ]  WocaPoints: 11909
+[ 18:43:33 ]  Padajúce slovo: swan -> labuť
+[ 18:43:33 ]  WocaPoints: 11911
+[ 18:43:36 ]  Padajúce slovo: chicken -> Kurča
+[ 18:43:37 ]  WocaPoints: 11913
+[ 18:43:40 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:43:40 ]  WocaPoints: 11915
+[ 18:43:43 ]  Padajúce slovo: swan -> labuť
+[ 18:43:43 ]  WocaPoints: 11917
+[ 18:43:46 ]  Padajúce slovo: bird -> vták
+[ 18:43:46 ]  WocaPoints: 11919
+[ 18:43:49 ]  Padajúce slovo: swan -> labuť
+[ 18:43:50 ]  WocaPoints: 11921
+[ 18:43:53 ]  Padajúce slovo: duck -> Kačka
+[ 18:43:53 ]  WocaPoints: 11923
+[ 18:43:56 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:43:56 ]  WocaPoints: 11925
+[ 18:43:59 ]  Padajúce slovo: chicken -> Kurča
+[ 18:43:59 ]  WocaPoints: 11927
+[ 18:44:02 ]  Padajúce slovo: swan -> labuť
+[ 18:44:03 ]  WocaPoints: 11929
+[ 18:44:05 ]  Padajúce slovo: bird -> vták
+[ 18:44:06 ]  WocaPoints: 11931
+[ 18:44:09 ]  Padajúce slovo: swan -> labuť
+[ 18:44:09 ]  WocaPoints: 11933
+[ 18:44:12 ]  Padajúce slovo: bird -> vták
+[ 18:44:12 ]  WocaPoints: 11935
+[ 18:44:15 ]  Padajúce slovo: duck -> Kačka
+[ 18:44:15 ]  WocaPoints: 11937
+[ 18:44:18 ]  Padajúce slovo: duck -> Kačka
+[ 18:44:19 ]  WocaPoints: 11939
+[ 18:44:22 ]  Padajúce slovo: goose -> hus
+[ 18:44:22 ]  WocaPoints: 11941
+[ 18:44:25 ]  Padajúce slovo: duck -> Kačka
+[ 18:44:26 ]  WocaPoints: 11943
+[ 18:44:28 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:44:29 ]  WocaPoints: 11945
+[ 18:44:31 ]  Padajúce slovo: emu -> emu
+[ 18:44:32 ]  WocaPoints: 11947
+[ 18:44:35 ]  Padajúce slovo: chicken -> Kurča
+[ 18:44:35 ]  WocaPoints: 11949
+[ 18:44:38 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:44:39 ]  WocaPoints: 11951
+[ 18:44:41 ]  Padajúce slovo: bird -> vták
+[ 18:44:42 ]  WocaPoints: 11953
+[ 18:44:45 ]  Padajúce slovo: hen -> sliepka
+[ 18:44:45 ]  WocaPoints: 11955
+[ 18:44:48 ]  Padajúce slovo: emu -> emu
+[ 18:44:48 ]  WocaPoints: 11957
+[ 18:44:51 ]  Padajúce slovo: swan -> labuť
+[ 18:44:52 ]  WocaPoints: 11959
+[ 18:44:54 ]  Padajúce slovo: emu -> emu
+[ 18:44:55 ]  WocaPoints: 11961
+[ 18:44:58 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:44:58 ]  WocaPoints: 11963
+[ 18:45:01 ]  Padajúce slovo: bird -> vták
+[ 18:45:01 ]  WocaPoints: 11965
+[ 18:45:04 ]  Padajúce slovo: swan -> labuť
+[ 18:45:05 ]  WocaPoints: 11967
+[ 18:45:07 ]  Padajúce slovo: swan -> labuť
+[ 18:45:08 ]  WocaPoints: 11969
+[ 18:45:11 ]  Padajúce slovo: emu -> emu
+[ 18:45:11 ]  WocaPoints: 11971
+[ 18:45:14 ]  Padajúce slovo: peacock -> páv
+[ 18:45:14 ]  WocaPoints: 11973
+[ 18:45:17 ]  Padajúce slovo: goose -> hus
+[ 18:45:17 ]  WocaPoints: 11975
+[ 18:45:20 ]  Padajúce slovo: goose -> hus
+[ 18:45:20 ]  WocaPoints: 11977
+[ 18:45:23 ]  Padajúce slovo: goose -> hus
+[ 18:45:24 ]  WocaPoints: 11979
+[ 18:45:26 ]  Padajúce slovo: peacock -> páv
+[ 18:45:27 ]  WocaPoints: 11981
+[ 18:45:29 ]  Padajúce slovo: emu -> emu
+[ 18:45:30 ]  WocaPoints: 11983
+[ 18:45:33 ]  Padajúce slovo: chicken -> Kurča
+[ 18:45:33 ]  WocaPoints: 11985
+[ 18:45:36 ]  Padajúce slovo: emu -> emu
+[ 18:45:36 ]  WocaPoints: 11987
+[ 18:45:39 ]  Padajúce slovo: bird -> vták
+[ 18:45:39 ]  WocaPoints: 11989
+[ 18:45:42 ]  Padajúce slovo: emu -> emu
+[ 18:45:43 ]  WocaPoints: 11991
+[ 18:45:45 ]  Padajúce slovo: goose -> hus
+[ 18:45:46 ]  WocaPoints: 11993
+[ 18:45:48 ]  Padajúce slovo: bird -> vták
+[ 18:45:49 ]  WocaPoints: 11995
+[ 18:45:52 ]  Padajúce slovo: hen -> sliepka
+[ 18:45:52 ]  WocaPoints: 11997
+[ 18:45:55 ]  Padajúce slovo: chicken -> Kurča
+[ 18:45:55 ]  WocaPoints: 11999
+[ 18:45:58 ]  Padajúce slovo: hen -> sliepka
+[ 18:45:59 ]  WocaPoints: 12001
+[ 18:46:02 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:46:02 ]  WocaPoints: 12003
+[ 18:46:05 ]  Padajúce slovo: duck -> Kačka
+[ 18:46:06 ]  WocaPoints: 12005
+[ 18:46:08 ]  Padajúce slovo: hen -> sliepka
+[ 18:46:09 ]  WocaPoints: 12007
+[ 18:46:12 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:46:12 ]  WocaPoints: 12009
+[ 18:46:15 ]  Padajúce slovo: duck -> Kačka
+[ 18:46:16 ]  WocaPoints: 12011
+[ 18:46:18 ]  Padajúce slovo: swan -> labuť
+[ 18:46:19 ]  WocaPoints: 12013
+[ 18:46:21 ]  Padajúce slovo: swan -> labuť
+[ 18:46:22 ]  WocaPoints: 12015
+[ 18:46:25 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:46:26 ]  WocaPoints: 12017
+[ 18:46:28 ]  Padajúce slovo: emu -> emu
+[ 18:46:29 ]  WocaPoints: 12019
+[ 18:46:31 ]  Padajúce slovo: swan -> labuť
+[ 18:46:32 ]  WocaPoints: 12021
+[ 18:46:34 ]  Padajúce slovo: chicken -> Kurča
+[ 18:46:35 ]  WocaPoints: 12023
+[ 18:46:38 ]  Padajúce slovo: bird -> vták
+[ 18:46:38 ]  WocaPoints: 12025
+[ 18:46:41 ]  Padajúce slovo: swan -> labuť
+[ 18:46:41 ]  WocaPoints: 12027
+[ 18:46:44 ]  Padajúce slovo: chicken -> Kurča
+[ 18:46:44 ]  WocaPoints: 12029
+[ 18:46:47 ]  Padajúce slovo: chicken -> Kurča
+[ 18:46:48 ]  WocaPoints: 12031
+[ 18:46:50 ]  Padajúce slovo: bird -> vták
+[ 18:46:51 ]  WocaPoints: 12033
+[ 18:46:53 ]  Padajúce slovo: swan -> labuť
+[ 18:46:54 ]  WocaPoints: 12035
+[ 18:46:57 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:46:57 ]  WocaPoints: 12037
+[ 18:47:00 ]  Padajúce slovo: goose -> hus
+[ 18:47:00 ]  WocaPoints: 12039
+[ 18:47:03 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:47:04 ]  WocaPoints: 12041
+[ 18:47:06 ]  Padajúce slovo: emu -> emu
+[ 18:47:07 ]  WocaPoints: 12043
+[ 18:47:09 ]  Padajúce slovo: duck -> Kačka
+[ 18:47:10 ]  WocaPoints: 12045
+[ 18:47:13 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:47:13 ]  WocaPoints: 12047
+[ 18:47:16 ]  Padajúce slovo: hen -> sliepka
+[ 18:47:16 ]  WocaPoints: 12049
+[ 18:47:19 ]  Padajúce slovo: emu -> emu
+[ 18:47:19 ]  WocaPoints: 12051
+[ 18:47:22 ]  Padajúce slovo: chicken -> Kurča
+[ 18:47:23 ]  WocaPoints: 12053
+[ 18:47:25 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:47:26 ]  WocaPoints: 12055
+[ 18:47:28 ]  Padajúce slovo: peacock -> páv
+[ 18:47:29 ]  WocaPoints: 12057
+[ 18:47:32 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:47:32 ]  WocaPoints: 12059
+[ 18:47:35 ]  Padajúce slovo: bird -> vták
+[ 18:47:36 ]  WocaPoints: 12061
+[ 18:47:38 ]  Padajúce slovo: peacock -> páv
+[ 18:47:39 ]  WocaPoints: 12063
+[ 18:47:41 ]  Padajúce slovo: swan -> labuť
+[ 18:47:42 ]  WocaPoints: 12065
+[ 18:47:45 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:47:45 ]  WocaPoints: 12067
+[ 18:47:48 ]  Padajúce slovo: bird -> vták
+[ 18:47:48 ]  WocaPoints: 12069
+[ 18:47:51 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:47:52 ]  WocaPoints: 12071
+[ 18:47:55 ]  Padajúce slovo: chicken -> Kurča
+[ 18:47:55 ]  WocaPoints: 12073
+[ 18:47:58 ]  Padajúce slovo: swan -> labuť
+[ 18:47:58 ]  WocaPoints: 12075
+[ 18:48:01 ]  Padajúce slovo: bird -> vták
+[ 18:48:01 ]  WocaPoints: 12077
+[ 18:48:04 ]  Padajúce slovo: peacock -> páv
+[ 18:48:05 ]  WocaPoints: 12079
+[ 18:48:07 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:48:08 ]  WocaPoints: 12081
+[ 18:48:10 ]  Padajúce slovo: peacock -> páv
+[ 18:48:11 ]  WocaPoints: 12083
+[ 18:48:14 ]  Padajúce slovo: swan -> labuť
+[ 18:48:14 ]  WocaPoints: 12085
+[ 18:48:17 ]  Padajúce slovo: swan -> labuť
+[ 18:48:17 ]  WocaPoints: 12087
+[ 18:48:20 ]  Padajúce slovo: bird -> vták
+[ 18:48:20 ]  WocaPoints: 12089
+[ 18:48:23 ]  Padajúce slovo: emu -> emu
+[ 18:48:24 ]  WocaPoints: 12091
+[ 18:48:27 ]  Padajúce slovo: bird -> vták
+[ 18:48:27 ]  WocaPoints: 12093
+[ 18:48:31 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:48:31 ]  WocaPoints: 12095
+[ 18:48:34 ]  Padajúce slovo: peacock -> páv
+[ 18:48:34 ]  WocaPoints: 12097
+[ 18:48:38 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:48:38 ]  WocaPoints: 12099
+[ 18:48:41 ]  Padajúce slovo: peacock -> páv
+[ 18:48:41 ]  WocaPoints: 12101
+[ 18:48:44 ]  Padajúce slovo: chicken -> Kurča
+[ 18:48:44 ]  WocaPoints: 12103
+[ 18:48:47 ]  Padajúce slovo: bird -> vták
+[ 18:48:48 ]  WocaPoints: 12105
+[ 18:48:50 ]  Padajúce slovo: emu -> emu
+[ 18:48:51 ]  WocaPoints: 12107
+[ 18:48:53 ]  Padajúce slovo: peacock -> páv
+[ 18:48:54 ]  WocaPoints: 12109
+[ 18:48:56 ]  Padajúce slovo: duck -> Kačka
+[ 18:48:57 ]  WocaPoints: 12111
+[ 18:49:00 ]  Padajúce slovo: goose -> hus
+[ 18:49:00 ]  WocaPoints: 12113
+[ 18:49:03 ]  Padajúce slovo: bird -> vták
+[ 18:49:03 ]  WocaPoints: 12115
+[ 18:49:06 ]  Padajúce slovo: chicken -> Kurča
+[ 18:49:07 ]  WocaPoints: 12117
+[ 18:49:10 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:49:10 ]  WocaPoints: 12119
+[ 18:49:13 ]  Padajúce slovo: peacock -> páv
+[ 18:49:13 ]  WocaPoints: 12121
+[ 18:49:16 ]  Padajúce slovo: bird -> vták
+[ 18:49:16 ]  WocaPoints: 12123
+[ 18:49:19 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:49:20 ]  WocaPoints: 12125
+[ 18:49:23 ]  Padajúce slovo: hen -> sliepka
+[ 18:49:23 ]  WocaPoints: 12127
+[ 18:49:26 ]  Padajúce slovo: chicken -> Kurča
+[ 18:49:27 ]  WocaPoints: 12129
+[ 18:49:29 ]  Padajúce slovo: chicken -> Kurča
+[ 18:49:30 ]  WocaPoints: 12131
+[ 18:49:32 ]  Padajúce slovo: emu -> emu
+[ 18:49:33 ]  WocaPoints: 12133
+[ 18:49:35 ]  Padajúce slovo: emu -> emu
+[ 18:49:36 ]  WocaPoints: 12135
+[ 18:49:39 ]  Padajúce slovo: peacock -> páv
+[ 18:49:39 ]  WocaPoints: 12137
+[ 18:49:42 ]  Padajúce slovo: peacock -> páv
+[ 18:49:42 ]  WocaPoints: 12139
+[ 18:49:45 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:49:46 ]  WocaPoints: 12141
+[ 18:49:49 ]  Padajúce slovo: swan -> labuť
+[ 18:49:49 ]  WocaPoints: 12143
+[ 18:49:52 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:49:52 ]  WocaPoints: 12145
+[ 18:49:55 ]  Padajúce slovo: swan -> labuť
+[ 18:49:56 ]  WocaPoints: 12147
+[ 18:49:58 ]  Padajúce slovo: hen -> sliepka
+[ 18:49:59 ]  WocaPoints: 12469
+[ 18:50:03 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:50:04 ]  WocaPoints: 12471
+[ 18:50:06 ]  Padajúce slovo: bird -> vták
+[ 18:50:07 ]  WocaPoints: 12473
+[ 18:50:10 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:50:10 ]  WocaPoints: 12475
+[ 18:50:14 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:50:14 ]  WocaPoints: 12477
+[ 18:50:17 ]  Padajúce slovo: swan -> labuť
+[ 18:50:17 ]  WocaPoints: 12479
+[ 18:50:20 ]  Padajúce slovo: chicken -> Kurča
+[ 18:50:20 ]  WocaPoints: 12481
+[ 18:50:23 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:50:24 ]  WocaPoints: 12483
+[ 18:50:26 ]  Padajúce slovo: goose -> hus
+[ 18:50:27 ]  WocaPoints: 12485
+[ 18:50:29 ]  Padajúce slovo: goose -> hus
+[ 18:50:30 ]  WocaPoints: 12487
+[ 18:50:32 ]  Padajúce slovo: duck -> Kačka
+[ 18:50:33 ]  WocaPoints: 12489
+[ 18:50:36 ]  Padajúce slovo: bird -> vták
+[ 18:50:36 ]  WocaPoints: 12491
+[ 18:50:39 ]  Padajúce slovo: emu -> emu
+[ 18:50:39 ]  WocaPoints: 12493
+[ 18:50:42 ]  Padajúce slovo: duck -> Kačka
+[ 18:50:42 ]  WocaPoints: 12495
+[ 18:50:45 ]  Padajúce slovo: chicken -> Kurča
+[ 18:50:45 ]  WocaPoints: 12497
+[ 18:50:48 ]  Padajúce slovo: emu -> emu
+[ 18:50:49 ]  WocaPoints: 12499
+[ 18:50:51 ]  Padajúce slovo: emu -> emu
+[ 18:50:52 ]  WocaPoints: 12501
+[ 18:50:54 ]  Padajúce slovo: swan -> labuť
+[ 18:50:55 ]  WocaPoints: 12503
+[ 18:50:57 ]  Padajúce slovo: swan -> labuť
+[ 18:50:58 ]  WocaPoints: 12505
+[ 18:51:01 ]  Padajúce slovo: chicken -> Kurča
+[ 18:51:01 ]  WocaPoints: 12507
+[ 18:51:04 ]  Padajúce slovo: emu -> emu
+[ 18:51:04 ]  WocaPoints: 12509
+[ 18:51:07 ]  Padajúce slovo: hen -> sliepka
+[ 18:51:07 ]  WocaPoints: 12511
+[ 18:51:11 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:51:11 ]  WocaPoints: 12513
+[ 18:51:14 ]  Padajúce slovo: hen -> sliepka
+[ 18:51:14 ]  WocaPoints: 12515
+[ 18:51:17 ]  Padajúce slovo: chicken -> Kurča
+[ 18:51:17 ]  WocaPoints: 12517
+[ 18:51:20 ]  Padajúce slovo: peacock -> páv
+[ 18:51:21 ]  WocaPoints: 12519
+[ 18:51:24 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:51:24 ]  WocaPoints: 12521
+[ 18:51:27 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:51:28 ]  WocaPoints: 12523
+[ 18:51:30 ]  Padajúce slovo: chicken -> Kurča
+[ 18:51:31 ]  WocaPoints: 12525
+[ 18:51:33 ]  Padajúce slovo: goose -> hus
+[ 18:51:34 ]  WocaPoints: 12527
+[ 18:51:37 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:51:37 ]  WocaPoints: 12529
+[ 18:51:40 ]  Padajúce slovo: swan -> labuť
+[ 18:51:41 ]  WocaPoints: 12531
+[ 18:51:43 ]  Padajúce slovo: chicken -> Kurča
+[ 18:51:44 ]  WocaPoints: 12533
+[ 18:51:46 ]  Padajúce slovo: bird -> vták
+[ 18:51:47 ]  WocaPoints: 12535
+[ 18:51:50 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:51:50 ]  WocaPoints: 12537
+[ 18:51:53 ]  Padajúce slovo: duck -> Kačka
+[ 18:51:54 ]  WocaPoints: 12539
+[ 18:51:56 ]  Padajúce slovo: emu -> emu
+[ 18:51:57 ]  WocaPoints: 12541
+[ 18:51:59 ]  Padajúce slovo: duck -> Kačka
+[ 18:52:00 ]  WocaPoints: 12543
+[ 18:52:02 ]  Padajúce slovo: bird -> vták
+[ 18:52:03 ]  WocaPoints: 12545
+[ 18:52:06 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:52:06 ]  WocaPoints: 12547
+[ 18:52:09 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:52:09 ]  WocaPoints: 12549
+[ 18:52:12 ]  Padajúce slovo: chicken -> Kurča
+[ 18:52:13 ]  WocaPoints: 12551
+[ 18:52:15 ]  Padajúce slovo: peacock -> páv
+[ 18:52:16 ]  WocaPoints: 12553
+[ 18:52:19 ]  Padajúce slovo: hen -> sliepka
+[ 18:52:19 ]  WocaPoints: 12555
+[ 18:52:22 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:52:23 ]  WocaPoints: 12557
+[ 18:52:25 ]  Padajúce slovo: goose -> hus
+[ 18:52:26 ]  WocaPoints: 12559
+[ 18:52:28 ]  Padajúce slovo: hen -> sliepka
+[ 18:52:29 ]  WocaPoints: 12561
+[ 18:52:31 ]  Padajúce slovo: goose -> hus
+[ 18:52:32 ]  WocaPoints: 12563
+[ 18:52:35 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:52:35 ]  WocaPoints: 12565
+[ 18:52:38 ]  Padajúce slovo: emu -> emu
+[ 18:52:38 ]  WocaPoints: 12567
+[ 18:52:41 ]  Padajúce slovo: swan -> labuť
+[ 18:52:41 ]  WocaPoints: 12569
+[ 18:52:44 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:52:45 ]  WocaPoints: 12571
+[ 18:52:47 ]  Padajúce slovo: swan -> labuť
+[ 18:52:48 ]  WocaPoints: 12573
+[ 18:52:51 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:52:51 ]  WocaPoints: 12575
+[ 18:52:54 ]  Padajúce slovo: hen -> sliepka
+[ 18:52:55 ]  WocaPoints: 12577
+[ 18:52:57 ]  Padajúce slovo: peacock -> páv
+[ 18:52:58 ]  WocaPoints: 12579
+[ 18:53:01 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:53:01 ]  WocaPoints: 12581
+[ 18:53:04 ]  Padajúce slovo: goose -> hus
+[ 18:53:05 ]  WocaPoints: 12583
+[ 18:53:08 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:53:08 ]  WocaPoints: 12585
+[ 18:53:11 ]  Padajúce slovo: peacock -> páv
+[ 18:53:12 ]  WocaPoints: 12587
+[ 18:53:15 ]  Padajúce slovo: emu -> emu
+[ 18:53:15 ]  WocaPoints: 12589
+[ 18:53:18 ]  Padajúce slovo: chicken -> Kurča
+[ 18:53:18 ]  WocaPoints: 12591
+[ 18:53:21 ]  Padajúce slovo: peacock -> páv
+[ 18:53:22 ]  WocaPoints: 12593
+[ 18:53:24 ]  Padajúce slovo: swan -> labuť
+[ 18:53:25 ]  WocaPoints: 12595
+[ 18:53:28 ]  Padajúce slovo: chicken -> Kurča
+[ 18:53:28 ]  WocaPoints: 12597
+[ 18:53:31 ]  Padajúce slovo: hen -> sliepka
+[ 18:53:31 ]  WocaPoints: 12599
+[ 18:53:34 ]  Padajúce slovo: chicken -> Kurča
+[ 18:53:35 ]  WocaPoints: 12601
+[ 18:53:37 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:53:38 ]  WocaPoints: 12603
+[ 18:53:41 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:53:41 ]  WocaPoints: 12605
+[ 18:53:45 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:53:45 ]  WocaPoints: 12607
+[ 18:53:48 ]  Padajúce slovo: swan -> labuť
+[ 18:53:48 ]  WocaPoints: 12609
+[ 18:53:51 ]  Padajúce slovo: chicken -> Kurča
+[ 18:53:51 ]  WocaPoints: 12611
+[ 18:53:54 ]  Padajúce slovo: swan -> labuť
+[ 18:53:55 ]  WocaPoints: 12613
+[ 18:53:57 ]  Padajúce slovo: chicken -> Kurča
+[ 18:53:58 ]  WocaPoints: 12615
+[ 18:54:00 ]  Padajúce slovo: goose -> hus
+[ 18:54:01 ]  WocaPoints: 12617
+[ 18:54:04 ]  Padajúce slovo: chicken -> Kurča
+[ 18:54:04 ]  WocaPoints: 12619
+[ 18:54:07 ]  Padajúce slovo: goose -> hus
+[ 18:54:07 ]  WocaPoints: 12621
+[ 18:54:10 ]  Padajúce slovo: emu -> emu
+[ 18:54:10 ]  WocaPoints: 12623
+[ 18:54:13 ]  Padajúce slovo: swan -> labuť
+[ 18:54:14 ]  WocaPoints: 12625
+[ 18:54:16 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:54:17 ]  WocaPoints: 12627
+[ 18:54:20 ]  Padajúce slovo: hen -> sliepka
+[ 18:54:20 ]  WocaPoints: 12629
+[ 18:54:23 ]  Padajúce slovo: hen -> sliepka
+[ 18:54:23 ]  WocaPoints: 12631
+[ 18:54:26 ]  Padajúce slovo: hen -> sliepka
+[ 18:54:27 ]  WocaPoints: 12633
+[ 18:54:30 ]  Padajúce slovo: duck -> Kačka
+[ 18:54:30 ]  WocaPoints: 12635
+[ 18:54:33 ]  Padajúce slovo: peacock -> páv
+[ 18:54:33 ]  WocaPoints: 12637
+[ 18:54:36 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:54:37 ]  WocaPoints: 12639
+[ 18:54:40 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:54:40 ]  WocaPoints: 12641
+[ 18:54:43 ]  Padajúce slovo: hen -> sliepka
+[ 18:54:44 ]  WocaPoints: 12643
+[ 18:54:47 ]  Padajúce slovo: duck -> Kačka
+[ 18:54:47 ]  WocaPoints: 12645
+[ 18:54:50 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:54:50 ]  WocaPoints: 12647
+[ 18:54:53 ]  Padajúce slovo: bird -> vták
+[ 18:54:53 ]  WocaPoints: 12649
+[ 18:54:56 ]  Padajúce slovo: duck -> Kačka
+[ 18:54:57 ]  WocaPoints: 12651
+[ 18:55:00 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:55:00 ]  WocaPoints: 12653
+[ 18:55:03 ]  Padajúce slovo: bird -> vták
+[ 18:55:03 ]  WocaPoints: 12655
+[ 18:55:06 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:55:07 ]  WocaPoints: 12657
+[ 18:55:10 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:55:10 ]  WocaPoints: 12659
+[ 18:55:13 ]  Padajúce slovo: emu -> emu
+[ 18:55:13 ]  WocaPoints: 12661
+[ 18:55:16 ]  Padajúce slovo: bird -> vták
+[ 18:55:16 ]  WocaPoints: 12663
+[ 18:55:19 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:55:20 ]  WocaPoints: 12665
+[ 18:55:23 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:55:23 ]  WocaPoints: 12667
+[ 18:55:26 ]  Padajúce slovo: hen -> sliepka
+[ 18:55:26 ]  WocaPoints: 12669
+[ 18:55:29 ]  Padajúce slovo: swan -> labuť
+[ 18:55:29 ]  WocaPoints: 12671
+[ 18:55:33 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:55:33 ]  WocaPoints: 12673
+[ 18:55:36 ]  Padajúce slovo: hen -> sliepka
+[ 18:55:36 ]  WocaPoints: 12675
+[ 18:55:39 ]  Padajúce slovo: emu -> emu
+[ 18:55:39 ]  WocaPoints: 12677
+[ 18:55:42 ]  Padajúce slovo: hen -> sliepka
+[ 18:55:43 ]  WocaPoints: 12679
+[ 18:55:45 ]  Padajúce slovo: hen -> sliepka
+[ 18:55:46 ]  WocaPoints: 12681
+[ 18:55:49 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:55:49 ]  WocaPoints: 12683
+[ 18:55:52 ]  Padajúce slovo: emu -> emu
+[ 18:55:52 ]  WocaPoints: 12685
+[ 18:55:55 ]  Padajúce slovo: bird -> vták
+[ 18:55:55 ]  WocaPoints: 12687
+[ 18:55:58 ]  Padajúce slovo: bird -> vták
+[ 18:55:58 ]  WocaPoints: 12689
+[ 18:56:01 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:56:02 ]  WocaPoints: 12691
+[ 18:56:04 ]  Padajúce slovo: bird -> vták
+[ 18:56:05 ]  WocaPoints: 12693
+[ 18:56:08 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:56:08 ]  WocaPoints: 12695
+[ 18:56:11 ]  Padajúce slovo: chicken -> Kurča
+[ 18:56:11 ]  WocaPoints: 12697
+[ 18:56:14 ]  Padajúce slovo: duck -> Kačka
+[ 18:56:14 ]  WocaPoints: 12699
+[ 18:56:17 ]  Padajúce slovo: hen -> sliepka
+[ 18:56:18 ]  WocaPoints: 12701
+[ 18:56:20 ]  Padajúce slovo: swan -> labuť
+[ 18:56:21 ]  WocaPoints: 12703
+[ 18:56:24 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:56:24 ]  WocaPoints: 12705
+[ 18:56:27 ]  Padajúce slovo: swan -> labuť
+[ 18:56:27 ]  WocaPoints: 12707
+[ 18:56:30 ]  Padajúce slovo: bird -> vták
+[ 18:56:30 ]  WocaPoints: 12709
+[ 18:56:33 ]  Padajúce slovo: hen -> sliepka
+[ 18:56:34 ]  WocaPoints: 12711
+[ 18:56:36 ]  Padajúce slovo: duck -> Kačka
+[ 18:56:37 ]  WocaPoints: 12713
+[ 18:56:40 ]  Padajúce slovo: goose -> hus
+[ 18:56:40 ]  WocaPoints: 12715
+[ 18:56:43 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:56:44 ]  WocaPoints: 12717
+[ 18:56:46 ]  Padajúce slovo: duck -> Kačka
+[ 18:56:47 ]  WocaPoints: 12719
+[ 18:56:49 ]  Padajúce slovo: bird -> vták
+[ 18:56:50 ]  WocaPoints: 12721
+[ 18:56:53 ]  Padajúce slovo: chicken -> Kurča
+[ 18:56:53 ]  WocaPoints: 12723
+[ 18:56:56 ]  Padajúce slovo: swan -> labuť
+[ 18:56:56 ]  WocaPoints: 12725
+[ 18:56:59 ]  Padajúce slovo: chicken -> Kurča
+[ 18:56:59 ]  WocaPoints: 12727
+[ 18:57:02 ]  Padajúce slovo: hen -> sliepka
+[ 18:57:03 ]  WocaPoints: 12729
+[ 18:57:06 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:57:06 ]  WocaPoints: 12731
+[ 18:57:09 ]  Padajúce slovo: hen -> sliepka
+[ 18:57:10 ]  WocaPoints: 12733
+[ 18:57:12 ]  Padajúce slovo: hen -> sliepka
+[ 18:57:13 ]  WocaPoints: 12735
+[ 18:57:16 ]  Padajúce slovo: hen -> sliepka
+[ 18:57:16 ]  WocaPoints: 12737
+[ 18:57:19 ]  Padajúce slovo: emu -> emu
+[ 18:57:19 ]  WocaPoints: 12739
+[ 18:57:22 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:57:23 ]  WocaPoints: 12741
+[ 18:57:25 ]  Padajúce slovo: swan -> labuť
+[ 18:57:26 ]  WocaPoints: 12743
+[ 18:57:29 ]  Padajúce slovo: bird -> vták
+[ 18:57:29 ]  WocaPoints: 12745
+[ 18:57:32 ]  Padajúce slovo: goose -> hus
+[ 18:57:32 ]  WocaPoints: 12747
+[ 18:57:35 ]  Padajúce slovo: hen -> sliepka
+[ 18:57:36 ]  WocaPoints: 12749
+[ 18:57:38 ]  Padajúce slovo: chicken -> Kurča
+[ 18:57:39 ]  WocaPoints: 12751
+[ 18:57:41 ]  Padajúce slovo: goose -> hus
+[ 18:57:42 ]  WocaPoints: 12753
+[ 18:57:44 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:57:45 ]  WocaPoints: 12755
+[ 18:57:48 ]  Padajúce slovo: emu -> emu
+[ 18:57:48 ]  WocaPoints: 12757
+[ 18:57:51 ]  Padajúce slovo: swan -> labuť
+[ 18:57:51 ]  WocaPoints: 12759
+[ 18:57:54 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:57:54 ]  WocaPoints: 12761
+[ 18:57:57 ]  Padajúce slovo: peacock -> páv
+[ 18:57:58 ]  WocaPoints: 12763
+[ 18:58:00 ]  Padajúce slovo: emu -> emu
+[ 18:58:01 ]  WocaPoints: 12765
+[ 18:58:04 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:58:04 ]  WocaPoints: 12767
+[ 18:58:07 ]  Padajúce slovo: goose -> hus
+[ 18:58:07 ]  WocaPoints: 12769
+[ 18:58:10 ]  Padajúce slovo: emu -> emu
+[ 18:58:10 ]  WocaPoints: 12771
+[ 18:58:13 ]  Padajúce slovo: swan -> labuť
+[ 18:58:14 ]  WocaPoints: 12773
+[ 18:58:16 ]  Padajúce slovo: chicken -> Kurča
+[ 18:58:17 ]  WocaPoints: 12775
+[ 18:58:19 ]  Padajúce slovo: emu -> emu
+[ 18:58:20 ]  WocaPoints: 12777
+[ 18:58:23 ]  Padajúce slovo: goose -> hus
+[ 18:58:23 ]  WocaPoints: 12779
+[ 18:58:26 ]  Padajúce slovo: hen -> sliepka
+[ 18:58:27 ]  WocaPoints: 12781
+[ 18:58:30 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:58:30 ]  WocaPoints: 12783
+[ 18:58:33 ]  Padajúce slovo: chicken -> Kurča
+[ 18:58:33 ]  WocaPoints: 12785
+[ 18:58:36 ]  Padajúce slovo: chicken -> Kurča
+[ 18:58:37 ]  WocaPoints: 12787
+[ 18:58:39 ]  Padajúce slovo: chicken -> Kurča
+[ 18:58:40 ]  WocaPoints: 12789
+[ 18:58:43 ]  Padajúce slovo: chicken -> Kurča
+[ 18:58:43 ]  WocaPoints: 12791
+[ 18:58:46 ]  Padajúce slovo: bird -> vták
+[ 18:58:46 ]  WocaPoints: 12793
+[ 18:58:49 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:58:50 ]  WocaPoints: 12795
+[ 18:58:52 ]  Padajúce slovo: bird -> vták
+[ 18:58:53 ]  WocaPoints: 12797
+[ 18:58:55 ]  Padajúce slovo: peacock -> páv
+[ 18:58:56 ]  WocaPoints: 12799
+[ 18:58:59 ]  Padajúce slovo: duck -> Kačka
+[ 18:58:59 ]  WocaPoints: 12801
+[ 18:59:02 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:59:03 ]  WocaPoints: 12803
+[ 18:59:06 ]  Padajúce slovo: turkey -> morka, moriak
+[ 18:59:06 ]  WocaPoints: 12805
+[ 18:59:09 ]  Padajúce slovo: swan -> labuť
+[ 18:59:09 ]  WocaPoints: 12807
+[ 18:59:12 ]  Padajúce slovo: emu -> emu
+[ 18:59:13 ]  WocaPoints: 12809
+[ 18:59:15 ]  Padajúce slovo: peacock -> páv
+[ 18:59:16 ]  WocaPoints: 12811
+[ 18:59:18 ]  Padajúce slovo: bird -> vták
+[ 18:59:19 ]  WocaPoints: 12813
+[ 18:59:21 ]  Padajúce slovo: bird -> vták
+[ 18:59:22 ]  WocaPoints: 12815
+[ 18:59:25 ]  Padajúce slovo: bird -> vták
+[ 18:59:25 ]  WocaPoints: 12817
+[ 18:59:28 ]  Padajúce slovo: hen -> sliepka
+[ 18:59:29 ]  WocaPoints: 12819
+[ 18:59:31 ]  Padajúce slovo: bird -> vták
+[ 18:59:32 ]  WocaPoints: 12821
+[ 18:59:34 ]  Padajúce slovo: goose -> hus
+[ 18:59:35 ]  WocaPoints: 12823
+[ 18:59:38 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:59:38 ]  WocaPoints: 12825
+[ 18:59:41 ]  Padajúce slovo: swan -> labuť
+[ 18:59:41 ]  WocaPoints: 12827
+[ 18:59:44 ]  Padajúce slovo: hen -> sliepka
+[ 18:59:45 ]  WocaPoints: 12829
+[ 18:59:47 ]  Padajúce slovo: goose -> hus
+[ 18:59:48 ]  WocaPoints: 12831
+[ 18:59:50 ]  Padajúce slovo: ostrich -> Pštros
+[ 18:59:51 ]  WocaPoints: 12833
+[ 18:59:54 ]  Padajúce slovo: chicken -> Kurča
+[ 18:59:54 ]  WocaPoints: 12835
+[ 18:59:57 ]  Padajúce slovo: swan -> labuť
+[ 18:59:57 ]  WocaPoints: 12837
+[ 19:00:01 ]  Padajúce slovo: turkey -> morka, moriak
+[ 19:00:01 ]  WocaPoints: 12839
+[ 19:00:04 ]  Padajúce slovo: goose -> hus
+[ 19:00:04 ]  WocaPoints: 12841
+[ 19:00:07 ]  Padajúce slovo: ostrich -> Pštros
+[ 19:00:07 ]  WocaPoints: 12843
+[ 19:00:10 ]  Padajúce slovo: chicken -> Kurča
+[ 19:00:11 ]  WocaPoints: 12845
+[ 19:00:13 ]  Padajúce slovo: peacock -> páv
+[ 19:00:14 ]  WocaPoints: 12847
+[ 19:00:16 ]  Padajúce slovo: goose -> hus
+[ 19:00:17 ]  WocaPoints: 12849
+[ 19:00:19 ]  Padajúce slovo: goose -> hus
+[ 19:00:20 ]  WocaPoints: 12851
+[ 19:00:23 ]  Padajúce slovo: bird -> vták
+[ 19:00:23 ]  WocaPoints: 12853
+[ 19:00:24 ]  Požiadavka: Uložiť a ukončiť.
+[ 19:00:24 ]  === STOP MANAGEMENTU ===
+[ 19:00:24 ]  Požiadavka: Uložiť a ukončiť.
+[ 19:00:24 ]  Pripájam sa na Chromium cez CDP: 9222
+[ 19:00:25 ]  Playwright pripojený cez CDP.
+[ 19:00:25 ]  Aktuálna URL: https://wocabee.app/app/student/class/practice/?class_id=138995&package_id=1850882&mode=practice
+[ 19:00:25 ]  Hľadám tlačidlo #backBtn...
+[ 19:00:25 ]  Tlačidlo #backBtn nájdené.
+[ 19:00:25 ]  Klikám na „Uložiť a odísť“...
+[ 19:00:25 ]  ULOŽIŤ A UKONČIŤ - kliknuté.
+[ 19:00:25 ]  Čakám 7 sekúnd na dokončenie uloženia...
+[ 19:00:32 ]  7 sekúnd uplynulo.
+[ 19:00:32 ]  Padajúce slovo sa nepodarilo odoslať: Locator.is_enabled: Timeout 1500ms exceeded.
+[ 19:00:32 ]  Call log:
+[ 19:00:32 ]  - waiting for locator("#translateFallingWord").first.locator("#translateFallingWordSubmitBtn").first
+[ 19:00:32 ]  Vypínam Chromium...
+[ 19:00:40 ]  Ukončujem Chromium PID: 12140
+[ 19:00:40 ]  Ukončujem Chromium PID: 1628
+[ 19:00:40 ]  Chyba v hlavnej slučke: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:40 ]  CHYBA: Traceback (most recent call last):
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1505, in main
+[ 19:00:40 ]  CHYBA: if spracuj_nespravne(stranka):
+[ 19:00:40 ]  CHYBA: ~~~~~~~~~~~~~~~~~^^^^^^^^^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1100, in spracuj_nespravne
+[ 19:00:40 ]  CHYBA: if not panel.is_visible() and not dalsie.is_visible():
+[ 19:00:40 ]  CHYBA: ~~~~~~~~~~~~~~~~^^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\sync_api\_generated.py", line 19841, in is_visible
+[ 19:00:40 ]  CHYBA: self._sync(self._impl_obj.is_visible(timeout=to_milliseconds(timeout)))
+[ 19:00:40 ]  CHYBA: ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+[ 19:00:40 ]  CHYBA: return task.result()
+[ 19:00:40 ]  CHYBA: ~~~~~~~~~~~^^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_locator.py", line 557, in is_visible
+[ 19:00:40 ]  CHYBA: return await self._frame.is_visible(
+[ 19:00:40 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:40 ]  CHYBA: ...<2 lines>...
+[ 19:00:40 ]  CHYBA: )
+[ 19:00:40 ]  CHYBA: ^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_frame.py", line 434, in is_visible
+[ 19:00:40 ]  CHYBA: return await self._channel.send(
+[ 19:00:40 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:40 ]  CHYBA: "isVisible", self._timeout, locals_to_params(locals())
+[ 19:00:40 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:40 ]  CHYBA: )
+[ 19:00:40 ]  CHYBA: ^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 76, in send
+[ 19:00:40 ]  CHYBA: return await self._connection.wrap_api_call(
+[ 19:00:40 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:40 ]  CHYBA: ...<3 lines>...
+[ 19:00:40 ]  CHYBA: )
+[ 19:00:40 ]  CHYBA: ^
+[ 19:00:40 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+[ 19:00:40 ]  CHYBA: raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+[ 19:00:40 ]  CHYBA: playwright._impl._errors.TargetClosedError: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:40 ]  Ukončujem Chromium PID: 5308
+[ 19:00:41 ]  Ukončujem Chromium PID: 14576
+[ 19:00:41 ]  Ukončujem Chromium PID: 9872
+[ 19:00:41 ]  Ukončujem Chromium PID: 11008
+[ 19:00:41 ]  Chyba v hlavnej slučke: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:41 ]  CHYBA: Traceback (most recent call last):
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1505, in main
+[ 19:00:41 ]  CHYBA: if spracuj_nespravne(stranka):
+[ 19:00:41 ]  CHYBA: ~~~~~~~~~~~~~~~~~^^^^^^^^^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1100, in spracuj_nespravne
+[ 19:00:41 ]  CHYBA: if not panel.is_visible() and not dalsie.is_visible():
+[ 19:00:41 ]  CHYBA: ~~~~~~~~~~~~~~~~^^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\sync_api\_generated.py", line 19841, in is_visible
+[ 19:00:41 ]  CHYBA: self._sync(self._impl_obj.is_visible(timeout=to_milliseconds(timeout)))
+[ 19:00:41 ]  CHYBA: ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+[ 19:00:41 ]  CHYBA: return task.result()
+[ 19:00:41 ]  CHYBA: ~~~~~~~~~~~^^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_locator.py", line 557, in is_visible
+[ 19:00:41 ]  CHYBA: return await self._frame.is_visible(
+[ 19:00:41 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:41 ]  CHYBA: ...<2 lines>...
+[ 19:00:41 ]  CHYBA: )
+[ 19:00:41 ]  CHYBA: ^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_frame.py", line 434, in is_visible
+[ 19:00:41 ]  CHYBA: return await self._channel.send(
+[ 19:00:41 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:41 ]  CHYBA: "isVisible", self._timeout, locals_to_params(locals())
+[ 19:00:41 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:41 ]  CHYBA: )
+[ 19:00:41 ]  CHYBA: ^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 76, in send
+[ 19:00:41 ]  CHYBA: return await self._connection.wrap_api_call(
+[ 19:00:41 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:41 ]  CHYBA: ...<3 lines>...
+[ 19:00:41 ]  CHYBA: )
+[ 19:00:41 ]  CHYBA: ^
+[ 19:00:41 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+[ 19:00:41 ]  CHYBA: raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+[ 19:00:41 ]  CHYBA: playwright._impl._errors.TargetClosedError: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:42 ]  Ukončujem Chromium PID: 9900
+[ 19:00:42 ]  Ukončujem Chromium PID: 11328
+[ 19:00:42 ]  Ukončujem Chromium PID: 11512
+[ 19:00:42 ]  Chyba v hlavnej slučke: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:42 ]  CHYBA: Traceback (most recent call last):
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1505, in main
+[ 19:00:42 ]  CHYBA: if spracuj_nespravne(stranka):
+[ 19:00:42 ]  CHYBA: ~~~~~~~~~~~~~~~~~^^^^^^^^^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1100, in spracuj_nespravne
+[ 19:00:42 ]  CHYBA: if not panel.is_visible() and not dalsie.is_visible():
+[ 19:00:42 ]  CHYBA: ~~~~~~~~~~~~~~~~^^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\sync_api\_generated.py", line 19841, in is_visible
+[ 19:00:42 ]  CHYBA: self._sync(self._impl_obj.is_visible(timeout=to_milliseconds(timeout)))
+[ 19:00:42 ]  CHYBA: ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+[ 19:00:42 ]  CHYBA: return task.result()
+[ 19:00:42 ]  CHYBA: ~~~~~~~~~~~^^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_locator.py", line 557, in is_visible
+[ 19:00:42 ]  CHYBA: return await self._frame.is_visible(
+[ 19:00:42 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:42 ]  CHYBA: ...<2 lines>...
+[ 19:00:42 ]  CHYBA: )
+[ 19:00:42 ]  CHYBA: ^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_frame.py", line 434, in is_visible
+[ 19:00:42 ]  CHYBA: return await self._channel.send(
+[ 19:00:42 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:42 ]  CHYBA: "isVisible", self._timeout, locals_to_params(locals())
+[ 19:00:42 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:42 ]  CHYBA: )
+[ 19:00:42 ]  CHYBA: ^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 76, in send
+[ 19:00:42 ]  CHYBA: return await self._connection.wrap_api_call(
+[ 19:00:42 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:00:42 ]  CHYBA: ...<3 lines>...
+[ 19:00:42 ]  CHYBA: )
+[ 19:00:42 ]  CHYBA: ^
+[ 19:00:42 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+[ 19:00:43 ]  CHYBA: raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+[ 19:00:43 ]  CHYBA: playwright._impl._errors.TargetClosedError: Locator.is_visible: Target page, context or browser has been closed
+[ 19:00:43 ]  Ukončujem Chromium PID: 8244
+[ 19:00:43 ]  Ukončujem Chromium PID: 13460
+[ 19:00:43 ]  Management ukončený.
+[ 19:00:43 ]  Stop proces skončil | Exit code: 0
+[ 19:02:07 ]  Nastavenia uložené
+[ 19:02:09 ]  Načítavam balíčky cez management.py --packages | Headless
+[ 19:02:09 ]  ============================================================
+[ 19:02:09 ]  WocaFuckOff™ PACKAGES
+[ 19:02:09 ]  ============================================================
+[ 19:02:09 ]  Načítavam config.toml...
+[ 19:02:09 ]  URL: https://wocabee.app/app
+[ 19:02:09 ]  Headless: True
+[ 19:02:09 ]  Class index: 0
+[ 19:02:09 ]  Spúšťam Playwright...
+[ 19:02:09 ]  Playwright pripravený.
+[ 19:02:09 ]  Spúšťam samostatný prehliadač pre načítanie balíkov...
+[ 19:02:10 ]  Otváram Wocabee...
+[ 19:02:13 ]  Aktuálna URL: https://wocabee.app/app/
+[ 19:02:13 ]  === PRIHLÁSENIE ===
+[ 19:02:13 ]  Hľadám #login...
+[ 19:02:13 ]  Username vyplnený.
+[ 19:02:13 ]  Hľadám #password...
+[ 19:02:13 ]  Password vyplnený.
+[ 19:02:13 ]  Prihlasovacie údaje odoslané.
+[ 19:02:13 ]  Čakám na prihlásenie...
+[ 19:02:28 ]  VAROVANIE: Redirect sa nepotvrdil. URL: https://wocabee.app/app/
+[ 19:02:28 ]  CHYBA[AUTH]: Nesprávne prihlasovacie meno alebo heslo.
+[ 19:02:28 ]  Čistím prostredie...
+[ 19:02:28 ]  Management ukončený.
+[ 19:02:28 ]  Načítanie balíčkov skončilo | Exit code: 1
+[ 19:02:35 ]  Načítavam balíčky cez management.py --packages | Headless
+[ 19:02:35 ]  ============================================================
+[ 19:02:35 ]  WocaFuckOff™ PACKAGES
+[ 19:02:35 ]  ============================================================
+[ 19:02:35 ]  Načítavam config.toml...
+[ 19:02:35 ]  URL: https://wocabee.app/app
+[ 19:02:35 ]  Headless: True
+[ 19:02:35 ]  Class index: 0
+[ 19:02:35 ]  Spúšťam Playwright...
+[ 19:02:35 ]  Playwright pripravený.
+[ 19:02:35 ]  Spúšťam samostatný prehliadač pre načítanie balíkov...
+[ 19:02:36 ]  Otváram Wocabee...
+[ 19:02:36 ]  Aktuálna URL: https://wocabee.app/app/
+[ 19:02:36 ]  === PRIHLÁSENIE ===
+[ 19:02:36 ]  Hľadám #login...
+[ 19:02:36 ]  Username vyplnený.
+[ 19:02:36 ]  Hľadám #password...
+[ 19:02:36 ]  Password vyplnený.
+[ 19:02:36 ]  Prihlasovacie údaje odoslané.
+[ 19:02:36 ]  Čakám na prihlásenie...
+[ 19:02:40 ]  QProcess chyba pri balíčkoch: ProcessError.Crashed
+[ 19:02:40 ]  Načítanie balíčkov skončilo | Exit code: 62097
+[ 19:02:51 ]  Nastavenia uložené
+[ 19:02:52 ]  Načítavam balíčky cez management.py --packages | Headless
+[ 19:02:53 ]  ============================================================
+[ 19:02:53 ]  WocaFuckOff™ PACKAGES
+[ 19:02:53 ]  ============================================================
+[ 19:02:53 ]  Načítavam config.toml...
+[ 19:02:53 ]  URL: https://wocabee.app/app
+[ 19:02:53 ]  Headless: True
+[ 19:02:53 ]  Class index: 0
+[ 19:02:53 ]  Spúšťam Playwright...
+[ 19:02:53 ]  Playwright pripravený.
+[ 19:02:53 ]  Spúšťam samostatný prehliadač pre načítanie balíkov...
+[ 19:02:53 ]  Otváram Wocabee...
+[ 19:02:54 ]  Aktuálna URL: https://wocabee.app/app/
+[ 19:02:54 ]  === PRIHLÁSENIE ===
+[ 19:02:54 ]  Hľadám #login...
+[ 19:02:54 ]  Username vyplnený.
+[ 19:02:54 ]  Hľadám #password...
+[ 19:02:54 ]  Password vyplnený.
+[ 19:02:54 ]  Prihlasovacie údaje odoslané.
+[ 19:02:54 ]  Čakám na prihlásenie...
+[ 19:02:55 ]  Prihlásenie úspešné.
+[ 19:02:55 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 19:02:55 ]  === WOCAPOINTS ===
+[ 19:02:55 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 19:02:55 ]  === VÝBER TRIEDY ===
+[ 19:02:55 ]  Index triedy: 0
+[ 19:02:55 ]  Nájdených tried: 1
+[ 19:02:55 ]  Klikám na triedu 0...
+[ 19:02:56 ]  Trieda vybraná.
+[ 19:02:56 ]  === WOCAPOINTS ===
+[ 19:02:56 ]  WOCAPOINTS: 7125
+[ 19:02:56 ]  WocaPoints: 7125
+[ 19:02:56 ]  === NAČÍTANIE BALÍKOV ===
+[ 19:02:56 ]  Nájdených balíkov: 3
+[ 19:02:56 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
+[ 19:02:57 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
+[ 19:02:57 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
+[ 19:02:57 ]  Úspešne načítaných balíkov: 3
+[ 19:02:57 ]  PACKAGES_JSON: [{"id": "1850925", "index": 0, "name": "Unit 1B + 1C - 1. časť", "deadline": "24.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1850925&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1850925", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848183", "index": 1, "name": "Unit 1A - 1. časť", "deadline": "22.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848183&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848183", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}, {"id": "1848181", "index": 2, "name": "Unit 1A - 2. časť + materials", "deadline": "20.09. 21:59", "progress": "●●●", "progress_values": [100, 100, 100], "status": "dokončené", "practice_url": "./practice/?class_id=138537&package_id=1848181&mode=practice", "pronunciation_url": "./pronunciation/?class_id=138537&package_id=1848181", "run_url": null, "has_practice": true, "has_pronunciation": true, "has_run": false}]
+[ 19:02:57 ]  Úspešne načítaných balíkov: 3
+[ 19:02:57 ]  Čistím prostredie...
+[ 19:02:57 ]  Management ukončený.
+[ 19:02:59 ]  Vybraný balík: Unit 1A - 2. časť + materials | ID 1848181
+[ 19:03:03 ]  Spúšťam management.py
+[ 19:03:04 ]  ============================================================
+[ 19:03:04 ]  WocaFuckOff™ MANAGEMENT
+[ 19:03:04 ]  ============================================================
+[ 19:03:04 ]  Načítavam config.toml...
+[ 19:03:04 ]  URL: https://wocabee.app/app
+[ 19:03:04 ]  Headless: False
+[ 19:03:04 ]  Class index: 0
+[ 19:03:04 ]  Selected package ID: 1848181
+[ 19:03:04 ]  Double points: True
+[ 19:03:04 ]  AutoTranslate: zapnutý
+[ 19:03:04 ]  CDP port: 9222
+[ 19:03:04 ]  Spúšťam Playwright...
+[ 19:03:04 ]  Playwright pripravený.
+[ 19:03:04 ]  === CHROMIUM ===
+[ 19:03:04 ]  Chromium executable:
+[ 19:03:04 ]  C:\Users\Admin\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe
+[ 19:03:04 ]  Spúšťam Chromium ako samostatný proces...
+[ 19:03:04 ]  CDP port: 9222
+[ 19:03:04 ]  Headless: False
+[ 19:03:04 ]  Profil:
+[ 19:03:04 ]  C:\Users\Admin\Downloads\WocaFuckOff-main\.wocafuckoff_chromium-6b5cfb59c2807662
+[ 19:03:04 ]  Chromium PID: 13380
+[ 19:03:04 ]  Čakám na CDP: http://127.0.0.1:9222/json/version
+[ 19:03:05 ]  CDP je pripravené.
+[ 19:03:05 ]  Pripájam Playwright na Chromium cez CDP...
+[ 19:03:05 ]  Playwright pripojený cez CDP.
+[ 19:03:05 ]  Otváram Wocabee...
+[ 19:03:06 ]  Aktuálna URL: https://wocabee.app/app/
+[ 19:03:06 ]  === PRIHLÁSENIE ===
+[ 19:03:06 ]  Hľadám #login...
+[ 19:03:06 ]  Username vyplnený.
+[ 19:03:06 ]  Hľadám #password...
+[ 19:03:06 ]  Password vyplnený.
+[ 19:03:06 ]  Prihlasovacie údaje odoslané.
+[ 19:03:06 ]  Čakám na prihlásenie...
+[ 19:03:07 ]  Prihlásenie úspešné.
+[ 19:03:07 ]  Aktuálna URL: https://wocabee.app/app/student/
+[ 19:03:07 ]  === WOCAPOINTS ===
+[ 19:03:08 ]  WocaPoints sa v aktuálnej stránke nenašli.
+[ 19:03:08 ]  === VÝBER TRIEDY ===
+[ 19:03:08 ]  Index triedy: 0
+[ 19:03:08 ]  Nájdených tried: 1
+[ 19:03:08 ]  Klikám na triedu 0...
+[ 19:03:09 ]  Trieda vybraná.
+[ 19:03:10 ]  === WOCAPOINTS ===
+[ 19:03:10 ]  WOCAPOINTS: 7125
+[ 19:03:10 ]  WocaPoints: 7125
+[ 19:03:10 ]  === VÝBER BALÍKA ===
+[ 19:03:10 ]  ID balíka: 1848181
+[ 19:03:10 ]  === NAČÍTANIE BALÍKOV ===
+[ 19:03:10 ]  Nájdených balíkov: 3
+[ 19:03:10 ]  [0] Unit 1B + 1C - 1. časť | 24.09. 21:59 | ●●● | ID: 1850925
+[ 19:03:10 ]  [1] Unit 1A - 1. časť | 22.09. 21:59 | ●●● | ID: 1848183
+[ 19:03:10 ]  [2] Unit 1A - 2. časť + materials | 20.09. 21:59 | ●●● | ID: 1848181
+[ 19:03:10 ]  Úspešne načítaných balíkov: 3
+[ 19:03:10 ]  Čakám na tlačidlo balíka...
+[ 19:03:10 ]  Klikám na balík...
+[ 19:03:12 ]  Balík vybraný.
+[ 19:03:12 ]  === WOCAPOINTS ===
+[ 19:03:12 ]  WOCAPOINTS: 7125
+[ 19:03:12 ]  === DOUBLE POINTS ===
+[ 19:03:12 ]  Aktivujem double points...
+[ 19:03:13 ]  Double points aktivované.
+[ 19:03:13 ]  === SOLVER ===
+[ 19:03:13 ]  Spúšťam solver.py...
+[ 19:03:13 ]  Solver PID: 14180
+[ 19:03:14 ]  ========================================
+[ 19:03:14 ]  WOCAFUCKOFF RIEŠIČ
+[ 19:03:14 ]  ========================================
+[ 19:03:14 ]  Dvojité body sú aktivované.
+[ 19:03:14 ]  Automatický preklad cez Azure Translator je aktivovaný.
+[ 19:03:14 ]  Adresa Wocabee: https://wocabee.app/app
+[ 19:03:14 ]  Súbor slovníka: wordlist.json
+[ 19:03:14 ]  Počet uložených slov: 31
+[ 19:03:17 ]  Pripájam sa k prehliadaču cez http://127.0.0.1:9222...
+[ 19:03:17 ]  Pripojené: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848181&mode=practice
+[ 19:03:17 ]  Riešič je pripravený.
+[ 19:03:17 ]  WocaPoints: 7125
+[ 19:03:18 ]  Azure Translator: SK -> EN: hodváb -> Silk
+[ 19:03:19 ]  Padajúce slovo: hodváb -> Silk
+[ 19:03:19 ]  WocaPoints: 7127
+[ 19:03:21 ]  Azure Translator: EN -> SK: silk -> Hodváb
+[ 19:03:22 ]  Padajúce slovo: silk -> Hodváb
+[ 19:03:22 ]  WocaPoints: 7129
+[ 19:03:24 ]  Azure Translator: SK -> EN: kultivovaný, elegantný -> refined, elegant
+[ 19:03:25 ]  Padajúce slovo: kultivovaný, elegantný -> refined, elegant
+[ 19:03:25 ]  Uložená oprava: kultivovaný, elegantný -> sophisticated
+[ 19:03:25 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:03:26 ]  Azure Translator: EN -> SK: cotton -> Bavlna
+[ 19:03:26 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:03:27 ]  WocaPoints: 7131
+[ 19:03:28 ]  Azure Translator: SK -> EN: vlnený -> Woolen
+[ 19:03:29 ]  Padajúce slovo: vlnený -> Woolen
+[ 19:03:29 ]  Uložená oprava: vlnený -> woollen
+[ 19:03:29 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:03:30 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:03:30 ]  WocaPoints: 7133
+[ 19:03:32 ]  Padajúce slovo: woollen -> vlnený
+[ 19:03:33 ]  WocaPoints: 7135
+[ 19:03:34 ]  Padajúce slovo: hodváb -> Silk
+[ 19:03:35 ]  WocaPoints: 7137
+[ 19:03:36 ]  Azure Translator: EN -> SK: leather -> koža
+[ 19:03:37 ]  Padajúce slovo: leather -> koža
+[ 19:03:37 ]  WocaPoints: 7139
+[ 19:03:39 ]  Padajúce slovo: leather -> koža
+[ 19:03:39 ]  WocaPoints: 7146
+[ 19:03:42 ]  Azure Translator: EN -> SK: X-ray -> Röntgen
+[ 19:03:42 ]  Padajúce slovo: X-ray -> Röntgen
+[ 19:03:42 ]  Uložená oprava: X-ray -> röntgenovať
+[ 19:03:42 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:03:43 ]  Padajúce slovo: sophisticated -> kultivovaný, elegantný
+[ 19:03:44 ]  WocaPoints: 7148
+[ 19:03:45 ]  Azure Translator: EN -> SK: Stone Age -> Doba kamenná
+[ 19:03:46 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:03:47 ]  WocaPoints: 7150
+[ 19:03:49 ]  Azure Translator: SK -> EN: doba kamenná -> Stone Age
+[ 19:03:50 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:03:50 ]  WocaPoints: 7152
+[ 19:03:52 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:03:53 ]  WocaPoints: 7154
+[ 19:03:54 ]  Azure Translator: SK -> EN: meď -> Copper
+[ 19:03:55 ]  Padajúce slovo: meď -> Copper
+[ 19:03:55 ]  WocaPoints: 7161
+[ 19:03:58 ]  Azure Translator: EN -> SK: steel -> Oceľ
+[ 19:03:58 ]  Padajúce slovo: steel -> Oceľ
+[ 19:03:59 ]  WocaPoints: 7163
+[ 19:04:00 ]  Azure Translator: EN -> SK: waterproof -> Vodotesnosť
+[ 19:04:01 ]  Padajúce slovo: waterproof -> Vodotesnosť
+[ 19:04:01 ]  Uložená oprava: waterproof -> vodotesný
+[ 19:04:01 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:04:02 ]  Azure Translator: SK -> EN: oceľ -> Steel
+[ 19:04:02 ]  Padajúce slovo: oceľ -> Steel
+[ 19:04:03 ]  WocaPoints: 7165
+[ 19:04:04 ]  Padajúce slovo: hodváb -> Silk
+[ 19:04:05 ]  WocaPoints: 7167
+[ 19:04:07 ]  Azure Translator: EN -> SK: polyester -> Polyester
+[ 19:04:08 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:09 ]  WocaPoints: 7169
+[ 19:04:10 ]  Padajúce slovo: meď -> Copper
+[ 19:04:11 ]  WocaPoints: 7171
+[ 19:04:13 ]  Padajúce slovo: sophisticated -> kultivovaný, elegantný
+[ 19:04:14 ]  WocaPoints: 7178
+[ 19:04:17 ]  Azure Translator: SK -> EN: koža -> Skin
+[ 19:04:17 ]  Padajúce slovo: koža -> Skin
+[ 19:04:17 ]  Uložená oprava: koža -> leather
+[ 19:04:17 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:04:17 ]  Padajúce slovo: hodváb -> Silk
+[ 19:04:18 ]  WocaPoints: 7180
+[ 19:04:20 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:20 ]  WocaPoints: 7182
+[ 19:04:22 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:04:22 ]  WocaPoints: 7184
+[ 19:04:24 ]  Padajúce slovo: leather -> koža
+[ 19:04:25 ]  WocaPoints: 7186
+[ 19:04:26 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:27 ]  WocaPoints: 7193
+[ 19:04:29 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:30 ]  WocaPoints: 7195
+[ 19:04:32 ]  Azure Translator: EN -> SK: wool -> Vlna
+[ 19:04:32 ]  Padajúce slovo: wool -> Vlna
+[ 19:04:32 ]  WocaPoints: 7197
+[ 19:04:34 ]  Padajúce slovo: meď -> Copper
+[ 19:04:35 ]  WocaPoints: 7199
+[ 19:04:37 ]  Azure Translator: SK -> EN: bavlna -> Cotton
+[ 19:04:37 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:04:38 ]  WocaPoints: 7201
+[ 19:04:40 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:04:41 ]  WocaPoints: 7213
+[ 19:04:43 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:44 ]  WocaPoints: 7215
+[ 19:04:45 ]  Padajúce slovo: silk -> Hodváb
+[ 19:04:46 ]  WocaPoints: 7217
+[ 19:04:47 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:04:48 ]  WocaPoints: 7219
+[ 19:04:50 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:50 ]  WocaPoints: 7221
+[ 19:04:52 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:04:53 ]  WocaPoints: 7223
+[ 19:04:54 ]  Padajúce slovo: polyester -> Polyester
+[ 19:04:55 ]  WocaPoints: 7225
+[ 19:04:56 ]  Padajúce slovo: leather -> koža
+[ 19:04:57 ]  WocaPoints: 7227
+[ 19:04:59 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:04:59 ]  WocaPoints: 7229
+[ 19:05:01 ]  Padajúce slovo: leather -> koža
+[ 19:05:01 ]  WocaPoints: 7231
+[ 19:05:03 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:05:04 ]  WocaPoints: 7253
+[ 19:05:06 ]  Padajúce slovo: meď -> Copper
+[ 19:05:07 ]  WocaPoints: 7255
+[ 19:05:08 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:05:09 ]  WocaPoints: 7257
+[ 19:05:11 ]  Azure Translator: SK -> EN: vlna -> Wool
+[ 19:05:12 ]  Padajúce slovo: vlna -> Wool
+[ 19:05:12 ]  WocaPoints: 7259
+[ 19:05:14 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:05:14 ]  WocaPoints: 7261
+[ 19:05:16 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:05:17 ]  WocaPoints: 7263
+[ 19:05:18 ]  Padajúce slovo: oceľ -> Steel
+[ 19:05:19 ]  WocaPoints: 7265
+[ 19:05:21 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:05:21 ]  WocaPoints: 7267
+[ 19:05:23 ]  Padajúce slovo: hodváb -> Silk
+[ 19:05:23 ]  WocaPoints: 7269
+[ 19:05:25 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:05:26 ]  WocaPoints: 7271
+[ 19:05:27 ]  Padajúce slovo: meď -> Copper
+[ 19:05:28 ]  WocaPoints: 7273
+[ 19:05:30 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:05:30 ]  WocaPoints: 7275
+[ 19:05:32 ]  Padajúce slovo: leather -> koža
+[ 19:05:32 ]  WocaPoints: 7277
+[ 19:05:34 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:05:34 ]  WocaPoints: 7279
+[ 19:05:36 ]  Padajúce slovo: leather -> koža
+[ 19:05:36 ]  WocaPoints: 7281
+[ 19:05:38 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:05:39 ]  WocaPoints: 7283
+[ 19:05:41 ]  Padajúce slovo: vlnený -> woollen
+[ 19:05:41 ]  WocaPoints: 7285
+[ 19:05:43 ]  Padajúce slovo: waterproof -> vodotesný
+[ 19:05:44 ]  WocaPoints: 7287
+[ 19:05:45 ]  Padajúce slovo: oceľ -> Steel
+[ 19:05:46 ]  WocaPoints: 7289
+[ 19:05:47 ]  Padajúce slovo: hodváb -> Silk
+[ 19:05:48 ]  WocaPoints: 7291
+[ 19:05:50 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:05:50 ]  WocaPoints: 7333
+[ 19:05:53 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:05:53 ]  WocaPoints: 7335
+[ 19:05:56 ]  Padajúce slovo: sophisticated -> kultivovaný, elegantný
+[ 19:05:56 ]  WocaPoints: 7337
+[ 19:05:58 ]  Padajúce slovo: leather -> koža
+[ 19:05:58 ]  WocaPoints: 7339
+[ 19:06:00 ]  Padajúce slovo: leather -> koža
+[ 19:06:00 ]  WocaPoints: 7341
+[ 19:06:02 ]  Padajúce slovo: vlnený -> woollen
+[ 19:06:03 ]  WocaPoints: 7343
+[ 19:06:04 ]  Padajúce slovo: hodváb -> Silk
+[ 19:06:05 ]  WocaPoints: 7345
+[ 19:06:06 ]  Padajúce slovo: vlna -> Wool
+[ 19:06:07 ]  WocaPoints: 7347
+[ 19:06:09 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:06:09 ]  WocaPoints: 7349
+[ 19:06:11 ]  Padajúce slovo: vlnený -> woollen
+[ 19:06:11 ]  WocaPoints: 7351
+[ 19:06:13 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:06:13 ]  WocaPoints: 7353
+[ 19:06:15 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:06:16 ]  WocaPoints: 7355
+[ 19:06:17 ]  Padajúce slovo: leather -> koža
+[ 19:06:17 ]  Uložená oprava: leather -> koža
+[ 19:06:17 ]  Nesprávna odpoveď: pokračujem na ďalšiu úlohu.
+[ 19:06:19 ]  Padajúce slovo: sophisticated -> kultivovaný, elegantný
+[ 19:06:19 ]  WocaPoints: 7357
+[ 19:06:21 ]  Padajúce slovo: leather -> koža
+[ 19:06:21 ]  WocaPoints: 7359
+[ 19:06:23 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:06:23 ]  WocaPoints: 7361
+[ 19:06:25 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:06:26 ]  WocaPoints: 7363
+[ 19:06:27 ]  Padajúce slovo: silk -> Hodváb
+[ 19:06:28 ]  WocaPoints: 7370
+[ 19:06:30 ]  Padajúce slovo: meď -> Copper
+[ 19:06:31 ]  WocaPoints: 7372
+[ 19:06:32 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:06:33 ]  WocaPoints: 7374
+[ 19:06:35 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:06:35 ]  WocaPoints: 7376
+[ 19:06:37 ]  Padajúce slovo: polyester -> Polyester
+[ 19:06:37 ]  WocaPoints: 7378
+[ 19:06:39 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:06:40 ]  WocaPoints: 7390
+[ 19:06:42 ]  Padajúce slovo: polyester -> Polyester
+[ 19:06:43 ]  WocaPoints: 7392
+[ 19:06:44 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:06:45 ]  WocaPoints: 7394
+[ 19:06:47 ]  Padajúce slovo: vlnený -> woollen
+[ 19:06:47 ]  WocaPoints: 7396
+[ 19:06:49 ]  Padajúce slovo: koža -> leather
+[ 19:06:49 ]  WocaPoints: 7398
+[ 19:06:51 ]  Padajúce slovo: vodotesný -> waterproof
+[ 19:06:52 ]  WocaPoints: 7400
+[ 19:06:53 ]  Padajúce slovo: meď -> Copper
+[ 19:06:54 ]  WocaPoints: 7402
+[ 19:06:56 ]  Padajúce slovo: vlnený -> woollen
+[ 19:06:56 ]  WocaPoints: 7404
+[ 19:06:58 ]  Padajúce slovo: polyester -> Polyester
+[ 19:06:58 ]  WocaPoints: 7406
+[ 19:07:00 ]  Padajúce slovo: meď -> Copper
+[ 19:07:01 ]  WocaPoints: 7408
+[ 19:07:02 ]  Padajúce slovo: polyester -> Polyester
+[ 19:07:03 ]  WocaPoints: 7430
+[ 19:07:05 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:07:06 ]  WocaPoints: 7432
+[ 19:07:08 ]  Padajúce slovo: polyester -> Polyester
+[ 19:07:08 ]  WocaPoints: 7434
+[ 19:07:10 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:07:11 ]  WocaPoints: 7436
+[ 19:07:13 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:07:13 ]  WocaPoints: 7438
+[ 19:07:15 ]  Padajúce slovo: oceľ -> Steel
+[ 19:07:15 ]  WocaPoints: 7440
+[ 19:07:17 ]  Padajúce slovo: waterproof -> vodotesný
+[ 19:07:18 ]  WocaPoints: 7442
+[ 19:07:19 ]  Padajúce slovo: silk -> Hodváb
+[ 19:07:20 ]  WocaPoints: 7444
+[ 19:07:21 ]  Padajúce slovo: vlnený -> woollen
+[ 19:07:22 ]  WocaPoints: 7446
+[ 19:07:24 ]  Padajúce slovo: meď -> Copper
+[ 19:07:24 ]  WocaPoints: 7448
+[ 19:07:26 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:07:26 ]  WocaPoints: 7450
+[ 19:07:28 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:07:29 ]  WocaPoints: 7452
+[ 19:07:30 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:07:31 ]  WocaPoints: 7454
+[ 19:07:33 ]  Padajúce slovo: waterproof -> vodotesný
+[ 19:07:33 ]  WocaPoints: 7456
+[ 19:07:35 ]  Padajúce slovo: polyester -> Polyester
+[ 19:07:36 ]  WocaPoints: 7458
+[ 19:07:37 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:07:38 ]  WocaPoints: 7460
+[ 19:07:40 ]  Padajúce slovo: sophisticated -> kultivovaný, elegantný
+[ 19:07:41 ]  WocaPoints: 7462
+[ 19:07:42 ]  Padajúce slovo: hodváb -> Silk
+[ 19:07:43 ]  WocaPoints: 7464
+[ 19:07:45 ]  Padajúce slovo: doba kamenná -> Stone Age
+[ 19:07:45 ]  WocaPoints: 7466
+[ 19:07:47 ]  Padajúce slovo: oceľ -> Steel
+[ 19:07:47 ]  WocaPoints: 7468
+[ 19:07:49 ]  Padajúce slovo: leather -> koža
+[ 19:07:50 ]  WocaPoints: 7510
+[ 19:07:52 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:07:53 ]  WocaPoints: 7512
+[ 19:07:55 ]  Padajúce slovo: X-ray -> röntgenovať
+[ 19:07:55 ]  WocaPoints: 7514
+[ 19:07:57 ]  Padajúce slovo: hodváb -> Silk
+[ 19:07:57 ]  WocaPoints: 7516
+[ 19:07:59 ]  Padajúce slovo: leather -> koža
+[ 19:07:59 ]  WocaPoints: 7518
+[ 19:08:01 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:08:02 ]  WocaPoints: 7520
+[ 19:08:04 ]  Padajúce slovo: polyester -> Polyester
+[ 19:08:04 ]  WocaPoints: 7522
+[ 19:08:06 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:08:07 ]  WocaPoints: 7524
+[ 19:08:09 ]  Padajúce slovo: Stone Age -> Doba kamenná
+[ 19:08:09 ]  WocaPoints: 7526
+[ 19:08:11 ]  Padajúce slovo: koža -> leather
+[ 19:08:11 ]  WocaPoints: 7528
+[ 19:08:13 ]  Padajúce slovo: meď -> Copper
+[ 19:08:13 ]  WocaPoints: 7530
+[ 19:08:15 ]  Padajúce slovo: wool -> Vlna
+[ 19:08:16 ]  WocaPoints: 7532
+[ 19:08:17 ]  Padajúce slovo: vodotesný -> waterproof
+[ 19:08:18 ]  WocaPoints: 7534
+[ 19:08:20 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:08:20 ]  WocaPoints: 7536
+[ 19:08:22 ]  Padajúce slovo: vodotesný -> waterproof
+[ 19:08:23 ]  WocaPoints: 7538
+[ 19:08:24 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:08:25 ]  WocaPoints: 7540
+[ 19:08:26 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:08:27 ]  WocaPoints: 7542
+[ 19:08:28 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:08:29 ]  WocaPoints: 7544
+[ 19:08:31 ]  Padajúce slovo: vodotesný -> waterproof
+[ 19:08:31 ]  WocaPoints: 7546
+[ 19:08:33 ]  Padajúce slovo: koža -> leather
+[ 19:08:34 ]  WocaPoints: 7548
+[ 19:08:35 ]  Padajúce slovo: polyester -> Polyester
+[ 19:08:36 ]  WocaPoints: 7550
+[ 19:08:38 ]  Padajúce slovo: silk -> Hodváb
+[ 19:08:38 ]  WocaPoints: 7552
+[ 19:08:40 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:08:41 ]  WocaPoints: 7554
+[ 19:08:42 ]  Padajúce slovo: woollen -> vlnený
+[ 19:08:43 ]  WocaPoints: 7556
+[ 19:08:45 ]  Padajúce slovo: vlnený -> woollen
+[ 19:08:45 ]  WocaPoints: 7558
+[ 19:08:47 ]  Padajúce slovo: silk -> Hodváb
+[ 19:08:47 ]  WocaPoints: 7560
+[ 19:08:49 ]  Padajúce slovo: polyester -> Polyester
+[ 19:08:50 ]  WocaPoints: 7562
+[ 19:08:51 ]  Padajúce slovo: silk -> Hodváb
+[ 19:08:52 ]  WocaPoints: 7564
+[ 19:08:53 ]  Padajúce slovo: bavlna -> Cotton
+[ 19:08:54 ]  WocaPoints: 7566
+[ 19:08:56 ]  Padajúce slovo: polyester -> Polyester
+[ 19:08:56 ]  WocaPoints: 7568
+[ 19:08:58 ]  Padajúce slovo: polyester -> Polyester
+[ 19:08:59 ]  WocaPoints: 7570
+[ 19:09:00 ]  Padajúce slovo: oceľ -> Steel
+[ 19:09:01 ]  WocaPoints: 7572
+[ 19:09:02 ]  Padajúce slovo: oceľ -> Steel
+[ 19:09:03 ]  WocaPoints: 7574
+[ 19:09:05 ]  Padajúce slovo: polyester -> Polyester
+[ 19:09:05 ]  WocaPoints: 7576
+[ 19:09:07 ]  Padajúce slovo: kultivovaný, elegantný -> sophisticated
+[ 19:09:08 ]  WocaPoints: 7578
+[ 19:09:09 ]  Padajúce slovo: röntgenovať -> X-ray
+[ 19:09:10 ]  WocaPoints: 7580
+[ 19:09:12 ]  Padajúce slovo: vlnený -> woollen
+[ 19:09:12 ]  WocaPoints: 7582
+[ 19:09:14 ]  Padajúce slovo: cotton -> Bavlna
+[ 19:09:14 ]  WocaPoints: 7584
+[ 19:09:16 ]  Padajúce slovo: koža -> leather
+[ 19:09:17 ]  WocaPoints: 7586
+[ 19:09:18 ]  Padajúce slovo: oceľ -> Steel
+[ 19:09:19 ]  WocaPoints: 7588
+[ 19:09:19 ]  Požiadavka: Uložiť a ukončiť.
+[ 19:09:19 ]  === STOP MANAGEMENTU ===
+[ 19:09:19 ]  Požiadavka: Uložiť a ukončiť.
+[ 19:09:19 ]  Pripájam sa na Chromium cez CDP: 9222
+[ 19:09:20 ]  Playwright pripojený cez CDP.
+[ 19:09:20 ]  Aktuálna URL: https://wocabee.app/app/student/class/practice/?class_id=138537&package_id=1848181&mode=practice
+[ 19:09:20 ]  Hľadám tlačidlo #backBtn...
+[ 19:09:20 ]  Tlačidlo #backBtn nájdené.
+[ 19:09:20 ]  Klikám na „Uložiť a odísť“...
+[ 19:09:20 ]  ULOŽIŤ A UKONČIŤ - kliknuté.
+[ 19:09:20 ]  Čakám 7 sekúnd na dokončenie uloženia...
+[ 19:09:27 ]  7 sekúnd uplynulo.
+[ 19:09:27 ]  Vypínam Chromium...
+[ 19:09:29 ]  Ukončujem Chromium PID: 13380
+[ 19:09:29 ]  Ukončujem Chromium PID: 10348
+[ 19:09:29 ]  Chyba v hlavnej slučke: Locator.is_visible: Target page, context or browser has been closed
+[ 19:09:29 ]  CHYBA: Traceback (most recent call last):
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1505, in main
+[ 19:09:29 ]  CHYBA: if spracuj_nespravne(stranka):
+[ 19:09:29 ]  CHYBA: ~~~~~~~~~~~~~~~~~^^^^^^^^^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\Downloads\WocaFuckOff-main\solver.py", line 1100, in spracuj_nespravne
+[ 19:09:29 ]  CHYBA: if not panel.is_visible() and not dalsie.is_visible():
+[ 19:09:29 ]  CHYBA: ~~~~~~~~~~~~~~~~^^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\sync_api\_generated.py", line 19841, in is_visible
+[ 19:09:29 ]  CHYBA: self._sync(self._impl_obj.is_visible(timeout=to_milliseconds(timeout)))
+[ 19:09:29 ]  CHYBA: ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+[ 19:09:29 ]  CHYBA: return task.result()
+[ 19:09:29 ]  CHYBA: ~~~~~~~~~~~^^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_locator.py", line 557, in is_visible
+[ 19:09:29 ]  CHYBA: return await self._frame.is_visible(
+[ 19:09:29 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:09:29 ]  CHYBA: ...<2 lines>...
+[ 19:09:29 ]  CHYBA: )
+[ 19:09:29 ]  CHYBA: ^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_frame.py", line 434, in is_visible
+[ 19:09:29 ]  CHYBA: return await self._channel.send(
+[ 19:09:29 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:09:29 ]  CHYBA: "isVisible", self._timeout, locals_to_params(locals())
+[ 19:09:29 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:09:29 ]  CHYBA: )
+[ 19:09:29 ]  CHYBA: ^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 76, in send
+[ 19:09:29 ]  CHYBA: return await self._connection.wrap_api_call(
+[ 19:09:29 ]  CHYBA: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 19:09:29 ]  CHYBA: ...<3 lines>...
+[ 19:09:29 ]  CHYBA: )
+[ 19:09:29 ]  CHYBA: ^
+[ 19:09:29 ]  CHYBA: File "C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\playwright\_impl\_connection.py", line 632, in wrap_api_call
+[ 19:09:29 ]  CHYBA: raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+[ 19:09:29 ]  CHYBA: playwright._impl._errors.TargetClosedError: Locator.is_visible: Target page, context or browser has been closed
+[ 19:09:29 ]  Ukončujem Chromium PID: 4964
+[ 19:09:29 ]  Ukončujem Chromium PID: 13548
+[ 19:09:29 ]  Ukončujem Chromium PID: 15960
+[ 19:09:29 ]  Ukončujem Chromium PID: 7124
+[ 19:09:29 ]  Ukončujem Chromium PID: 13492
+[ 19:09:29 ]  Ukončujem Chromium PID: 13168
+[ 19:09:29 ]  Ukončujem Chromium PID: 10980
+[ 19:09:30 ]  Ukončujem Chromium PID: 13000
+[ 19:09:30 ]  Management ukončený.
+[ 19:09:30 ]  Stop proces skončil | Exit code: 0
+[ 19:13:16 ]  Nastavenia uložené

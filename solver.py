@@ -11,6 +11,7 @@ import json
 import os
 
 import sys
+import re
 
 import time
 
@@ -84,23 +85,25 @@ NTFY_TOPIC = str(config.get("ntfy_topic", "")).strip()
 
 NTFY_TOKEN = str(config.get("ntfy_token", "")).strip()
 
-# DEEPL
+# AZURE TRANSLATOR
 
-DEEPL_API_KEY = (
+AZURE_TRANSLATOR_KEY = (
 
-    os.environ.get("DEEPL_API_KEY") or config.get("deepl_api_key", "")
+    os.environ.get("AZURE_TRANSLATOR_KEY")
+    or config.get("azure_translator_key", "")
 
 ).strip()
 
-# DeepL API Free / Pro
+AZURE_TRANSLATOR_REGION = (
 
-DEEPL_URL = (
+    os.environ.get("AZURE_TRANSLATOR_REGION")
+    or config.get("azure_translator_region", "northeurope")
 
-    "https://api-free.deepl.com/v2/translate"
+).strip().lower()
 
-    if DEEPL_API_KEY.endswith(":fx")
+AZURE_TRANSLATOR_URL = (
 
-    else "https://api.deepl.com/v2/translate"
+    "https://api.cognitive.microsofttranslator.com/translate"
 
 )
 
@@ -293,74 +296,21 @@ def normalize(text):
 # WOCA POINTS
 
 def get_points(page):
-
-    selektory = [
-
-        "#wocaPoints",
-
-        "#points",
-
-        ".woca-points",
-
-        ".points",
-
-        "[class*='points']",
-
-    ]
-
-    for selektor in selektory:
-
-        try:
-
-            prvok = page.locator(selektor).first
-
-            if prvok.count() > 0:
-
-                text = prvok.inner_text(timeout=1000).strip()
-
-                cisla = "".join(znak for znak in text if znak.isdigit())
-
-                if cisla:
-
-                    return int(cisla)
-
-        except Exception:
-
-            pass
-
     try:
-
-        text_stranky = page.locator("body").inner_text(timeout=1000)
-
-        import re
-
-
-
-        zhody = re.findall(
-
-            r"(?:WocaPoints|Woca\s*Points|Points)\D*(\d+)",
-
-            text_stranky,
-
-            flags=re.IGNORECASE,
-
-        )
-
-        if zhody:
-
-            return int(zhody[0])
-
+        counter = page.locator("#WocaPoints:visible").first
+        if counter.count():
+            digits = "".join(c for c in counter.inner_text(timeout=500) if c.isdigit())
+            return int(digits) if digits else None
+        # V menu čítame skóre v kontexte, nie ľubovoľné číslo v <b>.
+        text = page.locator("body").inner_text(timeout=500)
+        match = re.search(r"Tvoje\s+skóre:\s*([0-9][0-9\s.,]*)", text, re.IGNORECASE)
+        if match:
+            return int(re.sub(r"[^0-9]", "", match.group(1)))
     except Exception:
-
         pass
-
     return None
 
 
-
-
-
-# PREKLAD CEZ DEEPL
 
 def vycisti_preklad(text):
 
@@ -426,146 +376,144 @@ def preklad_je_platny(original, prelozeny):
 
 
 
-def preloz_cez_deepl(text, cielovy_jazyk):
+# Jedna požiadavka na pozadí, bez rastúceho radu starých otázok.
+from concurrent.futures import ThreadPoolExecutor
 
-    """
+AZURE_EXECUTOR = ThreadPoolExecutor(max_workers=1, thread_name_prefix="azure")
+AZURE_ULOHA = None
+AZURE_CACHE = {}
+AZURE_CHYBY = {}
+AZURE_PAUSE = 0.0
 
-    Preloží text cez DeepL.
 
-
-
-    Výsledok:
-
-        (preklad, zistený_zdrojový_jazyk)
-
-    """
-
+def preloz_cez_azure(text, cielovy_jazyk, zdrojovy_jazyk=None):
+    """Vracia (preklad, zdroj). Pri explicitnom from Azure neposiela detekciu."""
+    global AZURE_PAUSE
     text = vycisti_preklad(text)
-
-    if not text:
-
+    if not text or time.monotonic() < AZURE_PAUSE:
         return "", ""
-
-    if not DEEPL_API_KEY:
-
-        log("DeepL API kľúč nie je nastavený.")
-
+    if not AZURE_TRANSLATOR_KEY:
+        log("CHYBA[AZURE_KEY]: AutoTranslate nefunguje: chýba Azure API kľúč.")
+        AZURE_PAUSE = float("inf")
         return "", ""
-
+    ciel = cielovy_jazyk.lower()
+    params = {"api-version": "3.0", "to": ciel}
+    if zdrojovy_jazyk:
+        params["from"] = zdrojovy_jazyk.lower()
+    headers = {"Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
+               "Content-Type": "application/json"}
+    if AZURE_TRANSLATOR_REGION and AZURE_TRANSLATOR_REGION != "global":
+        headers["Ocp-Apim-Subscription-Region"] = AZURE_TRANSLATOR_REGION
     try:
-
-        odpoved = requests.post(
-
-            DEEPL_URL,
-
-            headers={
-
-                "Authorization": (f"DeepL-Auth-Key {DEEPL_API_KEY}"),
-
-                "Content-Type": ("application/x-www-form-urlencoded"),
-
-            },
-
-            data={"text": text, "target_lang": cielovy_jazyk},
-
-            timeout=15,
-
-        )
-
+        odpoved = requests.post(AZURE_TRANSLATOR_URL, params=params, headers=headers,
+                                json=[{"text": text}], timeout=(3, 7))
         if odpoved.status_code != 200:
-
-            try:
-
-                udaje_chyby = odpoved.json()
-
-                sprava = udaje_chyby.get("message", odpoved.text)
-
-            except Exception:
-
-                sprava = odpoved.text
-
-            log(f"DeepL chyba HTTP {odpoved.status_code}: {sprava}")
-
+            status = odpoved.status_code
+            if status in (401, 403):
+                AZURE_PAUSE = float("inf")
+                log(f"CHYBA[AZURE_KEY]: AutoTranslate nefunguje: neplatný kľúč alebo región (HTTP {status}).")
+            elif status == 429:
+                try:
+                    prestavka = max(5.0, float(odpoved.headers.get("Retry-After", "30")))
+                except (ValueError, TypeError):
+                    prestavka = 30.0
+                AZURE_PAUSE = time.monotonic() + prestavka
+                log(f"CHYBA[AZURE_LIMIT]: AutoTranslate prekročil Azure API limit; ďalší pokus o {prestavka:.0f} s.")
+            else:
+                try:
+                    prestavka = max(5.0, float(odpoved.headers.get("Retry-After", "30")))
+                except (ValueError, TypeError):
+                    prestavka = 30.0
+                AZURE_PAUSE = time.monotonic() + prestavka
+                log(f"CHYBA[AZURE_API]: Azure API vrátilo HTTP {status}; ďalší pokus o {prestavka:.0f} s.")
             return "", ""
-
-        udaje = odpoved.json()
-
-        preklady = udaje.get("translations", [])
-
-        if not preklady:
-
-            log("DeepL nevrátil žiadny preklad.")
-
-            return "", ""
-
-        zaznam = preklady[0]
-
-        prelozeny = vycisti_preklad(zaznam.get("text", ""))
-
-        zisteny_jazyk = zaznam.get("detected_source_language", "").strip().lower()
-
-        if not preklad_je_platny(text, prelozeny):
-
-            log(f"DeepL vrátil neplatný preklad: {text!r} -> {prelozeny!r}")
-
-            return "", zisteny_jazyk
-
-        return (prelozeny, zisteny_jazyk)
-
-    except requests.RequestException as chyba:
-
-        log(f"Sieťová chyba DeepL: {chyba}")
-
-        return "", ""
-
-    except Exception as chyba:
-
-        log(f"Chyba DeepL: {chyba}")
-
+        data = odpoved.json()
+        if not isinstance(data, list) or not data or not isinstance(data[0], dict):
+            raise ValueError("Neplatná odpoveď Azure")
+        zaznam = data[0]
+        detekcia = zaznam.get("detectedLanguage") or {}
+        zdroj = zdrojovy_jazyk or detekcia.get("language", "")
+        for preklad in zaznam.get("translations", []):
+            if isinstance(preklad, dict) and preklad.get("to", "").lower() == ciel:
+                vysledok = vycisti_preklad(preklad.get("text", ""))
+                # Rovnaké a jednopísmenové slová môžu byť správne (hotel, a, I).
+                if vysledok and len(vysledok) <= 500 and any(c.isalpha() for c in vysledok):
+                    return vysledok, zdroj.lower()
+        return "", zdroj.lower()
+    except (requests.RequestException, ValueError, TypeError, AttributeError):
+        AZURE_PAUSE = time.monotonic() + 15
+        log("CHYBA[AZURE_CONNECTION]: AutoTranslate sa nevie pripojiť k Azure API alebo endpointu; ďalší pokus o 15 s.")
         return "", ""
 
 
+def azure_zvieraci_balik():
+    """Kontext len z názvu skutočne vybraného balíka."""
+    try:
+        baliky = json.loads(config.get("packages_cache", "[]"))
+        vybrany = str(config.get("selected_package_id", ""))
+        for balik in baliky:
+            if str(balik.get("id", "")) == vybrany:
+                nazov = normalize(balik.get("name", ""))
+                return any(slovo in nazov for slovo in ("bird", "vtak", "animal", "zvier"))
+    except (ValueError, TypeError, AttributeError):
+        pass
+    return False
 
+
+def azure_preloz_sync(slovo):
+    # Najprv preklad do SK; detekcia samostatného slova môže označiť aj tretí jazyk.
+    preklad, zdroj = preloz_cez_azure(slovo, "sk")
+    if not preklad:
+        return ""
+    if zdroj == "sk":
+        preklad, _ = preloz_cez_azure(slovo, "en", "sk")
+        ciel = "en"
+    else:
+        ciel = "sk"
+        if zdroj != "en":
+            preklad, _ = preloz_cez_azure(slovo, "sk", "en")
+        zdroj = "en"
+        # Člen pomáha izolovaným podstatným menám: duck, hen; pri zvieracom
+        # balíku aj turkey (moriak), ktoré by inak znamenalo krajinu.
+        if (preklad and re.fullmatch(r"[A-Za-z]{2,40}", slovo)
+                and (preklad.casefold() == slovo.casefold() or azure_zvieraci_balik())):
+            s_kontextom, _ = preloz_cez_azure("the " + slovo, "sk", "en")
+            if not s_kontextom:
+                return ""
+            if not s_kontextom.casefold().startswith("the "):
+                preklad = s_kontextom
+        if preklad and preklad.casefold() == slovo.casefold():
+            opacne, _ = preloz_cez_azure(slovo, "en", "sk")
+            if opacne and opacne.casefold() != slovo.casefold():
+                preklad, zdroj, ciel = opacne, "sk", "en"
+    if preklad:
+        log(f"Azure Translator: {zdroj.upper()} -> {ciel.upper()}: {slovo} -> {preklad}")
+    return preklad
 
 
 def automaticky_preloz_slovo(slovo):
-
-    """
-
-    Automatický preklad medzi slovenčinou
-
-    a angličtinou cez DeepL.
-
-    """
-
+    global AZURE_ULOHA
     slovo = vycisti_preklad(slovo)
-
     if not slovo:
-
         return ""
-
-    # SLOVENČINA -> ANGLIČTINA
-
-    preklad, zdrojovy_jazyk = preloz_cez_deepl(slovo, "EN")
-
-    if preklad and zdrojovy_jazyk == "sk":
-
-        log(f"DeepL: SK -> EN: {slovo} -> {preklad}")
-
-        return preklad
-
-    # ANGLIČTINA -> SLOVENČINA
-
-    preklad, zdrojovy_jazyk = preloz_cez_deepl(slovo, "SK")
-
-    if preklad and zdrojovy_jazyk == "en":
-
-        log(f"DeepL: EN -> SK: {slovo} -> {preklad}")
-
-        return preklad
-
-    log(f"DeepL nedokázal určiť smer prekladu pre: {slovo!r}")
-
+    if AZURE_ULOHA is not None and AZURE_ULOHA[1].done():
+        povodne, future = AZURE_ULOHA
+        try:
+            preklad = future.result()
+        except Exception:
+            log("Azure: preklad sa nepodaril; pokračujem v sledovaní úloh.")
+            preklad = ""
+        if preklad:
+            AZURE_CACHE[povodne] = preklad
+        else:
+            AZURE_CHYBY[povodne] = time.monotonic() + 30
+        AZURE_ULOHA = None
+    if slovo in AZURE_CACHE:
+        return AZURE_CACHE[slovo]
+    if time.monotonic() < max(AZURE_PAUSE, AZURE_CHYBY.get(slovo, 0)):
+        return ""
+    if AZURE_ULOHA is None:
+        AZURE_ULOHA = (slovo, AZURE_EXECUTOR.submit(azure_preloz_sync, slovo))
     return ""
 
 
@@ -634,40 +582,11 @@ def get_answer_auto_update(slovo):
 
             return otazka
 
-    # 6. Automatický preklad cez DeepL
-
+    # Návrhy Azure sú iba v pamäťovej cache; opravy z úloh majú prednosť.
     if AUTO_TRANSLATE:
+        return automaticky_preloz_slovo(slovo)
 
-        preklad = automaticky_preloz_slovo(slovo)
-
-        if preklad:
-
-            # Zachováva sa aj slovenská diakritika.
-
-            SLOVNIK[slovo] = preklad
-
-            uloz_slovnik()
-
-            return preklad
-
-    # 7. Manuálne zadanie
-
-    try:
-
-        odpoved = input(f"Preklad pre '{slovo}': ").strip()
-
-        if odpoved:
-
-            SLOVNIK[slovo] = odpoved
-
-            uloz_slovnik()
-
-            return odpoved
-
-    except (EOFError, KeyboardInterrupt):
-
-        return ""
-
+    # GUI nemá interaktívny stdin. input() by tu zastavil celý riešič.
     return ""
 
 
@@ -740,7 +659,7 @@ def spracuj_vyber_obrazka(stranka):
 
     try:
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         pocet = tlacidla.count()
 
@@ -806,7 +725,7 @@ def spracuj_vyber_obrazka(stranka):
 
                 if hladana_odpoved in spojeny_text:
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     log(f"Vybraný obrázok: {odpoved}")
 
@@ -832,7 +751,7 @@ def spracuj_popis_obrazka(stranka):
 
     try:
 
-        vstupy = stranka.locator("input[type='text'], textarea")
+        vstupy = stranka.locator("input[type='text']:visible, textarea:visible")
 
         if vstupy.count() == 0:
 
@@ -878,9 +797,9 @@ def spracuj_popis_obrazka(stranka):
 
             return False
 
-        vstupy.first.fill(odpoved)
+        vstupy.first.fill(odpoved, timeout=1000)
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         for i in range(tlacidla.count()):
 
@@ -892,7 +811,7 @@ def spracuj_popis_obrazka(stranka):
 
                 if text in ("potvrdiť", "odoslať", "submit", "confirm", "check"):
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     return True
 
@@ -913,59 +832,36 @@ def spracuj_popis_obrazka(stranka):
 # PREKLAD PADAJÚCEHO SLOVA
 
 def spracuj_padajuce_slovo(stranka):
-
     try:
-
-        prvok_slova = stranka.locator("#tfw_word").first
-
-        if prvok_slova.count() == 0:
-
+        kontajner = stranka.locator("#translateFallingWord").first
+        if not kontajner.is_visible():
             return False
-
+        prvok_slova = kontajner.locator("#tfw_word").first
+        vstup = kontajner.locator("#translateFallingWordAnswer").first
+        odoslat = kontajner.locator("#translateFallingWordSubmitBtn").first
+        if not prvok_slova.is_visible() or not vstup.is_visible():
+            return False
         slovo = prvok_slova.inner_text(timeout=500).strip()
-
-        if not slovo:
-
+        if not slovo or normalize(slovo) in {normalize(w) for w in PLACEHOLDER_WORDS}:
             return False
-
-        log("=== PREKLAD PADAJÚCEHO SLOVA ===")
-
-        log(f"Slovo: {slovo}")
-
         odpoved = get_answer_auto_update(slovo)
-
         if not odpoved:
-
-            log(f"Pre slovo '{slovo}' nebola nájdená odpoveď.")
-
-            return False
-
-        vstup = stranka.locator("#translateFallingWordAnswer").first
-
-        if vstup.count() == 0:
-
-            return False
-
-        vstup.fill(odpoved)
-
-        odoslat = stranka.locator("#translateFallingWordSubmitBtn").first
-
-        if odoslat.count():
-
-            odoslat.click()
-
-            log(f"Odpoveď: {odpoved}")
-
             return True
-
+        if not prvok_slova.is_visible() or prvok_slova.inner_text(timeout=500).strip() != slovo:
+            return True
+        # Stránka aktivuje kontrolu cez udalosti klávesnice, nielen input.
+        vstup.fill("", timeout=1000)
+        vstup.press_sequentially(odpoved, delay=30, timeout=5000)
+        if not prvok_slova.is_visible() or prvok_slova.inner_text(timeout=500).strip() != slovo:
+            return True
+        if not odoslat.is_enabled():
+            return True
+        odoslat.click(timeout=500)
+        log(f"Padajúce slovo: {slovo} -> {odpoved}")
+        return True
+    except Exception as chyba:
+        log(f"Padajúce slovo sa nepodarilo odoslať: {chyba}")
         return False
-
-    except Exception:
-
-        return False
-
-
-
 
 
 # VÝBER SLOVA
@@ -982,7 +878,7 @@ def spracuj_vyber_slova(stranka):
 
             return False
 
-        otazka_prvok = stranka.locator("#q_word").first
+        otazka_prvok = stranka.locator("#q_word:visible").first
 
         if otazka_prvok.count() == 0:
 
@@ -1002,7 +898,7 @@ def spracuj_vyber_slova(stranka):
 
         hladana_odpoved = normalize(odpoved)
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         for i in range(tlacidla.count()):
 
@@ -1014,7 +910,7 @@ def spracuj_vyber_slova(stranka):
 
                 if text == hladana_odpoved:
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     log(f"Vybrané slovo: {odpoved}")
 
@@ -1046,7 +942,7 @@ def spracuj_pexeso(stranka):
 
             return False
 
-        # Pexeso zatiaľ rieši samotná WocaBee.
+        # Pexeso zatiaľ rieši samotná Wocabee.
 
         return False
 
@@ -1088,7 +984,7 @@ def spracuj_doplnenie_slova(stranka):
 
         otazka = ""
 
-        prvok = stranka.locator("#q_word").first
+        prvok = stranka.locator("#q_word:visible").first
 
         if prvok.count():
 
@@ -1104,9 +1000,9 @@ def spracuj_doplnenie_slova(stranka):
 
             return False
 
-        vstupy.first.fill(odpoved)
+        vstupy.first.fill(odpoved, timeout=1000)
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         for i in range(tlacidla.count()):
 
@@ -1118,7 +1014,7 @@ def spracuj_doplnenie_slova(stranka):
 
                 if text in ("potvrdiť", "odoslať", "submit", "confirm", "check"):
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     return True
 
@@ -1150,7 +1046,7 @@ def spracuj_jedno_z_viacerych(stranka):
 
             return False
 
-        otazka_prvok = stranka.locator("#q_word").first
+        otazka_prvok = stranka.locator("#q_word:visible").first
 
         if otazka_prvok.count() == 0:
 
@@ -1166,7 +1062,7 @@ def spracuj_jedno_z_viacerych(stranka):
 
         hladana_odpoved = normalize(odpoved)
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         for i in range(tlacidla.count()):
 
@@ -1178,7 +1074,7 @@ def spracuj_jedno_z_viacerych(stranka):
 
                 if text == hladana_odpoved:
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     return True
 
@@ -1199,85 +1095,31 @@ def spracuj_jedno_z_viacerych(stranka):
 # NESPÁVNE / AUTOMATICKÉ UČENIE
 
 def spracuj_nespravne(stranka):
-
+    panel = stranka.locator("#incorrect").first
+    dalsie = stranka.locator("#incorrect-next-button").first
+    if not panel.is_visible() and not dalsie.is_visible():
+        return False
+    # Učenie nesmie zablokovať pokračovanie, ani keď chýba text opravy.
     try:
-
-        text_stranky = stranka.locator("body").inner_text(timeout=500)
-
-        dolny_text = text_stranky.lower()
-
-        if (
-
-            "nesprávne" not in dolny_text
-
-            and "incorrect" not in dolny_text
-
-            and "autolearn" not in dolny_text
-
-        ):
-
-            return False
-
-        otazka = ""
-
-        odpoved = ""
-
-        for selektor in ["#q_word", "#question"]:
-
-            try:
-
-                prvok = stranka.locator(selektor).first
-
-                if prvok.count():
-
-                    otazka = prvok.inner_text(timeout=300).strip()
-
-                    if otazka:
-
-                        break
-
-            except Exception:
-
-                pass
-
-        if not otazka:
-
-            return False
-
-        for selektor in ["#correctAnswer", ".correct-answer", "[class*='correct']"]:
-
-            try:
-
-                prvok = stranka.locator(selektor).first
-
-                if prvok.count():
-
-                    odpoved = prvok.inner_text(timeout=300).strip()
-
-                    if odpoved:
-
-                        break
-
-            except Exception:
-
-                pass
-
-        if otazka and odpoved:
-
-            SLOVNIK[otazka] = odpoved
-
-            uloz_slovnik()
-
-            return True
-
-        return False
-
-    except Exception:
-
-        return False
-
-
-
+        otazka_prvok = panel.locator(".correctWordQuestion").first
+        odpoved_prvok = panel.locator(".correctWordAnswer").first
+        if otazka_prvok.count() and odpoved_prvok.count():
+            otazka = otazka_prvok.inner_text(timeout=500).strip()
+            odpoved = odpoved_prvok.inner_text(timeout=500).strip()
+            if otazka and odpoved and SLOVNIK.get(otazka) != odpoved:
+                SLOVNIK[otazka] = odpoved
+                uloz_slovnik()
+                log(f"Uložená oprava: {otazka} -> {odpoved}")
+    except Exception as chyba:
+        log(f"Opravu odpovede sa nepodarilo uložiť: {chyba}")
+    try:
+        dalsie.click(timeout=3000)
+        dalsie.wait_for(state="hidden", timeout=3000)
+        log("Nesprávna odpoveď: pokračujem na ďalšiu úlohu.")
+    except Exception as chyba:
+        log(f"Nepodarilo sa pokračovať po nesprávnej odpovedi: {chyba}")
+    # Kým je zobrazená oprava, ostatné riešiče nesmú vypĺňať starú úlohu.
+    return True
 
 
 # PREPISOVANIE
@@ -1320,7 +1162,7 @@ def spracuj_bezny_preklad(stranka):
 
     try:
 
-        prvok_slova = stranka.locator("#q_word").first
+        prvok_slova = stranka.locator("#q_word:visible").first
 
         if prvok_slova.count() == 0:
 
@@ -1372,7 +1214,7 @@ def spracuj_bezny_preklad(stranka):
 
             return False
 
-        vstup.fill(odpoved)
+        vstup.fill(odpoved, timeout=1000)
 
         selektory_odoslania = [
 
@@ -1392,7 +1234,7 @@ def spracuj_bezny_preklad(stranka):
 
                 if odoslat.count():
 
-                    odoslat.click()
+                    odoslat.click(timeout=1000)
 
                     log(f"Preložené: {slovo} -> {odpoved}")
 
@@ -1402,7 +1244,7 @@ def spracuj_bezny_preklad(stranka):
 
                 pass
 
-        tlacidla = stranka.locator("button")
+        tlacidla = stranka.locator("button:visible")
 
         for i in range(tlacidla.count()):
 
@@ -1428,7 +1270,7 @@ def spracuj_bezny_preklad(stranka):
 
                 ):
 
-                    tlacidlo.click()
+                    tlacidlo.click(timeout=1000)
 
                     log(f"Preložené: {slovo} -> {odpoved}")
 
@@ -1533,7 +1375,7 @@ def zabezpec_stranku(stranka):
 
     except Exception as chyba:
 
-        log(f"Nepodarilo sa načítať WocaBee: {chyba}")
+        log(f"Nepodarilo sa načítať Wocabee: {chyba}")
 
         return False
 
@@ -1545,15 +1387,19 @@ def zabezpec_stranku(stranka):
 
 def main():
 
-    global DEBUG_PORT
+    global DEBUG_PORT, AUTO_TRANSLATE
 
     parser = argparse.ArgumentParser(description="WocaFuckOff riešič")
 
     parser.add_argument("--debug-port", default=DEBUG_PORT)
+    parser.add_argument(
+        "--auto-translate", action=argparse.BooleanOptionalAction, default=AUTO_TRANSLATE
+    )
 
     argumenty = parser.parse_args()
 
     DEBUG_PORT = str(argumenty.debug_port).strip()
+    AUTO_TRANSLATE = argumenty.auto_translate
 
     log("")
 
@@ -1569,17 +1415,19 @@ def main():
 
         log("Dvojité body sú aktivované.")
 
+    if not AUTO_TRANSLATE:
+        log("AutoTranslate je vypnutý.")
     if AUTO_TRANSLATE:
 
-        if DEEPL_API_KEY:
+        if AZURE_TRANSLATOR_KEY:
 
-            log("Automatický preklad cez DeepL je aktivovaný.")
+            log("Automatický preklad cez Azure Translator je aktivovaný.")
 
         else:
 
             log(
 
-                "Automatický preklad cez DeepL "
+                "Automatický preklad cez Azure Translator "
 
                 "je aktivovaný, ale API kľúč "
 
@@ -1587,7 +1435,7 @@ def main():
 
             )
 
-    log(f"Adresa WocaBee: {URLBASE}")
+    log(f"Adresa Wocabee: {URLBASE}")
 
     log(f"Súbor slovníka: {WORDLIST_FILE}")
 
@@ -1617,9 +1465,11 @@ def main():
 
                 return 1
 
+            stranka.set_default_timeout(1500)
             log("Riešič je pripravený.")
 
-            posledne_body = LAST_POINTS
+            posledne_body = None
+            posledny_najdeny_prvok = time.monotonic()
 
             while True:
 
@@ -1632,90 +1482,6 @@ def main():
                     if ciel is not None:
 
                         stranka = ciel
-
-                    # Nesprávne / automatické učenie
-
-                    if spracuj_nespravne(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Jedno z viacerých
-
-                    if spracuj_jedno_z_viacerych(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Padajúce slovo
-
-                    if spracuj_padajuce_slovo(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Výber obrázka
-
-                    if spracuj_vyber_obrazka(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Popis obrázka
-
-                    if spracuj_popis_obrazka(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Pexeso
-
-                    if spracuj_pexeso(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Doplnenie slova
-
-                    if spracuj_doplnenie_slova(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Výber slova
-
-                    if spracuj_vyber_slova(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Písanie / prepis
-
-                    if spracuj_pisanie(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
-
-                    # Hľadanie dvojice
-
-                    # Táto funkcia zatiaľ nie je automatizovaná.
-
-                    # Bežný preklad
-
-                    if spracuj_bezny_preklad(stranka):
-
-                        time.sleep(0.1)
-
-                        continue
 
                     # Kontrola bodov
 
@@ -1733,6 +1499,106 @@ def main():
 
                                 posli_ntfy(f"WocaFuckOff: {body} WocaPoints")
 
+
+                    # Nesprávne / automatické učenie
+
+                    if spracuj_nespravne(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Aktívna časovaná úloha má prednosť. Počas jej prechodu
+                    # nesmú všeobecné riešiče čakať na skryté staré formuláre.
+                    if stranka.locator("#translateFallingWord").first.is_visible():
+                        spracuj_padajuce_slovo(stranka)
+                        posledny_najdeny_prvok = time.monotonic()
+                        time.sleep(0.1)
+                        continue
+
+                    # Jedno z viacerých
+                    if spracuj_jedno_z_viacerych(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+                        time.sleep(0.1)
+                        continue
+
+                    # Výber obrázka
+
+                    if spracuj_vyber_obrazka(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Popis obrázka
+
+                    if spracuj_popis_obrazka(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Pexeso
+
+                    if spracuj_pexeso(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Doplnenie slova
+
+                    if spracuj_doplnenie_slova(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Výber slova
+
+                    if spracuj_vyber_slova(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Písanie / prepis
+
+                    if spracuj_pisanie(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    # Hľadanie dvojice
+
+                    # Táto funkcia zatiaľ nie je automatizovaná.
+
+                    # Bežný preklad
+
+                    if spracuj_bezny_preklad(stranka):
+                        posledny_najdeny_prvok = time.monotonic()
+
+                        time.sleep(0.1)
+
+                        continue
+
+                    if (
+                        "/practice/" in stranka.url.lower()
+                        and time.monotonic() - posledny_najdeny_prvok >= 30
+                    ):
+                        log(
+                            "CHYBA[UI_CHANGED]: WocaBee zrejme zmenilo rozhranie; "
+                            "riešič 30 sekúnd nenašiel žiadny očakávaný prvok."
+                        )
+                        return 2
                     time.sleep(0.1)
 
                 except KeyboardInterrupt:
@@ -1766,6 +1632,8 @@ def main():
             return 1
 
         finally:
+
+            AZURE_EXECUTOR.shutdown(wait=False, cancel_futures=True)
 
             try:
 
