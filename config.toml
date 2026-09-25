@@ -77,7 +77,7 @@ auto_translate            = true
 
 # Azure Translator. Kľúč je bezpečnejšie uložiť do premennej
 # prostredia AZURE_TRANSLATOR_KEY.
-azure_translator_key = "A9dtovmv7OGZpmaTB12OmmEeKQFXo60u9nHxPmRY2Rg7cvYweyk5JQQJ99CIACi5YpzXJ3w3AAAbACOGc8ET"
+azure_translator_key = ""
 azure_translator_region = "northeurope"
 
 # Jazyková dvojica pre automatický preklad
