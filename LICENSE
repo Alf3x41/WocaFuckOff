@@ -1,15 +1,34 @@
-MIT licencia
+WocaFuckOff 1.2 — Licenčné podmienky
 
-WocaFuckOff™
-© 2026 Alex
+© 2026 Alex Polák. Všetky práva vyhradené.
 
-All rights reserved.
-Všetky práva vyhradené.
+1. Predmet licencie
 
-Týmto sa bezplatne udeľuje povolenie každej osobe, ktorá získa kópiu tohto softvéru a súvisiacich dokumentačných súborov („Softvér“), nakladať so Softvérom bez obmedzení vrátane, bez obmedzenia, práv používať, kopírovať, upravovať, spájať, zverejňovať, distribuovať, poskytovať sublicencie a/alebo predávať kópie Softvéru a umožniť osobám, ktorým je Softvér poskytnutý, aby tak robili, za nasledujúcich podmienok:
+Tieto podmienky sa vzťahujú na aplikáciu WocaFuckOff a jej inštalátor distribuované vo forme súborov .exe. Aplikácia je proprietárny softvér. Zdrojový kód sa nezverejňuje a táto licencia neposkytuje právo na jeho sprístupnenie.
 
-Vyššie uvedené upozornenie o autorských právach a toto povolenie musia byť zahrnuté vo všetkých kópiách alebo podstatných častiach Softvéru.
+2. Povolené používanie
 
-SOFTVÉR SA POSKYTUJE „TAK, AKO JE“, BEZ AKEJKOĽVEK ZÁRUKY, VÝSLOVNEJ ALEBO PREDPOKLADANEJ, VRÁTANE, ALE NIE VÝLUČNE, ZÁRUK OBCHODOVATEĽNOSTI, VHODNOSTI NA KONKRÉTNY ÚČEL A NEPORUŠOVANIA PRÁV.
+Autor udeľuje používateľovi nevýhradné právo stiahnuť, nainštalovať a používať oficiálne distribuovanú aplikáciu na vlastné osobné, nekomerčné účely. Používateľ si môže vytvoriť záložnú kópiu inštalátora pre vlastnú potrebu. Vlastníctvo aplikácie ani autorské práva sa na používateľa neprevádzajú.
 
-V ŽIADNOM PRÍPADE NEBUDÚ AUTORI ANI DRŽITELIA AUTORSKÝCH PRÁV ZODPOVEDNÍ ZA AKÉKOĽVEK NÁROKY, ŠKODY ANI INÚ ZODPOVEDNOSŤ, ČI UŽ NA ZÁKLADE ZMLUVY, DELIKTU ALEBO INAK, VYPLÝVAJÚCU ZO SOFTVÉRU, JEHO POUŽÍVANIA ALEBO INÉHO NAKLADANIA S NÍM.
+3. Obmedzenia
+
+Bez predchádzajúceho písomného súhlasu autora nie je dovolené aplikáciu predávať, prenajímať, sublicencovať, ďalej distribuovať ani používať na komerčné účely. Nie je dovolené upravovať aplikáciu, vytvárať z nej odvodené diela, odstraňovať označenia autorstva ani vykonávať spätné inžinierstvo, dekompiláciu alebo rozoberanie programu, s výnimkou prípadov, v ktorých takéto konanie výslovne umožňuje záväzné právo.
+
+4. Súčasti tretích strán
+
+Aplikácia obsahuje knižnice a ďalšie súčasti tretích strán. Tieto súčasti zostávajú predmetom vlastných licencií a práv ich autorov. Táto licencia neobmedzuje práva, ktoré používateľovi poskytujú ich príslušné licencie, ani nenahrádza povinnosti z nich vyplývajúce.
+
+5. Externé služby
+
+Používanie WocaBee, GitHubu a ďalších externých služieb podlieha podmienkam ich prevádzkovateľov. Táto licencia neudeľuje žiadne práva k týmto službám ani nezaručuje ich dostupnosť alebo trvalú kompatibilitu s aplikáciou.
+
+6. Záruky a zodpovednosť
+
+V rozsahu dovolenom platnými právnymi predpismi sa aplikácia poskytuje „tak, ako je“, bez záruky bezchybnosti, nepretržitej dostupnosti alebo vhodnosti na konkrétny účel. Autor v tomto rozsahu nezodpovedá za stratu dát, prerušenie prevádzky ani iné škody spôsobené používaním aplikácie. Tým nie sú dotknuté práva používateľa ani zodpovednosť, ktoré nemožno podľa záväzných právnych predpisov vylúčiť alebo obmedziť.
+
+7. Ukončenie oprávnenia
+
+Pri porušení týchto podmienok zaniká oprávnenie používať aplikáciu udelené touto licenciou. Používateľ je povinný prestať aplikáciu používať a odstrániť jej kópie, okrem kópií alebo použití, na ktoré má samostatné zákonné oprávnenie.
+
+Akékoľvek ďalšie použitie vyžaduje predchádzajúci písomný súhlas autora.
+
