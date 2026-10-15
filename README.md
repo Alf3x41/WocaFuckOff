@@ -7,7 +7,7 @@ WocaFuckOff je desktopová aplikácia pre Windows na automatizáciu precvičovan
 ## Čo aplikácia ponúka
 
 - **Balíčky z WocaBee** — načítanie balíčkov, rozpoznanie dokončených a výber konkrétneho balíčka na precvičovanie.
-- **Automatické riešenie** — práca s lokálnym slovníkom a obrázkovým slovníkom, voliteľne s AutoTranslate cez Microsoft Azure Translator.
+- **Automatické riešenie** — práca s lokálnym slovníkom a obrázkovým slovníkom, voliteľne s pripravenou funkciou AutoTranslate cez API autora.
 - **Prehľad WocaPoints** — načítanie bodov po prihlásení a počas riešenia.
 - **Nastaviteľné spúšťanie** — beh na pozadí alebo so zobrazeným prehliadačom a možnosť používať Double Points.
 - **Prispôsobiteľné rozhranie** — farebné témy, plynulé posúvanie a prehľad udalostí.
@@ -42,14 +42,7 @@ Aplikácia sa inštaluje do `%LOCALAPPDATA%\Programs\WocaFuckOff`.
 
 V **Nastaveniach** môžeš zmeniť tému, zobrazenie prehliadača, Double Points, AutoTranslate, prihlasovacie údaje a automatickú kontrolu aktualizácií.
 
-AutoTranslate vyžaduje API kľúč služby **Microsoft Azure Translator**. Aplikácia ho vyhľadáva v tomto poradí:
-
-1. Premenná prostredia `AZURE_TRANSLATOR_KEY`.
-2. Správca poverení Windows — `WocaFuckOff/AzureTranslator`.
-3. Hodnota `azure_translator_key` v konfigurácii.
-4. Predvolená hodnota v riešiacej časti aplikácie, ak je dostupná.
-
-Predvolený región prekladača je `northeurope` a cieľový jazyk `sk`. Poverenie uložené v Správcovi poverení Windows zostáva mimo priečinka resetovaného inštalátorom.
+AutoTranslate je už integrovaný a pripravený na používanie cez API autora. Napojenie je šifrované a používateľ nemusí zadávať vlastný API kľúč ani nastavovať prekladovú službu. Funkciu stačí zapnúť v Nastaveniach.
 
 ## Dáta a súkromie
 
@@ -60,7 +53,7 @@ Sieťové spojenia závisia od používaných funkcií:
 | Služba | Účel |
 | --- | --- |
 | WocaBee | Overenie prihlásenia, načítanie triedy, balíčkov a bodov, precvičovanie. |
-| Microsoft Azure Translator | Preklad textu pri zapnutom AutoTranslate. |
+| API autora (AutoTranslate) | Spracovanie prekladaného textu pri zapnutom AutoTranslate. |
 | GitHub | Kontrola a sťahovanie aktualizácií. |
 | Nastavený server ntfy | Voliteľné odosielanie stavu. |
 
@@ -80,7 +73,7 @@ WocaFuckOff je proprietárna aplikácia distribuovaná iba ako hotový súbor `.
 
 - **Prihlásenie zlyhá:** skontroluj údaje a pripojenie. Pri dočasnom zablokovaní prihlasovania počkaj a skús to znova.
 - **Balíček sa nespustí:** obnov jeho výber v menu Balíčky a pozri si Udalosti. Pri chýbajúcom alebo nejednoznačnom ID aplikácia nevyberie náhradný balíček.
-- **AutoTranslate nefunguje:** over API kľúč a región Azure Translator.
+- **AutoTranslate nefunguje:** skontroluj, či je funkcia zapnutá, internetové pripojenie a hlásenia v Udalostiach. Pri nedostupnosti API skús preklad neskôr.
 - **Aktualizácia sa neponúka:** over dostupnosť novšieho stabilného vydania a jeho inštalačnej prílohy s SHA-256 digestom.
 
 Kompatibilita s novým zoznamom balíčkov bola overovaná na lokálnych HTML ukážkach. Toto overenie nezahŕňa celý priebeh precvičovania na živom účte WocaBee; zmeny jeho webového rozhrania môžu vyžadovať ďalšiu úpravu aplikácie.
@@ -88,4 +81,5 @@ Kompatibilita s novým zoznamom balíčkov bola overovaná na lokálnych HTML uk
 ---
 
 © 2026 Alex Polák. Všetky práva vyhradené.
+
 
