@@ -1,12 +1,12 @@
-# WocaFuckOff 1.2
+WocaFuckOff 1.3
 
 **Menej klikania. Viac času.**
 
-WocaFuckOff je desktopová aplikácia pre Windows na automatizáciu precvičovania vo WocaBee. V jednom rozhraní spája výber balíčkov, spustenie riešenia, prehľad WocaPoints a nastavenia automatizácie.
+WocaFuckOff je desktopová aplikácia pre Windows na automatizáciu precvičovania vo Wocabee. V jednom rozhraní spája výber balíčkov, spustenie riešenia, prehľad WocaPoints a nastavenia automatizácie.
 
 ## Čo aplikácia ponúka
 
-- **Balíčky z WocaBee** — načítanie balíčkov, rozpoznanie dokončených a výber konkrétneho balíčka na precvičovanie.
+- **Balíčky z Wocabee** — načítanie balíčkov, rozpoznanie dokončených a výber konkrétneho balíčka na precvičovanie.
 - **Automatické riešenie** — práca s lokálnym slovníkom a obrázkovým slovníkom, voliteľne s pripravenou funkciou AutoTranslate cez API autora.
 - **Prehľad WocaPoints** — načítanie bodov po prihlásení a počas riešenia.
 - **Nastaviteľné spúšťanie** — beh na pozadí alebo so zobrazeným prehliadačom a možnosť používať Double Points.
@@ -16,12 +16,12 @@ WocaFuckOff je desktopová aplikácia pre Windows na automatizáciu precvičovan
 
 ## Inštalácia
 
-Potrebuješ Windows, internetové pripojenie a účet WocaBee.
+Potrebuješ 64-bitový Windows, internetové pripojenie a účet Wocabee.
 
 1. Spusti `WocaFuckOff-Setup.exe`.
 2. Dokonči inštaláciu a otvor WocaFuckOff.
-3. Zadaj prihlasovacie údaje do WocaBee. Aplikácia ich pred uložením overí.
-4. V menu **Balíčky** vyber balíček a na hlavnej obrazovke stlač **SPUSTIŤ**.
+3. Zadaj prihlasovacie údaje do Wocabee. Aplikácia ich pred uložením overí.
+4. V ľavom menu otvor **Balíčky**, vyber balíček a na hlavnej obrazovke stlač **SPUSTIŤ**.
 
 Inštalátor obsahuje aplikáciu aj Chromium. Pri použití hotového inštalátora nemusíš samostatne pripravovať Python ani vývojové knižnice.
 
@@ -29,16 +29,27 @@ Inštalátor obsahuje aplikáciu aj Chromium. Pri použití hotového inštalát
 
 Aplikácia sa inštaluje do `%LOCALAPPDATA%\Programs\WocaFuckOff`.
 
-## Novinky vo verzii 1.2
+## Novinky vo verzii 1.3
 
-- Podpora nového kartového zobrazenia balíčkov WocaBee aj pôvodného tabuľkového rozhrania.
-- Výber tlačidla **Precvičiť** podľa ID balíčka, ignorovanie skrytých kariet a rozpoznanie dokončených balíčkov podľa zelených hexagónov.
-- Overovanie prihlásenia v samostatnom procese s indikátorom priebehu. Nesprávne údaje sa neuložia a formulár umožní ich opravu.
-- Načítanie WocaPoints z nového rozhrania WocaBee.
-- Upravené okná, animácie, bočné menu a inštalátor so zjednoteným vzhľadom.
-- Kontrola veľkosti a SHA-256 stiahnutého inštalátora. Inštalácia aktualizácie sa pri prebiehajúcej automatizácii odloží.
+- **Jednoduchší výber jazyka v inštalátore** — zvýraznený názov aktuálneho jazyka pod tlačidlami, bez šípky a položky „System default“. Ponuka obsahuje 18 konkrétnych jazykov.
+- **Upravená úvodná obrazovka inštalátora** — názov aplikácie je vycentrovaný cez číslo verzie 1.3.
+- **Potvrdenie zatvorenia cez celé okno** — otázka aj tlačidlá majú viac priestoru; cez Escape sa dá vrátiť späť do inštalátora.
+- **Nové ikony menu** — jednotné vektorové ikony v štýle Fluent namiesto emoji a vycentrované položky menu.
+- **Opravený prihlasovací box** — pôvodné prehľadné rozloženie popisov a vstupných polí.
+- **Konkrétny jazyk v Nastaveniach** — zobrazuje sa napríklad „English“ alebo „Slovenčina“, bez položky „System default“. Prepnutie funguje bez reštartu aplikácie.
+- **Opravené zvýraznenie zavretia** — červený hover v hornej lište siaha až po okraj okna.
+- **Menší inštalátor** — približne 298 MB vďaka silnejšej kompresii a vynechaniu nepotrebných vývojových súborov. Aplikácia aj oba používané varianty Chromium zostávajú pribalené.
+- **Jednotné označenie Wocabee a verzia 1.3** v rozhraní, prekladoch aj údajoch spustiteľných súborov.
 
 ## Nastavenia a AutoTranslate
+
+### Jazyk rozhrania
+
+Inštalátor pri prvom spustení predvolí jazyk podľa zobrazovacieho jazyka Windows. Pod tlačidlami zobrazuje jeho konkrétny názov; kliknutím otvoríš ponuku jazykov. Voľba sa odovzdá aplikácii a dá sa neskôr zmeniť v **Nastavenia → Jazyk** bez reštartu a bez zastavenia automatizácie. Ani jedna ponuka nezobrazuje položku „System default“.
+
+Podporované jazyky: slovenčina, angličtina, čeština, nemčina, francúzština, španielčina, taliančina, portugalčina, poľština, maďarčina, ukrajinčina, ruština, zjednodušená čínština, japončina, kórejčina, turečtina, arabčina a hindčina. Pri nepodporovanom systémovom jazyku sa použije angličtina. Arabčina používa rozloženie sprava doľava.
+
+Prekladové súbory sú pribalené a fungujú bez internetu. Kontroly overujú úplné pokrytie katalógov, neprázdne texty a zachovanie premenných aj formátovania. Dlhšie texty vychádzajú zo strojových prekladov; úplná odborná jazyková korektúra všetkých jazykov nebola vykonaná. Názvy vlastných balíčkov, prihlasovacie údaje a jazyk precvičovania sa pri prepnutí rozhrania nemenia.
 
 V **Nastaveniach** môžeš zmeniť tému, zobrazenie prehliadača, Double Points, AutoTranslate, prihlasovacie údaje a automatickú kontrolu aktualizácií.
 
@@ -52,7 +63,7 @@ Sieťové spojenia závisia od používaných funkcií:
 
 | Služba | Účel |
 | --- | --- |
-| WocaBee | Overenie prihlásenia, načítanie triedy, balíčkov a bodov, precvičovanie. |
+| Wocabee | Overenie prihlásenia, načítanie triedy, balíčkov a bodov, precvičovanie. |
 | API autora (AutoTranslate) | Spracovanie prekladaného textu pri zapnutom AutoTranslate. |
 | GitHub | Kontrola a sťahovanie aktualizácií. |
 | Nastavený server ntfy | Voliteľné odosielanie stavu. |
@@ -63,7 +74,7 @@ Aplikácia kontroluje stabilné vydania repozitára `alf3x41/wocafuckoff`. Autom
 
 Stiahnutie a inštalácia vyžadujú potvrdenie. Pred spustením inštalátora sa overí jeho veľkosť a SHA-256.
 
-Pre vydanie 1.2 sa používa tag `v1.2` a príloha `WocaFuckOff-Setup.exe`. Aktualizátor vyžaduje SHA-256 digest prílohy poskytovaný GitHubom. Prístup k súkromnému repozitáru podporuje cez lokálne poverenie `WocaFuckOff/GitHub`.
+Pre vydanie 1.3 sa používa tag `v1.3` a príloha `WocaFuckOff-Setup.exe`. Aktualizátor vyžaduje SHA-256 digest prílohy poskytovaný GitHubom. Prístup k súkromnému repozitáru podporuje cez lokálne poverenie `WocaFuckOff/GitHub`.
 
 ## Licencia a distribúcia
 
@@ -72,11 +83,11 @@ WocaFuckOff je proprietárna aplikácia distribuovaná iba ako hotový súbor `.
 ## Riešenie problémov
 
 - **Prihlásenie zlyhá:** skontroluj údaje a pripojenie. Pri dočasnom zablokovaní prihlasovania počkaj a skús to znova.
-- **Balíček sa nespustí:** obnov jeho výber v menu Balíčky a pozri si Udalosti. Pri chýbajúcom alebo nejednoznačnom ID aplikácia nevyberie náhradný balíček.
+- **Balíček sa nespustí:** otvor **Balíčky** v ľavom menu, obnov jeho výber a pozri si Udalosti. Pri chýbajúcom alebo nejednoznačnom ID aplikácia nevyberie náhradný balíček.
 - **AutoTranslate nefunguje:** skontroluj, či je funkcia zapnutá, internetové pripojenie a hlásenia v Udalostiach. Pri nedostupnosti API skús preklad neskôr.
 - **Aktualizácia sa neponúka:** over dostupnosť novšieho stabilného vydania a jeho inštalačnej prílohy s SHA-256 digestom.
 
-Kompatibilita s novým zoznamom balíčkov bola overovaná na lokálnych HTML ukážkach. Toto overenie nezahŕňa celý priebeh precvičovania na živom účte WocaBee; zmeny jeho webového rozhrania môžu vyžadovať ďalšiu úpravu aplikácie.
+Kompatibilita s novým zoznamom balíčkov bola overovaná na lokálnych HTML ukážkach. Toto overenie nezahŕňa celý priebeh precvičovania na živom účte Wocabee; zmeny jeho webového rozhrania môžu vyžadovať ďalšiu úpravu aplikácie.
 
 ---
 
