@@ -1,4 +1,4 @@
-### WocaFuckOff 1.3
+# **WocaFuckOff 1.3**
 
 **Menej klikania. Viac času.**
 
