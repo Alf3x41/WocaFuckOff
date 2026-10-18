@@ -1,4 +1,4 @@
-# **WocaFuckOff 1.3**
+WocaFuckOff 1.4
 
 **Menej klikania. Viac času.**
 
@@ -25,21 +25,23 @@ Potrebuješ 64-bitový Windows, internetové pripojenie a účet Wocabee.
 
 Inštalátor obsahuje aplikáciu aj Chromium. Pri použití hotového inštalátora nemusíš samostatne pripravovať Python ani vývojové knižnice.
 
-> **Inštalácia aj aktualizácia resetujú lokálne dáta aplikácie.** Po úspešnej inštalácii sa vymaže priečinok `%LOCALAPPDATA%\WocaFuckOff`, vrátane uloženého prihlásenia, nastavení, slovníkov, cache a profilov prehliadača. Ak ich chceš zachovať, pred inštaláciou si tento priečinok zálohuj. Ďalšie spustenie vyžiada nové prihlásenie.
+> **Inštalácia aj aktualizácia zachovávajú lokálne dáta aplikácie**, vrátane prihlásenia, nastavení, slovníkov, cache a profilov prehliadača v `%LOCALAPPDATA%\WocaFuckOff`.
 
 Aplikácia sa inštaluje do `%LOCALAPPDATA%\Programs\WocaFuckOff`.
 
-## Novinky vo verzii 1.3
+## Novinky vo verzii 1.4
 
-- **Jednoduchší výber jazyka v inštalátore** — zvýraznený názov aktuálneho jazyka pod tlačidlami, bez šípky a položky „System default“. Ponuka obsahuje 18 konkrétnych jazykov.
-- **Upravená úvodná obrazovka inštalátora** — názov aplikácie je vycentrovaný cez číslo verzie 1.3.
-- **Potvrdenie zatvorenia cez celé okno** — otázka aj tlačidlá majú viac priestoru; cez Escape sa dá vrátiť späť do inštalátora.
-- **Nové ikony menu** — jednotné vektorové ikony v štýle Fluent namiesto emoji a vycentrované položky menu.
-- **Opravený prihlasovací box** — pôvodné prehľadné rozloženie popisov a vstupných polí.
-- **Konkrétny jazyk v Nastaveniach** — zobrazuje sa napríklad „English“ alebo „Slovenčina“, bez položky „System default“. Prepnutie funguje bez reštartu aplikácie.
-- **Opravené zvýraznenie zavretia** — červený hover v hornej lište siaha až po okraj okna.
-- **Menší inštalátor** — približne 298 MB vďaka silnejšej kompresii a vynechaniu nepotrebných vývojových súborov. Aplikácia aj oba používané varianty Chromium zostávajú pribalené.
-- **Jednotné označenie Wocabee a verzia 1.3** v rozhraní, prekladoch aj údajoch spustiteľných súborov.
+- **Aktualizácia jedným potvrdením:** pri novej verzii stačí kliknúť na **Nainštalovať**. Aplikácia aktualizáciu stiahne, overí a nainštaluje potichu.
+- **Zachovanie dát:** inštalátor už nemaže prihlásenie, nastavenia, slovníky, cache ani profily prehliadača. Tichá aktualizácia zachová aj vybraný jazyk.
+- **Viditeľný priebeh:** počas sťahovania a inštalácie sa zobrazuje existujúce animované načítavacie koliesko. Po úspešnej aktualizácii sa aplikácia automaticky znovu spustí.
+- **Bezpečné odovzdanie inštalácie:** pomocný proces počká na ukončenie aplikácie a uvoľnenie jej súborov. Overenie veľkosti a SHA-256 zostáva zachované; pri chybe sa zobrazí upozornenie.
+- **Opravené číslo verzie v inštalátore:** číslo 1.4 sa vykresľuje spolu s bodkou ako jeden text, bez neprirodzených medzier.
+- **Zjednotený Cancel:** tlačidlo zrušenia vo výbere jazyka má rovnakú farbu povrchu ako Cancel na hlavnej obrazovke inštalátora.
+- **Zrušenie inštalácie v jednom okne:** potvrdenie sa zobrazí priamo v pôvodnom okne; nevytvára druhé prekrývajúce sa okno. Tlačidlo Continue a kláves Escape vrátia používateľa späť.
+- **Modernejšie bočné menu:** zaoblené tlačidlá, zjednotené rozostupy, zarovnané ikony a názvy, zvýraznenie pri prejdení myšou, stlačení aj ovládaní klávesnicou.
+- **Verzia 1.4** v aplikácii, inštalátore a vlastnostiach EXE; aktualizovaný popis aktualizácií v Nastaveniach.
+
+Podrobnosti a pokyny k prechodu zo starších verzií: [poznámky k vydaniu 1.4](RELEASE_1.4.md).
 
 ## Nastavenia a AutoTranslate
 
@@ -72,9 +74,9 @@ Sieťové spojenia závisia od používaných funkcií:
 
 Aplikácia kontroluje stabilné vydania repozitára `alf3x41/wocafuckoff`. Automatickú kontrolu po štarte možno vypnúť; ručná kontrola je dostupná v Nastaveniach. Rovnaká verzia sa ako aktualizácia neponúkne.
 
-Stiahnutie a inštalácia vyžadujú potvrdenie. Pred spustením inštalátora sa overí jeho veľkosť a SHA-256.
+Po oznámení novej verzie stačí kliknúť na **Nainštalovať**. Počas sťahovania a tichej inštalácie sa zobrazuje načítavacie koliesko. Pred spustením inštalátora sa overí jeho veľkosť a SHA-256. Aplikácia sa po úspešnej aktualizácii automaticky spustí; uložené dáta zostanú zachované.
 
-Pre vydanie 1.3 sa používa tag `v1.3` a príloha `WocaFuckOff-Setup.exe`. Aktualizátor vyžaduje SHA-256 digest prílohy poskytovaný GitHubom. Prístup k súkromnému repozitáru podporuje cez lokálne poverenie `WocaFuckOff/GitHub`.
+Pre vydanie 1.4 sa používa tag `v1.4` a príloha `WocaFuckOff-Setup.exe`. Aktualizátor vyžaduje SHA-256 digest prílohy poskytovaný GitHubom. Prístup k súkromnému repozitáru podporuje cez lokálne poverenie `WocaFuckOff/GitHub`.
 
 ## Licencia a distribúcia
 
@@ -86,6 +88,7 @@ WocaFuckOff je proprietárna aplikácia distribuovaná iba ako hotový súbor `.
 - **Balíček sa nespustí:** otvor **Balíčky** v ľavom menu, obnov jeho výber a pozri si Udalosti. Pri chýbajúcom alebo nejednoznačnom ID aplikácia nevyberie náhradný balíček.
 - **AutoTranslate nefunguje:** skontroluj, či je funkcia zapnutá, internetové pripojenie a hlásenia v Udalostiach. Pri nedostupnosti API skús preklad neskôr.
 - **Aktualizácia sa neponúka:** over dostupnosť novšieho stabilného vydania a jeho inštalačnej prílohy s SHA-256 digestom.
+- **Staršia verzia hlási neplatnú adresu inštalátora:** stiahni inštalátor 1.4 ručne z GitHub Releases. Chybu spôsobovala kontrola veľkých a malých písmen v názve repozitára; starý aktualizátor ju nedokáže sám obísť.
 
 Kompatibilita s novým zoznamom balíčkov bola overovaná na lokálnych HTML ukážkach. Toto overenie nezahŕňa celý priebeh precvičovania na živom účte Wocabee; zmeny jeho webového rozhrania môžu vyžadovať ďalšiu úpravu aplikácie.
 
