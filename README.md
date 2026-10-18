@@ -18,7 +18,7 @@ WocaFuckOff je desktopová aplikácia pre Windows na automatizáciu precvičovan
 
 Potrebuješ 64-bitový Windows, internetové pripojenie a účet Wocabee.
 
-1. Spusti `WocaFuckOff-Setup.exe`.
+1. Spusti `WocaFuckOff-Setup-1.4.exe`.
 2. Dokonči inštaláciu a otvor WocaFuckOff.
 3. Zadaj prihlasovacie údaje do Wocabee. Aplikácia ich pred uložením overí.
 4. V ľavom menu otvor **Balíčky**, vyber balíček a na hlavnej obrazovke stlač **SPUSTIŤ**.
